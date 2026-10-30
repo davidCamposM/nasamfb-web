@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import About from '@/sections/About.astro';
+import Contact from '@/sections/Contact.astro';
+import Footer from '@/sections/Footer.astro';
+import Header from '@/sections/Header.astro';
+import Hero from '@/sections/Hero.astro';
+import Services from '@/sections/Services.astro';
+import Stats from '@/sections/Stats.astro';
+---
+
+<BaseLayout>
+  <Header />
+  <main id="contenido">
+    <Hero />
+    <About />
+    <Services />
+    <Stats />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

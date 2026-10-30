@@ -1,0 +1,50 @@
+---
+import '@fontsource-variable/geist';
+import '@/styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import SEO from '@/components/SEO.astro';
+import { getSite } from '@/lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const site = await getSite();
+const { title = `${site.nombre} — ${site.eslogan}`, description = site.descripcion } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO title={title} description={description} siteName={site.nombre} />
+    <ClientRouter />
+    <!-- Aplica el tema guardado antes de pintar para evitar parpadeo -->
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body class="min-h-dvh">
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50">
+      Saltar al contenido
+    </a>
+    <slot />
+    <script>
+      import Lenis from 'lenis';
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce) {
+        const lenis = new Lenis({ autoRaf: true });
+        document.addEventListener('astro:after-swap', () => lenis.scrollTo(0, { immediate: true }));
+      }
+    </script>
+  </body>
+</html>

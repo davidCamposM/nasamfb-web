@@ -1,0 +1,15 @@
+---
+import { getSite } from '@/lib/site';
+
+const site = await getSite();
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border px-6 py-10 text-sm text-muted">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
+    <p>© {year} {site.nombre}</p>
+    <ul class="flex gap-6">
+      {site.contacto.redes.map((r) => <li><a href={r.url} rel="noopener" target="_blank" class="hover:text-fg">{r.nombre}</a></li>)}
+    </ul>
+  </div>
+</footer>

@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/* Modo oscuro: automático + toggle manual vía data-theme en <html> */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  /* Tipografía */
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Escala fluida */
+  --text-display: clamp(3rem, 8vw + 1rem, 9rem);
+  --text-h1: clamp(2.25rem, 4vw + 1rem, 4.5rem);
+  --text-h2: clamp(1.75rem, 2.5vw + 1rem, 3rem);
+  --text-lead: clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
+
+  /* Colores (tokens semánticos; valores reales vía variables de tema) */
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+
+  /* Movimiento */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Radios */
+  --radius-card: 1.25rem;
+}
+
+:root {
+  --bg: oklch(0.99 0 0);
+  --fg: oklch(0.18 0 0);
+  --muted: oklch(0.52 0 0);
+  --border: oklch(0.91 0 0);
+  --accent: oklch(0.62 0.19 255); /* TODO: color de marca */
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: oklch(0.14 0 0);
+    --fg: oklch(0.96 0 0);
+    --muted: oklch(0.68 0 0);
+    --border: oklch(0.26 0 0);
+    --accent: oklch(0.72 0.17 255);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: oklch(0.14 0 0);
+  --fg: oklch(0.96 0 0);
+  --muted: oklch(0.68 0 0);
+  --border: oklch(0.26 0 0);
+  --accent: oklch(0.72 0.17 255);
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    @apply bg-bg text-fg font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    @apply bg-accent text-bg;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-4 outline-accent;
+  }
+}
+
+/* Revelado al hacer scroll sin JS (scroll-driven animations) */
+@layer utilities {
+  .reveal {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    animation: none;
+  }
+}

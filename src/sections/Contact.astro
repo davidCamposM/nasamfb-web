@@ -1,0 +1,21 @@
+---
+import { getSite } from '@/lib/site';
+
+const { contacto } = await getSite();
+---
+
+<section id="contacto" class="px-6 py-32">
+  <div class="reveal mx-auto max-w-7xl">
+    <h2 class="text-sm uppercase tracking-widest text-muted">Contacto</h2>
+    <a
+      href={`mailto:${contacto.email}`}
+      class="mt-8 inline-block max-w-full font-display text-h2 md:text-h1 [overflow-wrap:anywhere] font-semibold tracking-tighter underline decoration-border decoration-1 underline-offset-8 transition-colors hover:decoration-accent"
+    >
+      {contacto.email}
+    </a>
+    <div class="mt-12 flex flex-wrap gap-x-12 gap-y-4 text-muted">
+      {contacto.telefono && <a href={`tel:${contacto.telefono.replace(/\s/g, '')}`} class="hover:text-fg">{contacto.telefono}</a>}
+      {contacto.direccion && <span>{contacto.direccion}</span>}
+    </div>
+  </div>
+</section>
