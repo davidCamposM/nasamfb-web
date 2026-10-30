@@ -6,3 +6,9 @@ export async function getSite() {
   if (!entry) throw new Error('Falta la entrada "empresa" en src/content/site.json');
   return entry.data;
 }
+
+/** "+56 9 8718 5572" → "56987185572" */
+export const soloDigitos = (telefono: string): string => telefono.replace(/\D/g, '');
+
+/** Enlace de WhatsApp para un teléfono chileno con prefijo +56 */
+export const whatsapp = (telefono: string): string => `https://wa.me/${soloDigitos(telefono)}`;

@@ -1,27 +1,112 @@
 {
   "empresa": {
-    "nombre": "Nombre Empresa",
-    "eslogan": "Una frase corta que define a la empresa.",
-    "descripcion": "Descripción breve para SEO (150–160 caracteres) sobre qué hace la empresa y para quién.",
-    "nosotros": {
-      "titulo": "Quiénes somos",
-      "texto": "Texto pendiente sobre la historia, misión y propuesta de valor."
+    "nombre": "NASAMFB Servicios Logísticos",
+    "titulo": "NASAMFB: filtros industriales a medida",
+    "descripcion": "Diseñamos y fabricamos filtros a medida para sistemas hidráulicos, neumáticos y procesos industriales. Concepción e Iquique, Chile.",
+    "hero": {
+      "titulo": "Usted nos da las medidas. Nosotros fabricamos el filtro.",
+      "bajada": "Buscamos, diseñamos y fabricamos soluciones de filtración e hidráulica industrial a la medida de su equipo. Y lo acompañamos en la mantención para que rinda más y se detenga menos.",
+      "ctaPrincipal": "Enviar medidas para cotizar",
+      "ctaSecundario": "Ver qué fabricamos",
+      "respaldo": "Apoyo constante a"
     },
-    "servicios": [
-      { "titulo": "Servicio uno", "descripcion": "Descripción pendiente." },
-      { "titulo": "Servicio dos", "descripcion": "Descripción pendiente." },
-      { "titulo": "Servicio tres", "descripcion": "Descripción pendiente." }
-    ],
-    "cifras": [
-      { "valor": "10+", "etiqueta": "años de experiencia" },
-      { "valor": "200+", "etiqueta": "clientes" },
-      { "valor": "98%", "etiqueta": "satisfacción" }
-    ],
+    "nosotros": {
+      "manifiesto": "Cuando un equipo se detiene, cada hora cuenta. Por eso fabricamos el filtro exacto que su operación necesita.",
+      "parrafos": [
+        "En NASAMFB buscamos, diseñamos y fabricamos soluciones de filtración e hidráulica industrial a la medida de cada cliente. No le pedimos que adapte su equipo a un catálogo: partimos de su necesidad y entregamos un producto de calidad, hecho para su máquina.",
+        "Y no nos vamos después de la entrega. Lo acompañamos en la mantención y optimización de sus equipos, para que rindan más y se detengan menos."
+      ],
+      "pilares": [
+        {
+          "titulo": "Hecho a su medida",
+          "texto": "Cada filtro se diseña según el plano, la muestra o la necesidad de su equipo.",
+          "icono": "compas"
+        },
+        {
+          "titulo": "Apoyo constante",
+          "texto": "Acompañamos la mantención y optimización de sus equipos en el tiempo.",
+          "icono": "llave"
+        },
+        {
+          "titulo": "Cerca de su operación",
+          "texto": "Fabricamos en Concepción y contamos con un distribuidor logístico en Iquique.",
+          "icono": "camion"
+        }
+      ],
+      "respaldo": "Clientes tan exigentes como la Armada de Chile y Asmar Talcahuano cuentan con nuestro apoyo constante en la fabricación de filtros y en hidráulica.",
+      "clientes": ["Armada de Chile", "Asmar Talcahuano"],
+      "presencia": [
+        {
+          "ciudad": "Concepción",
+          "detalle": "Fabricación y atención"
+        },
+        {
+          "ciudad": "Iquique",
+          "detalle": "Distribuidor logístico"
+        }
+      ],
+      "altFoto": "Canastos filtrantes de acero inoxidable de distintos tamaños fabricados por NASAMFB",
+      "foto": {
+        "alt": "Mano sosteniendo un cartucho filtrante saturado de suciedad junto a uno nuevo y limpio",
+        "pie": "Un filtro saturado junto a uno nuevo: la diferencia que protege su equipo."
+      }
+    },
+    "servicios": {
+      "titulo": "Qué fabricamos",
+      "bajada": "Cada filtro se fabrica para su equipo: a medida, o como equivalente de la pieza original.",
+      "columnas": ["Sistema", "Qué asegura", "Cómo lo hacemos"],
+      "items": [
+        {
+          "sistema": "Hidráulico",
+          "asegura": "Eficiencia y confiabilidad garantizada",
+          "como": "A medida o equivalente de marca"
+        },
+        {
+          "sistema": "Neumático",
+          "asegura": "Rendimiento y pureza asegurados",
+          "como": "A medida o equivalente de marca"
+        },
+        {
+          "sistema": "Procesos industriales",
+          "asegura": "Pureza y eficiencia en cada etapa",
+          "como": "Según el proceso y el fluido"
+        },
+        {
+          "sistema": "Proyectos especiales",
+          "asegura": "Soluciones personalizadas y eficientes",
+          "como": "Diseño desde cero junto a su equipo"
+        }
+      ]
+    },
+    "marcas": {
+      "titulo": "También comercializamos filtros, lubricantes y repuestos de",
+      "items": [
+        "Donaldson",
+        "Baldwin",
+        "Perkins",
+        "Cummins",
+        "FG Wilson",
+        "Fleetguard",
+        "Mobil",
+        "Mann Filter",
+        "Valvoline",
+        "Komatsu"
+      ]
+    },
     "contacto": {
-      "email": "contacto@example.com",
-      "telefono": "+56 9 0000 0000",
-      "direccion": "Santiago, Chile",
-      "redes": []
+      "titulo": "Cuéntenos qué equipo necesita filtrar.",
+      "personas": [
+        {
+          "nombre": "Samuel Cifuentes Gajardo",
+          "ciudad": "Concepción",
+          "telefono": "+56 9 8718 5572"
+        },
+        {
+          "nombre": "Mario Valenzuela Soto",
+          "ciudad": "Iquique",
+          "telefono": "+56 9 9675 1193"
+        }
+      ]
     }
   }
 }
