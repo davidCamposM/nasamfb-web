@@ -1,12 +1,87 @@
 ---
+import { Picture } from 'astro:assets';
+import { DraftingCompass, Truck, Wrench } from 'lucide-react';
+import canastos from '@/assets/products/canastos-filtrantes.jpg';
+import filtros from '@/assets/products/filtro-saturado-vs-nuevo.jpg';
 import { getSite } from '@/lib/site';
 
 const { nosotros } = await getSite();
+const palabras = nosotros.manifiesto.split(' ');
+const iconos = { compas: DraftingCompass, llave: Wrench, camion: Truck };
 ---
 
-<section id="nosotros" class="px-6 py-32">
-  <div class="reveal mx-auto grid max-w-7xl gap-12 md:grid-cols-12">
-    <h2 class="text-sm uppercase tracking-widest text-muted md:col-span-4">{nosotros.titulo}</h2>
-    <p class="text-h2 leading-tight tracking-tight text-pretty md:col-span-8">{nosotros.texto}</p>
+<section id="nosotros" class="scroll-mt-20 border-y border-border bg-surface">
+  <div
+    class="mx-auto grid max-w-6xl items-center gap-14 px-5 pt-24 md:grid-cols-12 md:gap-16 md:px-10 md:pt-32"
+  >
+    <div class="text-center md:col-span-7 md:text-left">
+      <h2 class="manifesto font-serif text-[clamp(2.25rem,4.2vw,3.9rem)] leading-[1.06] tracking-[-0.01em]">
+        {
+          palabras.map((palabra, i) => (
+            <span class="word" style={`--i: ${i}`}>
+              {palabra}{' '}
+            </span>
+          ))
+        }
+      </h2>
+
+      <div class="mx-auto mt-10 flex max-w-[56ch] flex-col gap-5 md:mx-0">
+        {nosotros.parrafos.map((p) => <p class="reveal text-lead leading-relaxed text-muted">{p}</p>)}
+      </div>
+    </div>
+
+    <figure class="m-0 md:col-span-5">
+      <div class="img-unveil overflow-clip rounded-2xl bg-[#5fb3d9]">
+        <Picture
+          src={filtros}
+          alt={nosotros.foto.alt}
+          formats={['avif', 'webp']}
+          widths={[400, 640, 880]}
+          sizes="(min-width: 768px) 32vw, 90vw"
+          class="img-drift aspect-[4/5] w-full object-cover object-[50%_45%]"
+        />
+      </div>
+      <figcaption class="reveal mt-4 text-center text-sm text-muted md:text-left">{nosotros.foto.pie}</figcaption>
+    </figure>
+  </div>
+
+  <!-- Pilares -->
+  <ul class="mx-auto mt-16 grid max-w-6xl gap-10 px-5 text-center md:mt-20 md:grid-cols-3 md:gap-0 md:px-10">
+    {
+      nosotros.pilares.map((pilar, i) => {
+        const Icono = iconos[pilar.icono];
+        return (
+          <li class="group reveal flex flex-col items-center px-6 md:border-l md:border-border md:first:border-l-0" style={`--i: ${i}`}>
+            <span
+              aria-hidden="true"
+              class="mb-5 flex size-14 items-center justify-center rounded-2xl bg-brand/10 text-accent ring-1 ring-brand/20 transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-1 group-hover:bg-accent group-hover:text-on-accent group-hover:ring-accent"
+            >
+              <Icono size={26} strokeWidth={1.6} className="transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6" />
+            </span>
+            <h3 class="text-xl font-semibold tracking-tight">{pilar.titulo}</h3>
+            <p class="mx-auto mt-2 max-w-[30ch] leading-relaxed text-muted">{pilar.texto}</p>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  <!-- Respaldo -->
+  <div class="reveal mx-auto mt-20 max-w-3xl px-5 text-center md:mt-24 md:px-10">
+    <p class="mx-auto max-w-[52ch] leading-relaxed text-muted">{nosotros.respaldo}</p>
+  </div>
+
+  <!-- Foto -->
+  <div class="mx-auto mt-16 max-w-6xl px-5 pb-24 md:mt-20 md:px-10 md:pb-32">
+    <div class="clip-reveal overflow-hidden rounded-2xl">
+      <Picture
+        src={canastos}
+        alt={nosotros.altFoto}
+        formats={['avif', 'webp']}
+        widths={[640, 960, 1280]}
+        sizes="(min-width: 1152px) 70rem, 92vw"
+        class="aspect-[16/9] w-full object-cover md:aspect-[21/9]"
+      />
+    </div>
   </div>
 </section>
