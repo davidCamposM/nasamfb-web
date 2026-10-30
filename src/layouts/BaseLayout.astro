@@ -1,5 +1,7 @@
 ---
-import '@fontsource-variable/geist';
+import '@fontsource-variable/instrument-sans/standard.css';
+import '@fontsource/instrument-serif/latin-400.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import SEO from '@/components/SEO.astro';
@@ -11,7 +13,7 @@ interface Props {
 }
 
 const site = await getSite();
-const { title = `${site.nombre} — ${site.eslogan}`, description = site.descripcion } = Astro.props;
+const { title = site.titulo, description = site.descripcion } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,6 +24,8 @@ const { title = `${site.nombre} — ${site.eslogan}`, description = site.descrip
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#eef1f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1a26" media="(prefers-color-scheme: dark)" />
     <SEO title={title} description={description} siteName={site.nombre} />
     <ClientRouter />
     <!-- Aplica el tema guardado antes de pintar para evitar parpadeo -->
@@ -33,7 +37,10 @@ const { title = `${site.nombre} — ${site.eslogan}`, description = site.descrip
     </script>
   </head>
   <body class="min-h-dvh">
-    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50">
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-surface focus:px-4 focus:py-2"
+    >
       Saltar al contenido
     </a>
     <slot />

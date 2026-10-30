@@ -4,57 +4,75 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  /* Tipografía */
-  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  /* Tipografía: Instrument Sans (texto e interfaz) + Instrument Serif (manifiesto) */
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
 
   /* Escala fluida */
-  --text-display: clamp(3rem, 8vw + 1rem, 9rem);
-  --text-h1: clamp(2.25rem, 4vw + 1rem, 4.5rem);
-  --text-h2: clamp(1.75rem, 2.5vw + 1rem, 3rem);
-  --text-lead: clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
+  --text-display: clamp(2.75rem, 5.6vw + 0.5rem, 5.75rem);
+  --text-h1: clamp(2.25rem, 3.6vw + 0.75rem, 3.75rem);
+  --text-h2: clamp(2rem, 2.6vw + 0.75rem, 3rem);
+  --text-lead: clamp(1.0625rem, 0.35vw + 1rem, 1.25rem);
 
-  /* Colores (tokens semánticos; valores reales vía variables de tema) */
+  /* Colores semánticos (valores por tema más abajo) */
   --color-bg: var(--bg);
+  --color-surface: var(--surface);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-brand: var(--brand);
+  --color-steel: var(--steel);
+  --color-ink: var(--ink);
 
   /* Movimiento */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
-
-  /* Radios */
-  --radius-card: 1.25rem;
 }
 
+/* Marca NASAMFB: cian del logo #008EB6, gris acero del engranaje, azul tinta */
 :root {
-  --bg: oklch(0.99 0 0);
-  --fg: oklch(0.18 0 0);
-  --muted: oklch(0.52 0 0);
-  --border: oklch(0.91 0 0);
-  --accent: oklch(0.62 0.19 255); /* TODO: color de marca */
+  --bg: #eef1f3;
+  --surface: #ffffff;
+  --fg: #1e2a3a;
+  --muted: #3b4756;
+  --border: #c9d1d7;
+  --accent: #00729a; /* cian oscurecido: texto y botones con contraste AA */
+  --on-accent: #ffffff;
+  --brand: #008eb6; /* cian del logo: gráficos y malla */
+  --steel: #9ea3a8;
+  --ink: #1e2a3a; /* fondo de bloques oscuros (siempre oscuro) */
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: oklch(0.14 0 0);
-    --fg: oklch(0.96 0 0);
-    --muted: oklch(0.68 0 0);
-    --border: oklch(0.26 0 0);
-    --accent: oklch(0.72 0.17 255);
+    --bg: #0e1a26;
+    --surface: #13212f;
+    --fg: #e6edf2;
+    --muted: #a9b8c5;
+    --border: #26394b;
+    --accent: #5cc8ea;
+    --on-accent: #0e1a26;
+    --brand: #19a9d4;
+    --steel: #6d7a86;
+    --ink: #0a1520;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: oklch(0.14 0 0);
-  --fg: oklch(0.96 0 0);
-  --muted: oklch(0.68 0 0);
-  --border: oklch(0.26 0 0);
-  --accent: oklch(0.72 0.17 255);
+  --bg: #0e1a26;
+  --surface: #13212f;
+  --fg: #e6edf2;
+  --muted: #a9b8c5;
+  --border: #26394b;
+  --accent: #5cc8ea;
+  --on-accent: #0e1a26;
+  --brand: #19a9d4;
+  --steel: #6d7a86;
+  --ink: #0a1520;
   color-scheme: dark;
 }
 
@@ -64,30 +82,242 @@
     text-rendering: optimizeLegibility;
   }
   ::selection {
-    @apply bg-accent text-bg;
+    @apply bg-brand text-white;
   }
   :focus-visible {
     @apply outline-2 outline-offset-4 outline-accent;
   }
-}
-
-/* Revelado al hacer scroll sin JS (scroll-driven animations) */
-@layer utilities {
-  .reveal {
-    animation: reveal linear both;
-    animation-timeline: view();
-    animation-range: entry 0% cover 30%;
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
   }
 }
 
+@layer components {
+  /* Titulares: Instrument Sans semibold, apretado y nítido */
+  .display {
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+  }
+
+  /* Botones */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded px-6 py-3.5 text-base font-semibold;
+    transition:
+      background-color 0.3s var(--ease-out-expo),
+      color 0.3s var(--ease-out-expo),
+      border-color 0.3s var(--ease-out-expo),
+      transform 0.3s var(--ease-out-expo);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-primary {
+    @apply bg-accent text-on-accent;
+  }
+  .btn-primary:hover {
+    @apply bg-fg text-bg;
+  }
+  .btn-outline {
+    @apply border-[1.5px] border-fg text-fg;
+  }
+  .btn-outline:hover {
+    @apply bg-fg text-bg;
+  }
+
+  /* Enlace con subrayado que crece */
+  .link-line {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+    transition: background-size 0.4s var(--ease-out-expo);
+  }
+  .link-line:hover {
+    background-size: 100% 1.5px;
+  }
+}
+
+/* ---------- Transiciones ----------
+   Animaciones ligadas al scroll: escribir SIEMPRE con propiedades separadas
+   (animation-name, -timing-function, -fill-mode, -timeline). Si se usa el atajo
+   `animation:`, el minificador lo fusiona con animation-timeline y Chrome descarta la regla. */
+
+/* Secuencia de entrada del hero (una sola, orquestada) */
+.intro {
+  animation: intro-up 1s var(--ease-out-expo) both;
+  animation-delay: calc(120ms + var(--i, 0) * 110ms);
+}
+@keyframes intro-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+    filter: blur(8px);
+  }
+}
+
+/* Fondo del hero: se asienta al cargar y se desplaza más lento al hacer scroll */
+.hero-bg {
+  animation: hero-settle 2.4s var(--ease-out-expo) both;
+}
+@keyframes hero-settle {
+  from {
+    transform: scale(1.12);
+  }
+}
+@supports (animation-timeline: view()) {
+  .hero-bg {
+    animation-name: hero-settle, hero-parallax;
+    animation-duration: 2.4s, auto;
+    animation-timing-function: var(--ease-out-expo), linear;
+    animation-fill-mode: both, both;
+    animation-timeline: auto, view();
+    animation-range:
+      normal,
+      exit 0% exit 100%;
+  }
+}
+@keyframes hero-parallax {
+  to {
+    translate: 0 18%;
+  }
+}
+
+/* Header que se vuelve sólido al hacer scroll (scroll-driven) */
+@supports (animation-timeline: scroll()) {
+  .site-header {
+    animation-name: header-solid;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll();
+    animation-range: 0 140px;
+  }
+}
+@keyframes header-solid {
+  to {
+    background-color: color-mix(in oklab, var(--bg) 82%, transparent);
+    border-bottom-color: var(--border);
+    backdrop-filter: blur(14px);
+  }
+}
+
+/* Revelado al entrar en pantalla (scroll-driven) */
+@layer utilities {
+  .reveal {
+    animation-name: reveal;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 28%;
+  }
+}
 @keyframes reveal {
   from {
     opacity: 0;
-    transform: translateY(2rem);
+    transform: translateY(2.5rem);
   }
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Manifiesto: cada palabra se ilumina al avanzar el scroll */
+.manifesto {
+  view-timeline-name: --manifesto;
+}
+.manifesto .word {
+  animation-name: word-in;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: --manifesto;
+  animation-range: cover calc(16% + var(--i, 0) * 1.4%) cover calc(30% + var(--i, 0) * 1.4%);
+}
+@keyframes word-in {
+  from {
+    opacity: 0.16;
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+/* Foto que se abre desde el centro al entrar en pantalla */
+.clip-reveal {
+  animation-name: clip-reveal;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 45%;
+}
+@keyframes clip-reveal {
+  from {
+    clip-path: inset(0 14% 0 14% round 16px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 16px);
+  }
+}
+
+/* Imagen que se descubre de a poco: el marco se abre, la foto se aclara y se asienta.
+   Solo transform, opacity, filter y un clip-path liviano (recomendado para rendimiento). */
+.img-unveil {
+  animation-name: img-unveil;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: view();
+  animation-range: entry 10% cover 45%;
+}
+@keyframes img-unveil {
+  from {
+    opacity: 0;
+    clip-path: inset(14% 10% 14% 10% round 32px);
+    transform: translateY(3rem);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 16px);
+    transform: none;
+  }
+}
+.img-drift {
+  animation-name: img-drift;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: view();
+  animation-range: entry 0% exit 100%;
+}
+@keyframes img-drift {
+  from {
+    transform: scale(1.22) translateY(-3%);
+    filter: blur(6px) saturate(0.6);
+  }
+  35% {
+    filter: blur(0) saturate(1);
+  }
+  to {
+    transform: scale(1.04) translateY(3%);
+    filter: none;
+  }
+}
+
+/* Cinta de marcas */
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
   }
 }
 
@@ -108,11 +338,21 @@ html.lenis body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal {
-    animation: none;
+  .reveal,
+  .hero-bg,
+  .manifesto .word,
+  .clip-reveal,
+  .img-unveil,
+  .img-drift,
+  .marquee-track {
+    animation: none !important;
+  }
+  .marquee {
+    mask-image: none;
   }
 }
