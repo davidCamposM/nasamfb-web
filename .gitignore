@@ -1,0 +1,27 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+test-results/
+playwright-report/
+.DS_Store
+
+# --- Documentación, contexto y herramientas de IA (solo local, no se publica) ---
+CLAUDE.md
+CLAUDE.local.md
+**/CLAUDE.md
+.claude/
+.mcp.json
+AGENTS.md
+GEMINI.md
+.cursor/
+.cursorrules
+.windsurfrules
+.github/copilot-instructions.md
+.aider*
+ROADMAP.md
+CHANGELOG.md
+docs/
+*.md

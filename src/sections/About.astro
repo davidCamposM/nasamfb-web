@@ -1,0 +1,12 @@
+---
+import { getSite } from '@/lib/site';
+
+const { nosotros } = await getSite();
+---
+
+<section id="nosotros" class="px-6 py-32">
+  <div class="reveal mx-auto grid max-w-7xl gap-12 md:grid-cols-12">
+    <h2 class="text-sm uppercase tracking-widest text-muted md:col-span-4">{nosotros.titulo}</h2>
+    <p class="text-h2 leading-tight tracking-tight text-pretty md:col-span-8">{nosotros.texto}</p>
+  </div>
+</section>

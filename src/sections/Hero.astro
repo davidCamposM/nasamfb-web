@@ -1,0 +1,14 @@
+---
+import { getSite } from '@/lib/site';
+
+const site = await getSite();
+---
+
+<section class="flex min-h-dvh items-end px-6 pb-24 pt-32">
+  <div class="mx-auto w-full max-w-7xl">
+    <h1 class="font-display text-display leading-[0.9] font-semibold tracking-tighter text-balance">
+      {site.eslogan}
+    </h1>
+    <p class="mt-8 max-w-xl text-lead text-muted text-pretty">{site.descripcion}</p>
+  </div>
+</section>

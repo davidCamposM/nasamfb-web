@@ -1,0 +1,22 @@
+---
+import { getSite } from '@/lib/site';
+
+const { servicios } = await getSite();
+---
+
+<section id="servicios" class="px-6 py-32">
+  <div class="mx-auto max-w-7xl">
+    <h2 class="mb-16 text-sm uppercase tracking-widest text-muted">Servicios</h2>
+    <ul class="divide-y divide-border border-y border-border">
+      {
+        servicios.map((s, i) => (
+          <li class="reveal grid gap-4 py-10 md:grid-cols-12">
+            <span class="text-sm text-muted tabular-nums md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="text-h2 tracking-tight md:col-span-5">{s.titulo}</h3>
+            <p class="text-lead text-muted md:col-span-6">{s.descripcion}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

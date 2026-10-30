@@ -1,0 +1,27 @@
+{
+  "empresa": {
+    "nombre": "Nombre Empresa",
+    "eslogan": "Una frase corta que define a la empresa.",
+    "descripcion": "Descripción breve para SEO (150–160 caracteres) sobre qué hace la empresa y para quién.",
+    "nosotros": {
+      "titulo": "Quiénes somos",
+      "texto": "Texto pendiente sobre la historia, misión y propuesta de valor."
+    },
+    "servicios": [
+      { "titulo": "Servicio uno", "descripcion": "Descripción pendiente." },
+      { "titulo": "Servicio dos", "descripcion": "Descripción pendiente." },
+      { "titulo": "Servicio tres", "descripcion": "Descripción pendiente." }
+    ],
+    "cifras": [
+      { "valor": "10+", "etiqueta": "años de experiencia" },
+      { "valor": "200+", "etiqueta": "clientes" },
+      { "valor": "98%", "etiqueta": "satisfacción" }
+    ],
+    "contacto": {
+      "email": "contacto@example.com",
+      "telefono": "+56 9 0000 0000",
+      "direccion": "Santiago, Chile",
+      "redes": []
+    }
+  }
+}
