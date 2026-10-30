@@ -1,0 +1,32 @@
+---
+import { getSite } from '@/lib/site';
+
+const { marcas } = await getSite();
+---
+
+<section aria-labelledby="marcas-titulo" class="border-t border-border py-14 md:py-16">
+  <h2 id="marcas-titulo" class="mx-auto mb-8 max-w-7xl px-5 text-base font-medium text-muted md:px-10">
+    {marcas.titulo}
+  </h2>
+  <!-- Lista accesible -->
+  <ul class="sr-only">
+    {marcas.items.map((m) => <li>{m}</li>)}
+  </ul>
+  <!-- Cinta visual -->
+  <div class="marquee overflow-hidden" aria-hidden="true">
+    <div class="marquee-track flex w-max">
+      {
+        [0, 1].map(() => (
+          <ul class="flex shrink-0 items-center">
+            {marcas.items.map((m) => (
+              <li class="flex items-center px-8 text-3xl font-semibold tracking-tight whitespace-nowrap text-steel md:text-4xl">
+                {m}
+                <span class="ml-16 inline-block size-2 rounded-full bg-brand" />
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -5,7 +5,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!dist", "!.astro", "!node_modules", "!test-results", "!playwright-report"]
+    "includes": ["**", "!dist", "!.astro", "!node_modules", "!test-results", "!playwright-report", "!**/*.md"]
   },
   "formatter": {
     "enabled": true,

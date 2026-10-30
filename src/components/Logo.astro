@@ -1,0 +1,21 @@
+---
+import { Image } from 'astro:assets';
+import logo from '@/assets/brand/logo-nasamfb.png';
+import { cn } from '@/lib/utils';
+
+interface Props {
+  class?: string;
+  alt?: string;
+}
+
+const { class: className, alt = 'NASAMFB Servicios Logísticos' } = Astro.props;
+---
+
+<Image
+  src={logo}
+  alt={alt}
+  height={56}
+  densities={[1, 2]}
+  loading="eager"
+  class={cn('h-11 w-auto md:h-14 dark:brightness-0 dark:invert', className)}
+/>

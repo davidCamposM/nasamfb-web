@@ -1,8 +1,7 @@
 ---
+import Logo from '@/components/Logo.astro';
 import ThemeToggle from '@/components/ThemeToggle.astro';
-import { getSite } from '@/lib/site';
 
-const site = await getSite();
 const links = [
   { href: '#nosotros', label: 'Nosotros' },
   { href: '#servicios', label: 'Servicios' },
@@ -10,14 +9,27 @@ const links = [
 ];
 ---
 
-<header class="fixed inset-x-0 top-0 z-40 backdrop-blur-md">
-  <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5" aria-label="Principal">
-    <a href="/" class="font-display text-lg font-medium tracking-tight">{site.nombre}</a>
-    <div class="flex items-center gap-8">
-      <ul class="hidden gap-8 text-sm text-muted md:flex">
-        {links.map((l) => <li><a href={l.href} class="transition-colors hover:text-fg">{l.label}</a></li>)}
+<header class="site-header sticky top-0 z-40 border-b border-transparent">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 md:px-10" aria-label="Principal">
+    <a href="/" class="intro shrink-0" style="--i: 0" aria-label="NASAMFB, ir al inicio">
+      <Logo alt="" />
+    </a>
+    <div class="flex items-center gap-3 md:gap-8">
+      <ul class="hidden gap-8 text-[15px] font-medium md:flex">
+        {
+          links.map((l, i) => (
+            <li class="intro" style={`--i: ${i + 1}`}>
+              <a href={l.href} class="link-line pb-0.5">
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
-      <ThemeToggle />
+      <a href="#contacto" class="btn btn-primary intro hidden px-5 py-3 text-[15px] sm:inline-flex" style="--i: 4">
+        Cotizar un filtro
+      </a>
+      <div class="intro" style="--i: 5"><ThemeToggle /></div>
     </div>
   </nav>
 </header>
