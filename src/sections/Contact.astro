@@ -1,21 +1,30 @@
 ---
-import { getSite } from '@/lib/site';
+import { getSite, whatsapp } from '@/lib/site';
 
 const { contacto } = await getSite();
 ---
 
-<section id="contacto" class="px-6 py-32">
-  <div class="reveal mx-auto max-w-7xl">
-    <h2 class="text-sm uppercase tracking-widest text-muted">Contacto</h2>
-    <a
-      href={`mailto:${contacto.email}`}
-      class="mt-8 inline-block max-w-full font-display text-h2 md:text-h1 [overflow-wrap:anywhere] font-semibold tracking-tighter underline decoration-border decoration-1 underline-offset-8 transition-colors hover:decoration-accent"
-    >
-      {contacto.email}
-    </a>
-    <div class="mt-12 flex flex-wrap gap-x-12 gap-y-4 text-muted">
-      {contacto.telefono && <a href={`tel:${contacto.telefono.replace(/\s/g, '')}`} class="hover:text-fg">{contacto.telefono}</a>}
-      {contacto.direccion && <span>{contacto.direccion}</span>}
+<section id="contacto" class="scroll-mt-20 bg-ink text-white">
+  <div>
+    <div class="mx-auto flex max-w-7xl flex-wrap items-end gap-x-16 gap-y-12 px-5 py-20 md:px-10 md:py-28">
+      <h2 class="display reveal min-w-0 flex-[999_1_26rem] text-h1">{contacto.titulo}</h2>
+      {
+        contacto.personas.map((p) => (
+          <div class="reveal flex flex-[1_1_15rem] flex-col gap-1.5">
+            <p class="text-[15px] text-[#c9d1d7]">{p.ciudad}</p>
+            <p class="text-xl font-semibold">{p.nombre}</p>
+            <a
+              href={whatsapp(p.telefono)}
+              target="_blank"
+              rel="noopener"
+              class="link-line w-fit text-lg text-[#7fd3ee]"
+              aria-label={`Escribir por WhatsApp a ${p.nombre}, ${p.telefono}`}
+            >
+              {p.telefono}
+            </a>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>
