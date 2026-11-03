@@ -1,27 +1,32 @@
+# Dependencias y archivos generados
 node_modules/
 dist/
 .astro/
+.cache/
+coverage/
+test-results/
+playwright-report/
+output/
+tmp/
+.tmp/
+*.log
+*.tmp
+*.bak
+*.orig
+*.rej
+*.tsbuildinfo
+
+# Configuración local
 .env
 .env.*
 !.env.example
-test-results/
-playwright-report/
 .DS_Store
+.idea/
+.vscode/
 
-# --- Documentación, contexto y herramientas de IA (solo local, no se publica) ---
-CLAUDE.md
-CLAUDE.local.md
-**/CLAUDE.md
-.claude/
-.mcp.json
-AGENTS.md
-GEMINI.md
-.cursor/
-.cursorrules
-.windsurfrules
-.github/copilot-instructions.md
-.aider*
-ROADMAP.md
-CHANGELOG.md
-docs/
+# Notas y documentación de trabajo locales
 *.md
+docs/
+
+# Archivo fuente conservado localmente; la web usa la versión optimizada
+src/assets/products/tecnico-repuestos-industriales.avif
