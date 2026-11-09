@@ -38,6 +38,13 @@ const site = defineCollection({
       }),
       consultas: z.object({
         titulo: z.string(),
+        inicio: z.string(),
+        insumos: z.array(z.string()).length(3),
+        preguntasTitulo: z.string(),
+        otraPregunta: z.string(),
+        otraPreguntaCta: z.string(),
+        contactoTitulo: z.string(),
+        contactoTexto: z.string(),
         items: z.array(z.object({ pregunta: z.string(), respuesta: z.string() })),
         cierre: z.string(),
         cta: z.string(),

@@ -114,6 +114,13 @@
         "titulo": "Conversemos desde su necesidad.",
         "cierre": "Cuéntenos qué equipo utiliza y qué necesita resolver. Podemos partir de un plano, una muestra o las medidas de la pieza.",
         "cta": "Consultar por mi equipo",
+        "inicio": "Para comenzar, puede compartir:",
+        "insumos": ["Un plano", "Una muestra", "Las medidas disponibles"],
+        "preguntasTitulo": "Preguntas frecuentes",
+        "otraPregunta": "¿Su caso es diferente?",
+        "otraPreguntaCta": "Cuéntenos qué necesita.",
+        "contactoTitulo": "Hablemos de su equipo",
+        "contactoTexto": "Elija la ubicación que le resulte más cercana y escríbanos directamente.",
         "items": [
           {
             "pregunta": "¿Puedo consultar si no tengo un plano?",
