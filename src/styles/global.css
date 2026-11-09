@@ -225,6 +225,14 @@
 .manifesto {
   view-timeline-name: --manifesto;
 }
+/* Cada frase en su propio bloque, con líneas de largo parejo (sin borde escalonado). */
+.manifesto__frase {
+  display: block;
+  text-wrap: balance;
+}
+.manifesto__frase + .manifesto__frase {
+  margin-top: 0.35em;
+}
 .manifesto .word {
   animation-name: word-in;
   animation-timing-function: linear;
@@ -528,12 +536,25 @@
   padding: 20px 0;
   cursor: pointer;
   list-style: none;
+  transition: color 220ms var(--ease-out-expo);
 }
 .about-question summary::-webkit-details-marker {
   display: none;
 }
 .about-question summary:hover {
   color: var(--accent);
+}
+.about-question summary:focus-visible {
+  border-radius: 4px;
+}
+.about-question[open] summary {
+  color: var(--accent);
+}
+.about-consultas__whatsapp svg:last-child {
+  transition: transform 220ms var(--ease-out-expo);
+}
+.about-consultas__whatsapp:hover svg:last-child {
+  transform: translate(3px, -3px);
 }
 .about-question__indicator {
   position: relative;

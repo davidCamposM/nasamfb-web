@@ -3,9 +3,11 @@ import { Image, Picture } from 'astro:assets';
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   DraftingCompass,
   Factory,
   Gauge,
+  MessageCircle,
   ScanSearch,
   SlidersHorizontal,
   Truck,
@@ -19,10 +21,17 @@ import aire from '@/assets/products/filtros-aire.jpg';
 import fotoMantencion from '@/assets/products/mantencion-filtro-industrial-mejorada.png';
 import fotoProceso from '@/assets/products/tecnico-filtro-industrial.jpg';
 import tecnico from '@/assets/products/tecnico-repuestos-industriales-mejorado.png';
-import { getSite } from '@/lib/site';
+import { getSite, whatsapp } from '@/lib/site';
 
-const { nosotros } = await getSite();
-const palabras = nosotros.manifiesto.split(' ');
+const { nosotros, contacto } = await getSite();
+// El manifiesto se compone por frases: cada una ocupa su propio bloque con líneas equilibradas.
+let indicePalabra = 0;
+const frases = (nosotros.manifiesto.match(/[^.!?]+[.!?]+/g) ?? [nosotros.manifiesto]).map((frase) =>
+  frase
+    .trim()
+    .split(' ')
+    .map((texto) => ({ texto, i: indicePalabra++ })),
+);
 const iconos = { compas: DraftingCompass, llave: Wrench, camion: Truck };
 const iconosProceso = [ScanSearch, SlidersHorizontal, Factory, Gauge];
 const logos = [
@@ -36,12 +45,16 @@ const productos = [cartuchos, elementos, aire];
   <div
     class="mx-auto grid max-w-6xl items-center gap-14 px-5 pt-24 md:px-10 md:pt-32 lg:grid-cols-12 lg:gap-16 xl:max-w-7xl"
   >
-    <div class="text-center lg:col-span-5 lg:text-left xl:col-span-4">
-      <h2 class="manifesto font-serif text-[clamp(2.25rem,4.2vw,3.9rem)] leading-[1.06] tracking-[-0.01em]">
+    <div class="text-center lg:col-span-6 lg:text-left xl:col-span-5">
+      <h2 class="manifesto mx-auto max-w-[22ch] font-serif text-[clamp(2rem,6.2vw,2.75rem)] leading-[1.1] tracking-[-0.01em] lg:mx-0 lg:text-[clamp(2.15rem,3vw,3rem)]">
         {
-          palabras.map((palabra, i) => (
-            <span class="word" style={`--i: ${i}`}>
-              {palabra}{' '}
+          frases.map((frase) => (
+            <span class="manifesto__frase">
+              {frase.map((palabra) => (
+                <span class="word" style={`--i: ${palabra.i}`}>
+                  {palabra.texto}{' '}
+                </span>
+              ))}
             </span>
           ))
         }
@@ -52,14 +65,14 @@ const productos = [cartuchos, elementos, aire];
       </div>
     </div>
 
-    <figure class="filter-story m-0 w-full justify-self-center lg:col-span-7 xl:col-span-8">
+    <figure class="filter-story m-0 w-full justify-self-center lg:col-span-6 xl:col-span-7">
       <Picture
         src={tecnico}
         alt={nosotros.foto.alt}
         formats={['avif', 'webp']}
         fallbackFormat="jpg"
         widths={[480, 720, 960, 1440]}
-        sizes="(min-width: 1280px) 50rem, (min-width: 1152px) 37rem, (min-width: 1024px) 54vw, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2.5rem)"
+        sizes="(min-width: 1280px) 44rem, (min-width: 1024px) 48vw, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2.5rem)"
         class="filter-story__image"
       />
     </figure>
@@ -215,19 +228,58 @@ const productos = [cartuchos, elementos, aire];
     </section>
   </div>
 
-  <section class="mx-auto mt-24 grid max-w-6xl gap-10 px-5 pb-24 md:mt-32 md:px-10 md:pb-32 lg:grid-cols-[0.8fr_1.4fr] lg:gap-16" aria-labelledby="consultas-titulo">
-    <div>
-      <h2 id="consultas-titulo" class="display text-h2">{nosotros.consultas.titulo}</h2>
-      <p class="mt-6 max-w-[40ch] text-lg leading-relaxed text-muted">{nosotros.consultas.cierre}</p>
-      <a href="#contacto" class="btn btn-primary mt-7">{nosotros.consultas.cta}<ArrowRight size={18} strokeWidth={1.6} aria-hidden="true" /></a>
-    </div>
-    <div class="about-questions">
-      {nosotros.consultas.items.map((item, i) => (
-        <details class="about-question" name="consultas-nosotros" open={i === 0}>
-          <summary><h3 class="inline text-lg font-semibold">{item.pregunta}</h3><span aria-hidden="true" class="about-question__indicator"></span></summary>
-          <p class="pb-6 pr-8 leading-relaxed text-muted">{item.respuesta}</p>
-        </details>
-      ))}
+  <section class="about-consultas mt-24 bg-bg md:mt-32" aria-labelledby="consultas-titulo">
+    <div class="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
+      <div class="grid items-stretch gap-5 lg:grid-cols-[0.88fr_1.12fr] lg:gap-8">
+        <div class="about-consultas__intro flex flex-col rounded-2xl bg-ink px-7 py-9 text-white sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <h2 id="consultas-titulo" class="display max-w-[12ch] text-h2">{nosotros.consultas.titulo}</h2>
+          <p class="mt-7 max-w-[39ch] text-lg leading-relaxed text-white/80">{nosotros.consultas.cierre}</p>
+          <a href="#contacto" class="btn mt-9 w-fit bg-[#7fd3ee] text-ink hover:bg-white">
+            {nosotros.consultas.cta}<ArrowRight size={18} strokeWidth={1.7} aria-hidden="true" />
+          </a>
+          <div class="mt-auto pt-12">
+            <p class="border-t border-white/20 pt-6 text-sm font-medium text-white/75">{nosotros.consultas.inicio}</p>
+            <ul class="mt-5 flex flex-wrap gap-2" aria-label={nosotros.consultas.inicio}>
+              {nosotros.consultas.insumos.map((insumo) => (
+                <li class="rounded-full border border-white/25 px-4 py-2 text-sm font-medium text-white">{insumo}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="about-consultas__faq flex flex-col rounded-2xl bg-surface px-6 py-8 sm:px-9 sm:py-10 lg:px-12 lg:py-12">
+          <h3 class="mb-6 text-xl font-semibold tracking-tight md:text-2xl">{nosotros.consultas.preguntasTitulo}</h3>
+          <div class="about-questions">
+            {nosotros.consultas.items.map((item, i) => (
+              <details class="about-question" name="consultas-nosotros" open={i === 0}>
+                <summary><span class="text-lg font-semibold">{item.pregunta}</span><span aria-hidden="true" class="about-question__indicator"></span></summary>
+                <p class="max-w-[65ch] pb-7 pr-8 leading-relaxed text-muted">{item.respuesta}</p>
+              </details>
+            ))}
+          </div>
+          <p class="mt-auto pt-10 text-sm leading-relaxed text-muted">
+            {nosotros.consultas.otraPregunta}
+            <a href="#contacto" class="ml-1 font-semibold text-accent underline decoration-current/40 underline-offset-4 hover:decoration-current">{nosotros.consultas.otraPreguntaCta}</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="about-consultas__contact mt-8 grid gap-6 border-t border-border pt-8 md:grid-cols-[0.8fr_1fr_1fr] md:gap-10">
+        <div>
+          <p class="text-xl font-semibold tracking-tight">{nosotros.consultas.contactoTitulo}</p>
+          <p class="mt-2 max-w-[25ch] text-sm leading-relaxed text-muted">{nosotros.consultas.contactoTexto}</p>
+        </div>
+        {contacto.personas.map((persona) => (
+          <div class="border-t border-border pt-5 md:border-t-0 md:border-l md:py-1 md:pl-7">
+            <p class="text-sm font-medium text-accent">{persona.ciudad}</p>
+            <p class="mt-2 font-semibold">{persona.nombre}</p>
+            <a href={whatsapp(persona.telefono)} target="_blank" rel="noopener" class="about-consultas__whatsapp mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-accent" aria-label={`Escribir por WhatsApp a ${persona.nombre}, ${persona.telefono}`}>
+              <MessageCircle size={18} strokeWidth={1.7} aria-hidden="true" />
+              WhatsApp <ArrowUpRight size={17} strokeWidth={1.7} aria-hidden="true" />
+            </a>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 </section>
