@@ -1,47 +1,80 @@
 ---
-import { Picture } from 'astro:assets';
-import { DraftingCompass, Truck, Wrench } from 'lucide-react';
-import canastos from '@/assets/products/canastos-filtrantes.jpg';
-import filtros from '@/assets/products/filtro-saturado-vs-nuevo.jpg';
-import { getSite } from '@/lib/site';
+import { Image, Picture } from 'astro:assets';
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  DraftingCompass,
+  Factory,
+  Gauge,
+  MessageCircle,
+  ScanSearch,
+  SlidersHorizontal,
+  Truck,
+  Wrench,
+} from 'lucide-react';
+import armada from '@/assets/clients/armada.png';
+import asmar from '@/assets/clients/asmar.png';
+import cartuchos from '@/assets/products/cartuchos-plisados.jpg';
+import elementos from '@/assets/products/elementos-filtrantes.jpg';
+import aire from '@/assets/products/filtros-aire.jpg';
+import fotoMantencion from '@/assets/products/mantencion-filtro-industrial-mejorada.png';
+import fotoProceso from '@/assets/products/tecnico-filtro-industrial.jpg';
+import tecnico from '@/assets/products/tecnico-repuestos-industriales-mejorado.png';
+import { getSite, whatsapp } from '@/lib/site';
 
-const { nosotros } = await getSite();
-const palabras = nosotros.manifiesto.split(' ');
+const { nosotros, contacto } = await getSite();
+// El manifiesto se compone por frases: cada una ocupa su propio bloque con líneas equilibradas.
+let indicePalabra = 0;
+const frases = (nosotros.manifiesto.match(/[^.!?]+[.!?]+/g) ?? [nosotros.manifiesto]).map((frase) =>
+  frase
+    .trim()
+    .split(' ')
+    .map((texto) => ({ texto, i: indicePalabra++ })),
+);
 const iconos = { compas: DraftingCompass, llave: Wrench, camion: Truck };
+const iconosProceso = [ScanSearch, SlidersHorizontal, Factory, Gauge];
+const logos = [
+  { src: armada, nombre: nosotros.clientes[0] },
+  { src: asmar, nombre: nosotros.clientes[1] },
+];
+const productos = [cartuchos, elementos, aire];
 ---
 
 <section id="nosotros" class="scroll-mt-20 border-y border-border bg-surface">
   <div
-    class="mx-auto grid max-w-6xl items-center gap-14 px-5 pt-24 md:grid-cols-12 md:gap-16 md:px-10 md:pt-32"
+    class="mx-auto grid max-w-6xl items-center gap-14 px-5 pt-24 md:px-10 md:pt-32 lg:grid-cols-12 lg:gap-16 xl:max-w-7xl"
   >
-    <div class="text-center md:col-span-7 md:text-left">
-      <h2 class="manifesto font-serif text-[clamp(2.25rem,4.2vw,3.9rem)] leading-[1.06] tracking-[-0.01em]">
+    <div class="text-center lg:col-span-6 lg:text-left xl:col-span-5">
+      <h2 class="manifesto mx-auto max-w-[22ch] font-serif text-[clamp(2rem,6.2vw,2.75rem)] leading-[1.1] tracking-[-0.01em] lg:mx-0 lg:text-[clamp(2.15rem,3vw,3rem)]">
         {
-          palabras.map((palabra, i) => (
-            <span class="word" style={`--i: ${i}`}>
-              {palabra}{' '}
+          frases.map((frase) => (
+            <span class="manifesto__frase">
+              {frase.map((palabra) => (
+                <span class="word" style={`--i: ${palabra.i}`}>
+                  {palabra.texto}{' '}
+                </span>
+              ))}
             </span>
           ))
         }
       </h2>
 
-      <div class="mx-auto mt-10 flex max-w-[56ch] flex-col gap-5 md:mx-0">
+      <div class="mx-auto mt-10 flex max-w-[56ch] flex-col gap-5 lg:mx-0">
         {nosotros.parrafos.map((p) => <p class="reveal text-lead leading-relaxed text-muted">{p}</p>)}
       </div>
     </div>
 
-    <figure class="m-0 md:col-span-5">
-      <div class="img-unveil overflow-clip rounded-2xl bg-[#5fb3d9]">
-        <Picture
-          src={filtros}
-          alt={nosotros.foto.alt}
-          formats={['avif', 'webp']}
-          widths={[400, 640, 880]}
-          sizes="(min-width: 768px) 32vw, 90vw"
-          class="img-drift aspect-[4/5] w-full object-cover object-[50%_45%]"
-        />
-      </div>
-      <figcaption class="reveal mt-4 text-center text-sm text-muted md:text-left">{nosotros.foto.pie}</figcaption>
+    <figure class="filter-story m-0 w-full justify-self-center lg:col-span-6 xl:col-span-7">
+      <Picture
+        src={tecnico}
+        alt={nosotros.foto.alt}
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        widths={[480, 720, 960, 1440]}
+        sizes="(min-width: 1280px) 44rem, (min-width: 1024px) 48vw, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2.5rem)"
+        class="filter-story__image"
+      />
     </figure>
   </div>
 
@@ -66,22 +99,253 @@ const iconos = { compas: DraftingCompass, llave: Wrench, camion: Truck };
     }
   </ul>
 
-  <!-- Respaldo -->
-  <div class="reveal mx-auto mt-20 max-w-3xl px-5 text-center md:mt-24 md:px-10">
-    <p class="mx-auto max-w-[52ch] leading-relaxed text-muted">{nosotros.respaldo}</p>
-  </div>
+  <section class="about-process mx-auto mt-24 grid max-w-6xl gap-10 px-5 md:mt-32 md:px-10 lg:grid-cols-2 lg:gap-16 xl:grid-cols-[1.5fr_1fr] xl:gap-12" aria-labelledby="proceso-titulo">
+    <div class="about-process__intro lg:sticky lg:top-28 lg:self-start">
+      <h2 id="proceso-titulo" class="display text-h2">{nosotros.proceso.titulo}</h2>
+      <p class="mt-6 max-w-[45ch] text-lg leading-relaxed text-muted">{nosotros.proceso.descripcion}</p>
+      <figure class="process-visual mt-10 overflow-hidden rounded-2xl bg-bg">
+        <Picture
+          src={fotoProceso}
+          alt={nosotros.proceso.fotoAlt}
+          formats={['avif', 'webp']}
+          widths={[360, 640, 880]}
+          sizes="(min-width: 1280px) 39rem, (min-width: 1152px) 32rem, (min-width: 1024px) 45vw, calc(100vw - 2.5rem)"
+          loading="lazy"
+          decoding="async"
+          class="block aspect-[3/2] w-full object-cover"
+        />
+      </figure>
+    </div>
+    <ol class="process-steps">
+      {nosotros.proceso.pasos.map((paso, i) => {
+        const Icono = iconosProceso[i];
+        return (
+          <li class="process-step">
+            <span class="process-step__marker" aria-hidden="true">
+              <Icono size={25} strokeWidth={1.7} className="process-step__icon" />
+              <span class="process-step__number">{String(i + 1).padStart(2, '0')}</span>
+            </span>
+            <div>
+              <h3 class="text-xl font-semibold tracking-tight md:text-2xl">{paso.titulo}</h3>
+              <p class="mt-3 max-w-[58ch] leading-relaxed text-muted">{paso.texto}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </section>
 
-  <!-- Foto -->
-  <div class="mx-auto mt-16 max-w-6xl px-5 pb-24 md:mt-20 md:px-10 md:pb-32">
-    <div class="clip-reveal overflow-hidden rounded-2xl">
+  <section class="about-support mt-24 bg-ink text-white md:mt-32" aria-labelledby="apoyo-titulo">
+    <div class="about-support__backdrop" aria-hidden="true">
       <Picture
-        src={canastos}
-        alt={nosotros.altFoto}
+        src={fotoMantencion}
+        alt=""
         formats={['avif', 'webp']}
-        widths={[640, 960, 1280]}
-        sizes="(min-width: 1152px) 70rem, 92vw"
-        class="aspect-[16/9] w-full object-cover md:aspect-[21/9]"
+        fallbackFormat="jpg"
+        widths={[720, 1280, 1920]}
+        sizes="100vw"
+        loading="lazy"
+        decoding="async"
+        class="about-support__backdrop-image"
       />
     </div>
+    <div class="about-support__inner mx-auto grid max-w-6xl gap-12 px-5 py-20 md:px-10 md:py-28 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+      <div class="about-support__intro">
+        <h2 id="apoyo-titulo" class="about-support__title">
+          {nosotros.acompanamiento.titulo}<br /><span>{nosotros.acompanamiento.enfasis}</span>
+        </h2>
+        <p class="mt-7 max-w-[43ch] text-lg leading-relaxed text-white/80">{nosotros.acompanamiento.texto}</p>
+        <a href="#contacto" class="about-support__link mt-9 inline-flex items-center gap-3 font-semibold">
+          {nosotros.acompanamiento.cta}
+          <ArrowRight size={19} strokeWidth={1.7} aria-hidden="true" />
+        </a>
+      </div>
+      <div class="about-support__sheet">
+        <dl>
+          {nosotros.acompanamiento.areas.map((area) => (
+            <div class="about-support__area">
+              <dt>{area.titulo}</dt>
+              <dd>{area.texto}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="about-support__invitation">{nosotros.acompanamiento.invitacion}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="about-proof mx-auto mt-20 grid max-w-6xl gap-12 px-5 md:mt-24 md:px-10 lg:grid-cols-[0.8fr_1.4fr] lg:gap-16">
+    <div class="about-proof__trust">
+      <p class="text-xl leading-relaxed text-fg">{nosotros.respaldo}</p>
+      <div class="mt-8 grid grid-cols-2 gap-5">
+        {logos.map((logo) => (
+          <figure class="m-0 text-center">
+            <div class="client-mark">
+              <Image src={logo.src} alt="" width={160} height={160} fit="contain" class="h-28 w-32 object-contain" />
+            </div>
+            <figcaption class="mt-3 text-sm font-medium text-muted">{logo.nombre}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <dl class="mt-8 border-t border-border pt-6">
+        {nosotros.presencia.map((lugar) => (
+          <div class="mb-4 last:mb-0">
+            <dt class="font-semibold">{lugar.ciudad}</dt>
+            <dd class="mt-1 text-sm text-muted">{lugar.detalle}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <section class="product-gallery" data-product-gallery data-gallery-loading={nosotros.galeria.cargando} data-gallery-error={nosotros.galeria.error} aria-labelledby="galeria-titulo">
+      <h2 id="galeria-titulo" class="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">{nosotros.galeria.titulo}</h2>
+      <div class="product-gallery__panels">
+        {productos.map((producto, i) => (
+          <figure class="product-gallery__panel" id={`producto-${i}`} data-gallery-panel>
+            <div class="product-gallery__frame">
+              <Picture src={producto} alt={nosotros.galeria.items[i].alt} formats={['avif', 'webp']} widths={[400, 640, 960]} sizes="(min-width: 1152px) 38rem, (min-width: 1024px) 52vw, 90vw" class="product-gallery__image" />
+            </div>
+            <figcaption class="mt-3 text-sm text-muted">{nosotros.galeria.items[i].titulo}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <div class="product-gallery__controls" data-gallery-controls hidden>
+        <div class="mt-5 flex items-center justify-between gap-3">
+          <p class="text-sm text-muted" data-gallery-status aria-live="polite" aria-atomic="true"></p>
+          <div class="flex gap-2">
+            <button type="button" data-gallery-prev class="gallery-arrow" aria-label={nosotros.galeria.anterior}><ArrowLeft size={20} strokeWidth={1.6} aria-hidden="true" /></button>
+            <button type="button" data-gallery-next class="gallery-arrow" aria-label={nosotros.galeria.siguiente}><ArrowRight size={20} strokeWidth={1.6} aria-hidden="true" /></button>
+          </div>
+        </div>
+        <div class="product-gallery__thumbs" role="group" aria-label={nosotros.galeria.etiqueta}>
+          {productos.map((producto, i) => (
+            <button type="button" data-gallery-thumb aria-pressed={i === 0 ? 'true' : 'false'} aria-controls={`producto-${i}`} aria-label={nosotros.galeria.items[i].titulo} class="gallery-thumb">
+              <Image src={producto} alt="" width={160} height={104} fit="cover" class="h-full w-full object-cover" />
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
   </div>
+
+  <section class="about-consultas mt-24 bg-bg md:mt-32" aria-labelledby="consultas-titulo">
+    <div class="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
+      <div class="grid items-stretch gap-5 lg:grid-cols-[0.88fr_1.12fr] lg:gap-8">
+        <div class="about-consultas__intro flex flex-col rounded-2xl bg-ink px-7 py-9 text-white sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+          <h2 id="consultas-titulo" class="display max-w-[12ch] text-h2">{nosotros.consultas.titulo}</h2>
+          <p class="mt-7 max-w-[39ch] text-lg leading-relaxed text-white/80">{nosotros.consultas.cierre}</p>
+          <a href="#contacto" class="btn mt-9 w-fit bg-[#7fd3ee] text-ink hover:bg-white">
+            {nosotros.consultas.cta}<ArrowRight size={18} strokeWidth={1.7} aria-hidden="true" />
+          </a>
+          <div class="mt-auto pt-12">
+            <p class="border-t border-white/20 pt-6 text-sm font-medium text-white/75">{nosotros.consultas.inicio}</p>
+            <ul class="mt-5 flex flex-wrap gap-2" aria-label={nosotros.consultas.inicio}>
+              {nosotros.consultas.insumos.map((insumo) => (
+                <li class="rounded-full border border-white/25 px-4 py-2 text-sm font-medium text-white">{insumo}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="about-consultas__faq flex flex-col rounded-2xl bg-surface px-6 py-8 sm:px-9 sm:py-10 lg:px-12 lg:py-12">
+          <h3 class="mb-6 text-xl font-semibold tracking-tight md:text-2xl">{nosotros.consultas.preguntasTitulo}</h3>
+          <div class="about-questions">
+            {nosotros.consultas.items.map((item, i) => (
+              <details class="about-question" name="consultas-nosotros" open={i === 0}>
+                <summary><span class="text-lg font-semibold">{item.pregunta}</span><span aria-hidden="true" class="about-question__indicator"></span></summary>
+                <p class="max-w-[65ch] pb-7 pr-8 leading-relaxed text-muted">{item.respuesta}</p>
+              </details>
+            ))}
+          </div>
+          <p class="mt-auto pt-10 text-sm leading-relaxed text-muted">
+            {nosotros.consultas.otraPregunta}
+            <a href="#contacto" class="ml-1 font-semibold text-accent underline decoration-current/40 underline-offset-4 hover:decoration-current">{nosotros.consultas.otraPreguntaCta}</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="about-consultas__contact mt-8 grid gap-6 border-t border-border pt-8 md:grid-cols-[0.8fr_1fr_1fr] md:gap-10">
+        <div>
+          <p class="text-xl font-semibold tracking-tight">{nosotros.consultas.contactoTitulo}</p>
+          <p class="mt-2 max-w-[25ch] text-sm leading-relaxed text-muted">{nosotros.consultas.contactoTexto}</p>
+        </div>
+        {contacto.personas.map((persona) => (
+          <div class="border-t border-border pt-5 md:border-t-0 md:border-l md:py-1 md:pl-7">
+            <p class="text-sm font-medium text-accent">{persona.ciudad}</p>
+            <p class="mt-2 font-semibold">{persona.nombre}</p>
+            <a href={whatsapp(persona.telefono)} target="_blank" rel="noopener" class="about-consultas__whatsapp mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-accent" aria-label={`Escribir por WhatsApp a ${persona.nombre}, ${persona.telefono}`}>
+              <MessageCircle size={18} strokeWidth={1.7} aria-hidden="true" />
+              WhatsApp <ArrowUpRight size={17} strokeWidth={1.7} aria-hidden="true" />
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 </section>
+
+<script>
+  const bindGalleries = () => {
+    for (const gallery of document.querySelectorAll<HTMLElement>('[data-product-gallery]')) {
+      if (gallery.dataset.enhanced) continue;
+      const panels = [...gallery.querySelectorAll<HTMLElement>('[data-gallery-panel]')];
+      const thumbs = [...gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-thumb]')];
+      const controls = gallery.querySelector<HTMLElement>('[data-gallery-controls]');
+      const status = gallery.querySelector<HTMLElement>('[data-gallery-status]');
+      if (!controls || !status || panels.length !== thumbs.length || panels.length === 0) continue;
+      let current = 0;
+      let requested = 0;
+      let requestVersion = 0;
+      const show = async (index: number, animate = true) => {
+        const next = (index + panels.length) % panels.length;
+        requested = next;
+        const version = ++requestVersion;
+        if (animate) {
+          gallery.setAttribute('aria-busy', 'true');
+          status.textContent = `${gallery.dataset.galleryLoading} · ${thumbs[next].getAttribute('aria-label')}`;
+          const image = panels[next].querySelector('img');
+          if (image) {
+            image.loading = 'eager';
+            try {
+              await image.decode();
+            } catch {
+              if (version !== requestVersion) return;
+              gallery.setAttribute('aria-busy', 'false');
+              status.textContent = gallery.dataset.galleryError ?? '';
+              requested = current;
+              return;
+            }
+          }
+          if (version !== requestVersion) return;
+        }
+        gallery.setAttribute('aria-busy', 'false');
+        for (const [i, panel] of panels.entries()) {
+          panel.getAnimations().forEach((animation) => animation.cancel());
+          panel.hidden = i !== next;
+          thumbs[i].setAttribute('aria-pressed', String(i === next));
+        }
+        current = next;
+        status.textContent = `${next + 1} / ${panels.length} · ${thumbs[next].getAttribute('aria-label')}`;
+        if (animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          panels[next].animate(
+            [{ opacity: 0.45, transform: 'scale(1.015)', filter: 'blur(2px)' }, { opacity: 1, transform: 'none', filter: 'none' }],
+            { duration: 420, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' },
+          );
+        }
+      };
+      gallery.dataset.enhanced = 'true';
+      controls.hidden = false;
+      void show(0, false);
+      thumbs.forEach((thumb, i) => { thumb.onclick = () => { if (i !== requested) void show(i); }; });
+      gallery.querySelector<HTMLButtonElement>('[data-gallery-prev]')!.onclick = () => { void show(requested - 1); };
+      gallery.querySelector<HTMLButtonElement>('[data-gallery-next]')!.onclick = () => { void show(requested + 1); };
+      controls.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        void show(requested + (event.key === 'ArrowRight' ? 1 : -1));
+      });
+    }
+  };
+  bindGalleries();
+  document.addEventListener('astro:after-swap', bindGalleries);
+</script>

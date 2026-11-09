@@ -34,6 +34,28 @@
         }
       ],
       "respaldo": "Clientes tan exigentes como la Armada de Chile y Asmar Talcahuano cuentan con nuestro apoyo constante en la fabricación de filtros y en hidráulica.",
+      "galeria": {
+        "titulo": "Filtración para distintas necesidades",
+        "etiqueta": "Explorar imágenes de filtros",
+        "anterior": "Ver imagen anterior",
+        "siguiente": "Ver imagen siguiente",
+        "cargando": "Cargando imagen",
+        "error": "No se pudo cargar esta imagen. Seleccione otra fotografía.",
+        "items": [
+          {
+            "titulo": "Cartuchos plisados",
+            "alt": "Conjunto de cartuchos filtrantes amarillos con extremos metálicos"
+          },
+          {
+            "titulo": "Elementos filtrantes",
+            "alt": "Elementos filtrantes cilíndricos de varios diámetros y alturas"
+          },
+          {
+            "titulo": "Filtros de aire",
+            "alt": "Dos filtros de aire con malla metálica y juntas naranjas"
+          }
+        ]
+      },
       "clientes": ["Armada de Chile", "Asmar Talcahuano"],
       "presencia": [
         {
@@ -45,10 +67,74 @@
           "detalle": "Distribuidor logístico"
         }
       ],
-      "altFoto": "Canastos filtrantes de acero inoxidable de distintos tamaños fabricados por NASAMFB",
       "foto": {
-        "alt": "Mano sosteniendo un cartucho filtrante saturado de suciedad junto a uno nuevo y limpio",
-        "pie": "Un filtro saturado junto a uno nuevo: la diferencia que protege su equipo."
+        "alt": "Técnico revisando una pieza entre estanterías de filtros y repuestos industriales"
+      },
+      "proceso": {
+        "titulo": "De su necesidad a una solución a medida.",
+        "descripcion": "Cada equipo plantea un desafío distinto. Nuestro trabajo parte por entenderlo y continúa con el diseño, la fabricación y el apoyo a su operación.",
+        "fotoAlt": "Persona con guantes revisando un cartucho filtrante industrial",
+        "pasos": [
+          {
+            "titulo": "Entender el equipo",
+            "texto": "El punto de partida es la necesidad que desea resolver. Un plano, una muestra o las medidas nos ayudan a entender qué pieza requiere y en qué equipo se utilizará."
+          },
+          {
+            "titulo": "Definir la solución",
+            "texto": "Buscamos y diseñamos una respuesta de filtración o hidráulica que se ajuste a su requerimiento. La solución debe partir de su máquina y de la función que necesita cumplir."
+          },
+          {
+            "titulo": "Fabricar a medida",
+            "texto": "Fabricamos filtros según la necesidad acordada y abordamos alternativas equivalentes cuando corresponde. El requerimiento de su equipo guía la solución, en lugar de limitarla a un catálogo."
+          },
+          {
+            "titulo": "Acompañar la operación",
+            "texto": "Nuestro apoyo continúa en la mantención y optimización de sus equipos. La relación no termina con la entrega: seguimos disponibles para abordar sus necesidades de filtración e hidráulica."
+          }
+        ]
+      },
+      "acompanamiento": {
+        "titulo": "La entrega es",
+        "enfasis": "solo el comienzo.",
+        "texto": "Un filtro es parte de un sistema. Por eso, junto con la fabricación, acompañamos la mantención y optimización del equipo en el que trabaja.",
+        "invitacion": "¿Qué necesita resolver en su equipo?",
+        "cta": "Conversemos sobre su equipo",
+        "areas": [
+          {
+            "titulo": "Apoyo en mantención",
+            "texto": "Acompañamos las necesidades de filtración e hidráulica que surgen durante el uso y la mantención de sus equipos."
+          },
+          {
+            "titulo": "Optimización de equipos",
+            "texto": "Abordamos junto a usted los requerimientos de su operación para buscar soluciones que se ajusten a su equipo y a su forma de trabajar."
+          }
+        ]
+      },
+      "consultas": {
+        "titulo": "Conversemos desde su necesidad.",
+        "cierre": "Cuéntenos qué equipo utiliza y qué necesita resolver. Podemos partir de un plano, una muestra o las medidas de la pieza.",
+        "cta": "Consultar por mi equipo",
+        "inicio": "Para comenzar, puede compartir:",
+        "insumos": ["Un plano", "Una muestra", "Las medidas disponibles"],
+        "preguntasTitulo": "Preguntas frecuentes",
+        "otraPregunta": "¿Su caso es diferente?",
+        "otraPreguntaCta": "Cuéntenos qué necesita.",
+        "contactoTitulo": "Hablemos de su equipo",
+        "contactoTexto": "Elija la ubicación que le resulte más cercana y escríbanos directamente.",
+        "items": [
+          {
+            "pregunta": "¿Puedo consultar si no tengo un plano?",
+            "respuesta": "Sí. Puede partir de una muestra, de las medidas disponibles o del requerimiento de su equipo. En la conversación revisaremos qué información hace falta para abordar su necesidad."
+          },
+          {
+            "pregunta": "¿Dónde puedo contactar a NASAMFB?",
+            "respuesta": "Contamos con fabricación y atención en Concepción y un distribuidor logístico en Iquique. En Contacto encontrará a la persona correspondiente a cada ubicación."
+          },
+          {
+            "pregunta": "¿Solo fabrican filtros a medida?",
+            "respuesta": "Además de la fabricación de filtros, apoyamos necesidades de hidráulica, mantención y optimización de equipos. También comercializamos filtros, lubricantes y repuestos de las marcas indicadas en este sitio."
+          }
+        ]
       }
     },
     "servicios": {
