@@ -67,6 +67,11 @@ const site = defineCollection({
       bajada: z.string(),
       columnas: z.tuple([z.string(), z.string(), z.string()]),
       items: z.array(z.object({ sistema: z.string(), asegura: z.string(), como: z.string() })),
+      galeria: z.object({
+        titulo: z.string(),
+        nota: z.string(),
+        items: z.array(z.object({ titulo: z.string(), alt: z.string() })).length(6),
+      }),
     }),
     marcas: z.object({
       titulo: z.string(),

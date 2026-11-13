@@ -132,14 +132,14 @@
           },
           {
             "pregunta": "¿Solo fabrican filtros a medida?",
-            "respuesta": "Además de la fabricación de filtros, apoyamos necesidades de hidráulica, mantención y optimización de equipos. También comercializamos filtros, lubricantes y repuestos de las marcas indicadas en este sitio."
+            "respuesta": "No. Además de filtros, fabricamos flexibles y accesorios hidráulicos, y apoyamos la mantención y optimización de equipos. También comercializamos filtros, lubricantes y repuestos de las marcas indicadas en este sitio."
           }
         ]
       }
     },
     "servicios": {
       "titulo": "Qué fabricamos",
-      "bajada": "Cada filtro se fabrica para su equipo: a medida, o como equivalente de la pieza original.",
+      "bajada": "Filtros industriales para cada sistema, junto con flexibles y accesorios hidráulicos para su operación.",
       "columnas": ["Sistema", "Qué asegura", "Cómo lo hacemos"],
       "items": [
         {
@@ -161,8 +161,48 @@
           "sistema": "Proyectos especiales",
           "asegura": "Soluciones personalizadas y eficientes",
           "como": "Diseño desde cero junto a su equipo"
+        },
+        {
+          "sistema": "Flexibles hidráulicos",
+          "asegura": "Conducción del fluido entre los componentes del sistema",
+          "como": "Fabricación propia"
+        },
+        {
+          "sistema": "Accesorios hidráulicos",
+          "asegura": "Conexión y montaje de los componentes hidráulicos",
+          "como": "Fabricación propia"
         }
-      ]
+      ],
+      "galeria": {
+        "titulo": "Una muestra de nuestro trabajo",
+        "nota": "Imágenes de referencia de los tipos de solución que abordamos.",
+        "items": [
+          {
+            "titulo": "Filtro de acero perforado",
+            "alt": "Filtro cilíndrico de acero perforado sobre una mesa de trabajo"
+          },
+          {
+            "titulo": "Filtro de malla metálica",
+            "alt": "Filtro cilíndrico de malla metálica con terminaciones de acero"
+          },
+          {
+            "titulo": "Filtros cónicos",
+            "alt": "Filtros cónicos de acero inoxidable con bridas"
+          },
+          {
+            "titulo": "Separadores y cartuchos",
+            "alt": "Conjunto de separadores y cartuchos filtrantes de distintos tamaños"
+          },
+          {
+            "titulo": "Flexibles hidráulicos",
+            "alt": "Dos flexibles trenzados de acero con terminales roscados"
+          },
+          {
+            "titulo": "Accesorios hidráulicos",
+            "alt": "Acoples rápidos hidráulicos montados en un equipo"
+          }
+        ]
+      }
     },
     "marcas": {
       "titulo": "También comercializamos filtros, lubricantes y repuestos de",
