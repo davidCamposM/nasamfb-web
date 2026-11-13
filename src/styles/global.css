@@ -521,6 +521,97 @@
     transform: none;
   }
 }
+/* Servicios: tarjetas con fotografía de fondo; el degradado garantiza el contraste del texto inferior. */
+.service-card__shade {
+  background: linear-gradient(
+    to top,
+    rgb(9 22 34 / 94%) 0%,
+    rgb(9 22 34 / 82%) 38%,
+    rgb(9 22 34 / 45%) 72%,
+    rgb(9 22 34 / 28%) 100%
+  );
+  transition: opacity 500ms var(--ease-out-expo);
+}
+.service-card__image {
+  transition: scale 900ms var(--ease-out-expo);
+}
+.service-card:hover .service-card__image {
+  scale: 1.06;
+}
+
+/* Consultas: fotografía de fondo a todo el ancho detrás de las dos tarjetas. */
+/* Foto en una zona propia sobre las tarjetas, encuadrada en la mesa; su borde inferior se funde con
+   el fondo y las tarjetas se montan solo sobre esa transición. */
+.about-consultas__band {
+  --consultas-foto: clamp(24rem, 50vw, 44rem);
+  --consultas-solape: clamp(5rem, 11vw, 10rem);
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--color-ink);
+}
+.about-consultas__backdrop {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--consultas-foto);
+  z-index: -1;
+  pointer-events: none;
+}
+.about-consultas__backdrop-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 88%;
+}
+.about-consultas__backdrop::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(9 22 34 / 30%) 0%,
+      rgb(9 22 34 / 12%) 30%,
+      rgb(9 22 34 / 35%) 62%,
+      var(--color-ink) 100%
+    ),
+    radial-gradient(ellipse at 60% 45%, transparent 45%, rgb(9 22 34 / 40%));
+  content: "";
+}
+.about-consultas__content {
+  padding-top: calc(var(--consultas-foto) - var(--consultas-solape));
+}
+/* Opacidades calculadas para WCAG AA en el peor caso del fondo (zona más clara u oscura de la foto);
+   el desenfoque homogeneiza lo que queda detrás del texto. */
+.about-consultas__intro {
+  border: 1px solid rgb(255 255 255 / 16%);
+  background: rgb(14 26 38 / 50%);
+  backdrop-filter: blur(12px) saturate(1.25);
+}
+.about-consultas__faq,
+.about-consultas__contact {
+  --accent: #005a7a;
+  border: 1px solid rgb(255 255 255 / 55%);
+  background: rgb(255 255 255 / 80%);
+  box-shadow: 0 24px 60px -24px rgb(9 22 34 / 55%);
+  backdrop-filter: blur(16px) saturate(1.3);
+}
+:root[data-theme="dark"] .about-consultas__faq,
+:root[data-theme="dark"] .about-consultas__contact {
+  --accent: #5cc8ea;
+  border-color: rgb(255 255 255 / 10%);
+  background: rgb(19 33 47 / 78%);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .about-consultas__faq,
+  :root:not([data-theme="light"]) .about-consultas__contact {
+    --accent: #5cc8ea;
+    border-color: rgb(255 255 255 / 10%);
+    background: rgb(19 33 47 / 78%);
+  }
+}
+
 .about-question {
   border-top: 1px solid var(--border);
 }
@@ -618,14 +709,6 @@
   view-timeline-name: --about-proof;
   align-items: start;
 }
-.client-mark {
-  display: flex;
-  min-height: 144px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: #ffffff;
-}
 .product-gallery {
   min-width: 0;
 }
@@ -658,7 +741,7 @@
 }
 .product-gallery__thumbs {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
   margin-top: 16px;
 }

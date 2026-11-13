@@ -62,7 +62,7 @@ const site = defineCollection({
         siguiente: z.string(),
         cargando: z.string(),
         error: z.string(),
-        items: z.array(z.object({ titulo: z.string(), alt: z.string() })).length(6),
+        items: z.array(z.object({ titulo: z.string(), alt: z.string() })).length(7),
       }),
       foto: z.object({ alt: z.string() }),
       clientes: z.array(z.string()),

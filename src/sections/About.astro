@@ -19,11 +19,13 @@ import {
 } from 'lucide-react';
 import cartuchos from '@/assets/products/cartuchos-plisados.jpg';
 import elementos from '@/assets/products/elementos-filtrantes.jpg';
-import admision from '@/assets/products/filtro-admision-conico.jpg';
 import filtroSaturado from '@/assets/products/filtro-saturado-vs-nuevo.jpg';
+import aceite from '@/assets/products/filtros-aceite.jpg';
 import aire from '@/assets/products/filtros-aire.jpg';
 import fotoMantencion from '@/assets/products/mantencion-filtro-industrial-mejorada.png';
-import revision from '@/assets/products/revision-filtro-saturado.jpg';
+import membranas from '@/assets/products/membranas-filtrantes.jpg';
+import fotoReunion from '@/assets/products/reunion-sala-oficina.jpg';
+import surtido from '@/assets/products/surtido-filtros.jpg';
 import fotoProceso from '@/assets/products/tecnico-filtro-industrial.jpg';
 import tecnico from '@/assets/products/tecnico-repuestos-industriales-mejorado.png';
 import IconWhatsApp from '@/components/IconWhatsApp.astro';
@@ -48,7 +50,7 @@ const iconosPregunta = {
   llave: Wrench,
   mapa: MapPin,
 };
-const productos = [cartuchos, elementos, aire, filtroSaturado, admision, revision];
+const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite, surtido];
 ---
 
 <section id="nosotros" class="scroll-mt-20 border-y border-border bg-surface">
@@ -240,9 +242,23 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, admision, revisio
   </div>
 
   <section class="about-consultas mt-24 bg-bg md:mt-32" aria-labelledby="consultas-titulo">
-    <div class="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
+    <div class="about-consultas__band">
+      <div class="about-consultas__backdrop" aria-hidden="true">
+        <Picture
+          src={fotoReunion}
+          alt=""
+          formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+          widths={[768, 1280, 1536]}
+          sizes="100vw"
+          loading="lazy"
+          decoding="async"
+          class="about-consultas__backdrop-image"
+        />
+      </div>
+      <div class="about-consultas__content relative mx-auto max-w-7xl px-5 pb-20 md:px-10 md:pb-28">
       <div class="grid items-stretch gap-5 lg:grid-cols-[0.88fr_1.12fr] lg:gap-8">
-        <div class="about-consultas__intro flex flex-col rounded-2xl bg-ink px-7 py-9 text-white sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+        <div class="about-consultas__intro flex flex-col rounded-2xl px-7 py-9 text-white sm:px-10 sm:py-12 lg:px-12 lg:py-14">
           <h2 id="consultas-titulo" class="display max-w-[12ch] text-h2">{nosotros.consultas.titulo}</h2>
           <p class="mt-7 max-w-[39ch] text-lg leading-relaxed text-white/80">{nosotros.consultas.cierre}</p>
           <a href="#contacto" class="btn mt-9 w-fit bg-[#7fd3ee] text-ink hover:bg-white">
@@ -258,7 +274,7 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, admision, revisio
           </div>
         </div>
 
-        <div class="about-consultas__faq flex flex-col rounded-2xl bg-surface px-6 py-8 sm:px-9 sm:py-10 lg:px-12 lg:py-12">
+        <div class="about-consultas__faq flex flex-col rounded-2xl px-6 py-8 sm:px-9 sm:py-10 lg:px-12 lg:py-12">
           <h3 class="mb-6 text-xl font-semibold tracking-tight md:text-2xl">{nosotros.consultas.preguntasTitulo}</h3>
           <div class="about-questions">
             {nosotros.consultas.items.map((item, i) => {
@@ -289,7 +305,7 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, admision, revisio
         </div>
       </div>
 
-      <div class="about-consultas__contact mt-8 grid gap-6 border-t border-border pt-8 md:grid-cols-[0.8fr_1fr_1fr] md:gap-10">
+      <div class="about-consultas__contact mt-5 grid gap-6 rounded-2xl px-6 py-7 sm:px-9 md:grid-cols-[0.8fr_1fr_1fr] md:gap-10 lg:mt-8 lg:px-12 lg:py-9">
         <div>
           <p class="text-xl font-semibold tracking-tight">{nosotros.consultas.contactoTitulo}</p>
           <p class="mt-2 max-w-[25ch] text-sm leading-relaxed text-muted">{nosotros.consultas.contactoTexto}</p>
@@ -306,6 +322,7 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, admision, revisio
             </a>
           </div>
         ))}
+      </div>
       </div>
     </div>
   </section>
