@@ -4,23 +4,29 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
+  BadgeCheck,
+  ClipboardList,
   DraftingCompass,
   Factory,
   Gauge,
-  MessageCircle,
+  Layers,
+  MapPin,
+  Ruler,
   ScanSearch,
   SlidersHorizontal,
   Truck,
   Wrench,
 } from 'lucide-react';
-import armada from '@/assets/clients/armada.png';
-import asmar from '@/assets/clients/asmar.png';
 import cartuchos from '@/assets/products/cartuchos-plisados.jpg';
 import elementos from '@/assets/products/elementos-filtrantes.jpg';
+import admision from '@/assets/products/filtro-admision-conico.jpg';
+import filtroSaturado from '@/assets/products/filtro-saturado-vs-nuevo.jpg';
 import aire from '@/assets/products/filtros-aire.jpg';
 import fotoMantencion from '@/assets/products/mantencion-filtro-industrial-mejorada.png';
+import revision from '@/assets/products/revision-filtro-saturado.jpg';
 import fotoProceso from '@/assets/products/tecnico-filtro-industrial.jpg';
 import tecnico from '@/assets/products/tecnico-repuestos-industriales-mejorado.png';
+import IconWhatsApp from '@/components/IconWhatsApp.astro';
 import { getSite, whatsapp } from '@/lib/site';
 
 const { nosotros, contacto } = await getSite();
@@ -34,11 +40,15 @@ const frases = (nosotros.manifiesto.match(/[^.!?]+[.!?]+/g) ?? [nosotros.manifie
 );
 const iconos = { compas: DraftingCompass, llave: Wrench, camion: Truck };
 const iconosProceso = [ScanSearch, SlidersHorizontal, Factory, Gauge];
-const logos = [
-  { src: armada, nombre: nosotros.clientes[0] },
-  { src: asmar, nombre: nosotros.clientes[1] },
-];
-const productos = [cartuchos, elementos, aire];
+const iconosPregunta = {
+  regla: Ruler,
+  sello: BadgeCheck,
+  lista: ClipboardList,
+  capas: Layers,
+  llave: Wrench,
+  mapa: MapPin,
+};
+const productos = [cartuchos, elementos, aire, filtroSaturado, admision, revision];
 ---
 
 <section id="nosotros" class="scroll-mt-20 border-y border-border bg-surface">
@@ -177,16 +187,17 @@ const productos = [cartuchos, elementos, aire];
   <div class="about-proof mx-auto mt-20 grid max-w-6xl gap-12 px-5 md:mt-24 md:px-10 lg:grid-cols-[0.8fr_1.4fr] lg:gap-16">
     <div class="about-proof__trust">
       <p class="text-xl leading-relaxed text-fg">{nosotros.respaldo}</p>
-      <div class="mt-8 grid grid-cols-2 gap-5">
-        {logos.map((logo) => (
-          <figure class="m-0 text-center">
-            <div class="client-mark">
-              <Image src={logo.src} alt="" width={160} height={160} fit="contain" class="h-28 w-32 object-contain" />
-            </div>
-            <figcaption class="mt-3 text-sm font-medium text-muted">{logo.nombre}</figcaption>
-          </figure>
+      <ul class="mt-8">
+        {nosotros.clientes.map((nombre) => (
+          <li class="group flex items-center gap-4 border-t border-border py-5 first:border-t-0 first:pt-1">
+            <span
+              aria-hidden="true"
+              class="h-px w-7 shrink-0 bg-brand transition-[width] duration-500 ease-[var(--ease-out-expo)] group-hover:w-11"
+            ></span>
+            <span class="font-serif text-[1.65rem] italic leading-tight md:text-3xl">{nombre}</span>
+          </li>
         ))}
-      </div>
+      </ul>
       <dl class="mt-8 border-t border-border pt-6">
         {nosotros.presencia.map((lugar) => (
           <div class="mb-4 last:mb-0">
@@ -250,12 +261,26 @@ const productos = [cartuchos, elementos, aire];
         <div class="about-consultas__faq flex flex-col rounded-2xl bg-surface px-6 py-8 sm:px-9 sm:py-10 lg:px-12 lg:py-12">
           <h3 class="mb-6 text-xl font-semibold tracking-tight md:text-2xl">{nosotros.consultas.preguntasTitulo}</h3>
           <div class="about-questions">
-            {nosotros.consultas.items.map((item, i) => (
-              <details class="about-question" name="consultas-nosotros" open={i === 0}>
-                <summary><span class="text-lg font-semibold">{item.pregunta}</span><span aria-hidden="true" class="about-question__indicator"></span></summary>
-                <p class="max-w-[65ch] pb-7 pr-8 leading-relaxed text-muted">{item.respuesta}</p>
-              </details>
-            ))}
+            {nosotros.consultas.items.map((item, i) => {
+              const Icono = iconosPregunta[item.icono];
+              return (
+                <details class="about-question" name="consultas-nosotros" open={i === 0}>
+                  <summary>
+                    <span class="flex min-w-0 items-center gap-4">
+                      <span
+                        aria-hidden="true"
+                        class="about-question__icon flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-accent ring-1 ring-brand/20"
+                      >
+                        <Icono size={19} strokeWidth={1.6} />
+                      </span>
+                      <span class="text-lg font-semibold">{item.pregunta}</span>
+                    </span>
+                    <span aria-hidden="true" class="about-question__indicator" />
+                  </summary>
+                  <p class="max-w-[62ch] pb-7 pl-14 pr-8 leading-relaxed text-muted">{item.respuesta}</p>
+                </details>
+              );
+            })}
           </div>
           <p class="mt-auto pt-10 text-sm leading-relaxed text-muted">
             {nosotros.consultas.otraPregunta}
@@ -273,8 +298,10 @@ const productos = [cartuchos, elementos, aire];
           <div class="border-t border-border pt-5 md:border-t-0 md:border-l md:py-1 md:pl-7">
             <p class="text-sm font-medium text-accent">{persona.ciudad}</p>
             <p class="mt-2 font-semibold">{persona.nombre}</p>
-            <a href={whatsapp(persona.telefono)} target="_blank" rel="noopener" class="about-consultas__whatsapp mt-3 inline-flex min-h-11 items-center gap-2 font-semibold text-accent" aria-label={`Escribir por WhatsApp a ${persona.nombre}, ${persona.telefono}`}>
-              <MessageCircle size={18} strokeWidth={1.7} aria-hidden="true" />
+            <a href={whatsapp(persona.telefono)} target="_blank" rel="noopener" class="about-consultas__whatsapp mt-3 inline-flex min-h-11 items-center gap-2.5 font-semibold text-fg" aria-label={`Escribir por WhatsApp a ${persona.nombre}, ${persona.telefono}`}>
+              <span class="flex size-9 items-center justify-center rounded-full bg-[#25d366] text-white transition-transform duration-300 ease-[var(--ease-out-expo)]" aria-hidden="true">
+                <IconWhatsApp size={19} />
+              </span>
               WhatsApp <ArrowUpRight size={17} strokeWidth={1.7} aria-hidden="true" />
             </a>
           </div>
