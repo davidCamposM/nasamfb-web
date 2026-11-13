@@ -1,30 +1,100 @@
 ---
-import { getSite, whatsapp } from '@/lib/site';
+import { Picture } from 'astro:assets';
+import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
+import fotoCiudad from '@/assets/hero/ciudad-cordillera-noche.jpg';
+import IconWhatsApp from '@/components/IconWhatsApp.astro';
+import { getSite, telefonoHref, whatsapp } from '@/lib/site';
 
-const { contacto } = await getSite();
+const { contacto, nosotros } = await getSite();
+const roles = new Map(nosotros.presencia.map((lugar) => [lugar.ciudad, lugar.detalle]));
 ---
 
-<section id="contacto" class="scroll-mt-20 bg-ink text-white">
-  <div>
-    <div class="mx-auto flex max-w-7xl flex-wrap items-end gap-x-16 gap-y-12 px-5 py-20 md:px-10 md:py-28">
-      <h2 class="display reveal min-w-0 flex-[999_1_26rem] text-h1">{contacto.titulo}</h2>
+<section id="contacto" class="contact-scene scroll-mt-20 bg-ink text-white" aria-labelledby="contacto-titulo">
+  <div class="contact-scene__backdrop" aria-hidden="true">
+    <Picture
+      src={fotoCiudad}
+      alt=""
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      widths={[960, 1440, 2000]}
+      sizes="100vw"
+      loading="lazy"
+      decoding="async"
+      class="contact-scene__image"
+    />
+  </div>
+  <div class="relative mx-auto grid max-w-7xl gap-14 px-5 py-20 md:px-10 md:py-28 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+    <div class="reveal lg:pt-2">
+      <h2 id="contacto-titulo" class="display max-w-[14ch] text-h1">{contacto.titulo}</h2>
+      <p class="mt-7 max-w-[44ch] text-lead leading-relaxed text-white/80">{contacto.bajada}</p>
+
+      <div class="mt-10 border-t border-white/15 pt-7">
+        <p class="text-sm font-medium text-white/75">{contacto.prepararTitulo}</p>
+        <ul class="mt-4 flex flex-wrap gap-2" aria-label={contacto.prepararTitulo}>
+          {
+            nosotros.consultas.insumos.map((insumo) => (
+              <li class="rounded-full border border-white/25 px-4 py-2 text-sm font-medium">{insumo}</li>
+            ))
+          }
+        </ul>
+      </div>
+
       {
-        contacto.personas.map((p) => (
-          <div class="reveal flex flex-[1_1_15rem] flex-col gap-1.5">
-            <p class="text-[15px] text-[#c9d1d7]">{p.ciudad}</p>
-            <p class="text-xl font-semibold">{p.nombre}</p>
-            <a
-              href={whatsapp(p.telefono)}
-              target="_blank"
-              rel="noopener"
-              class="link-line w-fit text-lg text-[#7fd3ee]"
-              aria-label={`Escribir por WhatsApp a ${p.nombre}, ${p.telefono}`}
-            >
-              {p.telefono}
-            </a>
-          </div>
-        ))
+        contacto.email && (
+          <a
+            href={`mailto:${contacto.email}`}
+            class="link-line mt-8 inline-flex items-center gap-2.5 text-lg text-[#7fd3ee]"
+            aria-label={`${contacto.correo}: ${contacto.email}`}
+          >
+            <Mail size={19} strokeWidth={1.6} aria-hidden="true" />
+            {contacto.email}
+          </a>
+        )
       }
     </div>
+
+    <ul class="grid gap-5 sm:grid-cols-2 lg:gap-6">
+      {
+        contacto.personas.map((persona) => (
+          <li class="reveal">
+            <article class="contact-card flex h-full flex-col rounded-2xl p-7 md:p-8">
+              <p class="flex items-center gap-2 text-sm font-semibold tracking-wide text-[#7fd3ee]">
+                <MapPin size={16} strokeWidth={1.8} aria-hidden="true" />
+                {persona.ciudad}
+              </p>
+              {roles.get(persona.ciudad) && <p class="mt-1 text-sm text-white/70">{roles.get(persona.ciudad)}</p>}
+              <h3 class="mt-7 text-2xl font-semibold leading-tight tracking-tight">{persona.nombre}</h3>
+              <p class="mt-2 text-lg tabular-nums text-white/85">{persona.telefono}</p>
+
+              <div class="mt-auto flex flex-col gap-3 pt-9">
+                <a
+                  href={whatsapp(persona.telefono, contacto.mensajeWhatsapp)}
+                  target="_blank"
+                  rel="noopener"
+                  class="contact-card__whatsapp btn w-full justify-between bg-[#25d366] text-ink hover:bg-white"
+                  aria-label={`${contacto.whatsapp} a ${persona.nombre}, ${persona.ciudad}`}
+                >
+                  <span class="inline-flex items-center gap-2.5">
+                    <IconWhatsApp size={20} />
+                    {contacto.whatsappBoton}
+                  </span>
+                  <ArrowUpRight size={18} strokeWidth={1.8} aria-hidden="true" />
+                </a>
+                <a
+                  href={telefonoHref(persona.telefono)}
+                  class="btn w-full justify-between border-[1.5px] border-white/40 text-white hover:border-white hover:bg-white hover:text-ink"
+                  aria-label={`${contacto.llamar} a ${persona.nombre}, ${persona.telefono}`}
+                >
+                  <span class="inline-flex items-center gap-2.5">
+                    <Phone size={18} strokeWidth={1.7} aria-hidden="true" />
+                    {contacto.llamar}
+                  </span>
+                </a>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>

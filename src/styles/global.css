@@ -641,10 +641,12 @@
 .about-question[open] summary {
   color: var(--accent);
 }
-.about-consultas__whatsapp svg:last-child {
+.about-consultas__whatsapp svg:last-child,
+.contact-card__whatsapp svg:last-child {
   transition: transform 220ms var(--ease-out-expo);
 }
-.about-consultas__whatsapp:hover svg:last-child {
+.about-consultas__whatsapp:hover svg:last-child,
+.contact-card__whatsapp:hover svg:last-child {
   transform: translate(3px, -3px);
 }
 .about-question__indicator {
@@ -828,6 +830,59 @@
   to {
     transform: translateX(-50%);
   }
+}
+
+/* Contacto: escena nocturna con fotografía levemente difuminada; el borde inferior se funde con el
+   azul tinta del footer para que ambos se lean como un solo cierre. */
+.contact-scene {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+.contact-scene__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.contact-scene__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: blur(1px) saturate(1.1);
+  scale: 1.015;
+}
+.contact-scene__backdrop::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 55%, var(--color-ink) 100%),
+    linear-gradient(90deg, rgb(9 22 34 / 72%) 0%, rgb(9 22 34 / 48%) 55%, rgb(9 22 34 / 40%) 100%),
+    linear-gradient(180deg, rgb(9 22 34 / 20%) 0%, transparent 35%);
+  content: "";
+}
+/* En una columna el texto pasa sobre la torre iluminada: capa pareja más densa (contraste ≥ 4,5:1). */
+@media (max-width: 1023px) {
+  .contact-scene__backdrop::after {
+    background:
+      linear-gradient(180deg, transparent 60%, var(--color-ink) 100%),
+      linear-gradient(rgb(9 22 34 / 74%), rgb(9 22 34 / 74%));
+  }
+}
+.contact-card {
+  border: 1px solid rgb(255 255 255 / 14%);
+  background: rgb(14 26 38 / 55%);
+  backdrop-filter: blur(14px) saturate(1.25);
+  transition:
+    border-color 400ms var(--ease-out-expo),
+    background-color 400ms var(--ease-out-expo);
+}
+.contact-card:hover {
+  border-color: rgb(127 211 238 / 45%);
+  background: rgb(14 26 38 / 65%);
 }
 
 /* Lenis */

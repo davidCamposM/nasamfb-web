@@ -314,7 +314,7 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
           <div class="border-t border-border pt-5 md:border-t-0 md:border-l md:py-1 md:pl-7">
             <p class="text-sm font-medium text-accent">{persona.ciudad}</p>
             <p class="mt-2 font-semibold">{persona.nombre}</p>
-            <a href={whatsapp(persona.telefono)} target="_blank" rel="noopener" class="about-consultas__whatsapp mt-3 inline-flex min-h-11 items-center gap-2.5 font-semibold text-fg" aria-label={`Escribir por WhatsApp a ${persona.nombre}, ${persona.telefono}`}>
+            <a href={whatsapp(persona.telefono, contacto.mensajeWhatsapp)} target="_blank" rel="noopener" class="about-consultas__whatsapp mt-3 inline-flex min-h-11 items-center gap-2.5 font-semibold text-fg" aria-label={`Escribir por WhatsApp a ${persona.nombre}, ${persona.telefono}`}>
               <span class="flex size-9 items-center justify-center rounded-full bg-[#25d366] text-white transition-transform duration-300 ease-[var(--ease-out-expo)]" aria-hidden="true">
                 <IconWhatsApp size={19} />
               </span>
