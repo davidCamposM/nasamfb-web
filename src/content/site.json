@@ -53,6 +53,22 @@
           {
             "titulo": "Filtros de aire",
             "alt": "Dos filtros de aire con malla metálica y juntas naranjas"
+          },
+          {
+            "titulo": "Filtro saturado frente a uno nuevo",
+            "alt": "Comparación entre un filtro saturado por el uso y un filtro nuevo"
+          },
+          {
+            "titulo": "Membranas filtrantes",
+            "alt": "Vista frontal de membranas filtrantes cilíndricas apiladas"
+          },
+          {
+            "titulo": "Filtros de aceite",
+            "alt": "Elemento filtrante de aceite junto a un filtro de aceite roscado"
+          },
+          {
+            "titulo": "Filtros para cada sistema",
+            "alt": "Surtido de filtros de aire, aceite y combustible de distintos formatos"
           }
         ]
       },
@@ -123,46 +139,109 @@
         "contactoTexto": "Elija la ubicación que le resulte más cercana y escríbanos directamente.",
         "items": [
           {
-            "pregunta": "¿Puedo consultar si no tengo un plano?",
-            "respuesta": "Sí. Puede partir de una muestra, de las medidas disponibles o del requerimiento de su equipo. En la conversación revisaremos qué información hace falta para abordar su necesidad."
+            "pregunta": "¿Pueden fabricar un filtro sin el plano de la pieza?",
+            "respuesta": "Sí. Basta una muestra física o las medidas del filtro. Con esa información diseñamos la pieza y la validamos con usted antes de fabricar.",
+            "icono": "regla"
           },
           {
-            "pregunta": "¿Dónde puedo contactar a NASAMFB?",
-            "respuesta": "Contamos con fabricación y atención en Concepción y un distribuidor logístico en Iquique. En Contacto encontrará a la persona correspondiente a cada ubicación."
+            "pregunta": "¿Fabrican equivalentes a filtros de marca?",
+            "respuesta": "Sí. Fabricamos el filtro a medida o como equivalente de la pieza original, según lo que requiera su equipo.",
+            "icono": "sello"
           },
           {
-            "pregunta": "¿Solo fabrican filtros a medida?",
-            "respuesta": "Además de la fabricación de filtros, apoyamos necesidades de hidráulica, mantención y optimización de equipos. También comercializamos filtros, lubricantes y repuestos de las marcas indicadas en este sitio."
+            "pregunta": "¿Qué información conviene tener al momento de cotizar?",
+            "respuesta": "El equipo en que se usará la pieza y un plano, una muestra o las medidas disponibles. Si falta algo, lo resolvemos juntos en la conversación.",
+            "icono": "lista"
+          },
+          {
+            "pregunta": "¿Solo fabrican filtros?",
+            "respuesta": "No. También fabricamos flexibles y accesorios hidráulicos, y comercializamos filtros, lubricantes y repuestos de las marcas indicadas en este sitio.",
+            "icono": "capas"
+          },
+          {
+            "pregunta": "¿Qué pasa después de la entrega?",
+            "respuesta": "Seguimos disponibles. Acompañamos la mantención y optimización de sus equipos para resolver las necesidades de filtración e hidráulica que surjan en la operación.",
+            "icono": "llave"
+          },
+          {
+            "pregunta": "¿Dónde atienden?",
+            "respuesta": "En Concepción, donde fabricamos y atendemos directamente, y en Iquique a través de nuestro distribuidor logístico. En Contacto está la persona de cada ciudad.",
+            "icono": "mapa"
           }
         ]
       }
     },
     "servicios": {
       "titulo": "Qué fabricamos",
-      "bajada": "Cada filtro se fabrica para su equipo: a medida, o como equivalente de la pieza original.",
-      "columnas": ["Sistema", "Qué asegura", "Cómo lo hacemos"],
+      "bajada": "Filtros industriales para cada sistema, junto con flexibles y accesorios hidráulicos para su operación.",
       "items": [
         {
-          "sistema": "Hidráulico",
-          "asegura": "Eficiencia y confiabilidad garantizada",
-          "como": "A medida o equivalente de marca"
+          "sistema": "Filtros para sistemas hidráulicos",
+          "asegura": "Eficiencia y confiabilidad garantizada para el circuito hidráulico de su equipo.",
+          "como": "A medida o equivalente de marca",
+          "icono": "gota"
         },
         {
-          "sistema": "Neumático",
-          "asegura": "Rendimiento y pureza asegurados",
-          "como": "A medida o equivalente de marca"
+          "sistema": "Filtros para sistemas neumáticos",
+          "asegura": "Rendimiento y pureza asegurados en las líneas de aire comprimido.",
+          "como": "A medida o equivalente de marca",
+          "icono": "viento"
         },
         {
-          "sistema": "Procesos industriales",
-          "asegura": "Pureza y eficiencia en cada etapa",
-          "como": "Según el proceso y el fluido"
+          "sistema": "Filtros para procesos industriales",
+          "asegura": "Pureza y eficiencia en cada etapa del proceso productivo.",
+          "como": "Según el proceso y el fluido",
+          "icono": "fabrica"
         },
         {
-          "sistema": "Proyectos especiales",
-          "asegura": "Soluciones personalizadas y eficientes",
-          "como": "Diseño desde cero junto a su equipo"
+          "sistema": "Filtros para proyectos especiales",
+          "asegura": "Soluciones personalizadas cuando la pieza no existe en catálogo.",
+          "como": "Diseño desde cero junto a su equipo",
+          "icono": "regla"
+        },
+        {
+          "sistema": "Flexibles hidráulicos",
+          "asegura": "Conducción confiable del fluido entre los componentes del sistema.",
+          "como": "Fabricación propia",
+          "icono": "flexible"
+        },
+        {
+          "sistema": "Accesorios hidráulicos",
+          "asegura": "Conexión y montaje seguros de los componentes hidráulicos.",
+          "como": "Fabricación propia",
+          "icono": "conexion"
         }
-      ]
+      ],
+      "galeria": {
+        "titulo": "Una muestra de nuestro trabajo",
+        "nota": "Imágenes de referencia de los tipos de solución que abordamos.",
+        "items": [
+          {
+            "titulo": "Filtro de acero perforado",
+            "alt": "Filtro cilíndrico de acero perforado sobre una mesa de trabajo"
+          },
+          {
+            "titulo": "Filtro de malla metálica",
+            "alt": "Filtro cilíndrico de malla metálica con terminaciones de acero"
+          },
+          {
+            "titulo": "Filtros cónicos",
+            "alt": "Filtros cónicos de acero inoxidable con bridas"
+          },
+          {
+            "titulo": "Separadores y cartuchos",
+            "alt": "Conjunto de separadores y cartuchos filtrantes de distintos tamaños"
+          },
+          {
+            "titulo": "Flexibles hidráulicos",
+            "alt": "Dos flexibles trenzados de acero con terminales roscados"
+          },
+          {
+            "titulo": "Accesorios hidráulicos",
+            "alt": "Acoples rápidos hidráulicos montados en un equipo"
+          }
+        ]
+      }
     },
     "marcas": {
       "titulo": "También comercializamos filtros, lubricantes y repuestos de",

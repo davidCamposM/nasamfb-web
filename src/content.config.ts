@@ -45,7 +45,13 @@ const site = defineCollection({
         otraPreguntaCta: z.string(),
         contactoTitulo: z.string(),
         contactoTexto: z.string(),
-        items: z.array(z.object({ pregunta: z.string(), respuesta: z.string() })),
+        items: z.array(
+          z.object({
+            pregunta: z.string(),
+            respuesta: z.string(),
+            icono: z.enum(['regla', 'sello', 'lista', 'capas', 'llave', 'mapa']),
+          }),
+        ),
         cierre: z.string(),
         cta: z.string(),
       }),
@@ -56,7 +62,7 @@ const site = defineCollection({
         siguiente: z.string(),
         cargando: z.string(),
         error: z.string(),
-        items: z.array(z.object({ titulo: z.string(), alt: z.string() })).length(3),
+        items: z.array(z.object({ titulo: z.string(), alt: z.string() })).length(7),
       }),
       foto: z.object({ alt: z.string() }),
       clientes: z.array(z.string()),
@@ -65,8 +71,19 @@ const site = defineCollection({
     servicios: z.object({
       titulo: z.string(),
       bajada: z.string(),
-      columnas: z.tuple([z.string(), z.string(), z.string()]),
-      items: z.array(z.object({ sistema: z.string(), asegura: z.string(), como: z.string() })),
+      items: z.array(
+        z.object({
+          sistema: z.string(),
+          asegura: z.string(),
+          como: z.string(),
+          icono: z.enum(['gota', 'viento', 'fabrica', 'regla', 'flexible', 'conexion']),
+        }),
+      ),
+      galeria: z.object({
+        titulo: z.string(),
+        nota: z.string(),
+        items: z.array(z.object({ titulo: z.string(), alt: z.string() })).length(6),
+      }),
     }),
     marcas: z.object({
       titulo: z.string(),

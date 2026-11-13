@@ -1,15 +1,9 @@
 ---
-import { Image, Picture } from 'astro:assets';
-import armada from '@/assets/clients/armada.png';
-import asmar from '@/assets/clients/asmar.png';
+import { Picture } from 'astro:assets';
 import planta from '@/assets/hero/planta-industrial.jpg';
 import { getSite } from '@/lib/site';
 
 const { hero, nosotros } = await getSite();
-const clientes = [
-  { nombre: nosotros.clientes[0], logo: armada },
-  { nombre: nosotros.clientes[1], logo: asmar },
-];
 ---
 
 <section class="hero relative isolate overflow-clip bg-ink text-white">
@@ -47,19 +41,15 @@ const clientes = [
       </a>
     </div>
 
-    <div class="intro mt-12 flex flex-col items-center gap-3 md:mt-14" style="--i: 5">
+    <div class="intro mt-12 flex flex-col items-center gap-4 md:mt-14" style="--i: 5">
       <span aria-hidden="true" class="h-8 w-px bg-white/40"></span>
-      <p class="text-sm text-white/75">{hero.respaldo}</p>
-      <ul class="mt-2 grid grid-cols-2 gap-4 sm:gap-8">
-        {clientes.map((cliente) => (
-          <li class="flex min-w-0 flex-col items-center gap-3">
-            <span class="flex min-h-12 items-end text-center font-serif text-xl leading-tight sm:text-2xl md:text-[1.75rem]">
-              {cliente.nombre}
-            </span>
-            <span class="flex h-28 w-36 items-center justify-center rounded-xl bg-white p-3 sm:w-40" aria-hidden="true">
-              <Image src={cliente.logo} alt="" width={128} height={96} fit="contain" class="h-full w-full object-contain" />
-            </span>
-          </li>
+      <p class="text-sm tracking-wide text-white/75">{hero.respaldo}</p>
+      <ul class="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
+        {nosotros.clientes.map((nombre, i) => (
+          <>
+            {i > 0 && <li aria-hidden="true" class="hidden size-1.5 rounded-full bg-[#5cc8ea]/80 sm:block" />}
+            <li class="font-serif text-[1.6rem] italic leading-tight text-white sm:text-3xl">{nombre}</li>
+          </>
         ))}
       </ul>
     </div>
