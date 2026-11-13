@@ -7,6 +7,12 @@ import filtroMalla from '@/assets/products/filtro-malla-metalica.jpg';
 import conicos from '@/assets/products/filtros-conicos.jpg';
 import flexibles from '@/assets/products/flexibles-hidraulicos.jpg';
 import separadores from '@/assets/products/separadores-aire-aceite.jpg';
+import fondoAccesorios from '@/assets/servicios/accesorios-hidraulicos.jpg';
+import fondoFlexibles from '@/assets/servicios/flexibles-hidraulicos.jpg';
+import fondoProcesos from '@/assets/servicios/procesos-industriales.jpg';
+import fondoProyectos from '@/assets/servicios/proyectos-especiales.jpg';
+import fondoHidraulico from '@/assets/servicios/sistema-hidraulico.jpg';
+import fondoNeumatico from '@/assets/servicios/sistema-neumatico.jpg';
 import { getSite } from '@/lib/site';
 
 const { servicios } = await getSite();
@@ -17,6 +23,14 @@ const iconosServicio = {
   regla: PencilRuler,
   flexible: Cable,
   conexion: Unplug,
+};
+const fondosServicio = {
+  gota: fondoHidraulico,
+  viento: fondoNeumatico,
+  fabrica: fondoProcesos,
+  regla: fondoProyectos,
+  flexible: fondoFlexibles,
+  conexion: fondoAccesorios,
 };
 const fotos = [filtroAcero, filtroMalla, conicos, separadores, flexibles, accesorios];
 const productos = servicios.galeria.items.map((item, i) => ({ ...item, foto: fotos[i] }));
@@ -35,34 +49,46 @@ const productos = servicios.galeria.items.map((item, i) => ({ ...item, foto: fot
         const propia = item.como === 'Fabricación propia';
         return (
           <li class="reveal">
-            <article class="group relative flex h-full flex-col overflow-clip rounded-2xl border border-border bg-surface p-7 transition-all duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:border-brand/50 hover:shadow-xl hover:shadow-ink/10 md:p-8">
+            <article class="service-card group relative isolate flex h-full min-h-[23rem] flex-col overflow-clip rounded-2xl bg-ink p-7 text-white ring-1 ring-ink/10 transition-[translate,box-shadow] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:shadow-2xl hover:shadow-ink/25 md:p-8">
+              <Image
+                src={fondosServicio[item.icono]}
+                alt=""
+                widths={[400, 612]}
+                sizes="(min-width: 1024px) 26rem, (min-width: 640px) 50vw, 100vw"
+                loading="lazy"
+                decoding="async"
+                class="service-card__image absolute inset-0 -z-20 h-full w-full object-cover"
+              />
+              <span aria-hidden="true" class="service-card__shade absolute inset-0 -z-10" />
               <span
                 aria-hidden="true"
-                class="absolute right-6 top-5 font-serif text-5xl italic leading-none text-steel/25 transition-colors duration-500 group-hover:text-brand/35"
+                class="absolute right-6 top-5 font-serif text-5xl italic leading-none text-white/45 transition-colors duration-500 group-hover:text-[#7fd3ee]"
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
               <span
                 aria-hidden="true"
-                class="mb-6 flex size-14 items-center justify-center rounded-2xl bg-brand/10 text-accent ring-1 ring-brand/20 transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:bg-accent group-hover:text-on-accent group-hover:ring-accent"
+                class="flex size-14 items-center justify-center rounded-2xl bg-white/12 text-white ring-1 ring-white/30 backdrop-blur-md transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:bg-[#7fd3ee] group-hover:text-ink group-hover:ring-[#7fd3ee]"
               >
                 <Icono size={26} strokeWidth={1.6} className="transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6" />
               </span>
-              <h3 class="max-w-[16ch] text-xl font-semibold leading-snug tracking-tight md:text-[1.35rem]">
-                {item.sistema}
-              </h3>
-              <p class="mt-3 leading-relaxed text-muted">{item.asegura}</p>
-              <p class="mt-auto pt-7">
-                <span
-                  class:list={[
-                    'inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-medium',
-                    propia ? 'bg-brand/10 text-accent ring-1 ring-brand/25' : 'text-muted ring-1 ring-border',
-                  ]}
-                >
-                  {propia && <span aria-hidden="true" class="size-1.5 rounded-full bg-accent" />}
-                  {item.como}
-                </span>
-              </p>
+              <div class="mt-auto pt-16">
+                <h3 class="max-w-[16ch] text-xl font-semibold leading-snug tracking-tight md:text-[1.35rem]">
+                  {item.sistema}
+                </h3>
+                <p class="mt-3 leading-relaxed text-white/80">{item.asegura}</p>
+                <p class="mt-6">
+                  <span
+                    class:list={[
+                      'inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-medium backdrop-blur-md',
+                      propia ? 'bg-[#7fd3ee]/20 text-[#bdeaf8] ring-1 ring-[#7fd3ee]/45' : 'bg-white/8 text-white/90 ring-1 ring-white/30',
+                    ]}
+                  >
+                    {propia && <span aria-hidden="true" class="size-1.5 rounded-full bg-[#7fd3ee]" />}
+                    {item.como}
+                  </span>
+                </p>
+              </div>
             </article>
           </li>
         );
