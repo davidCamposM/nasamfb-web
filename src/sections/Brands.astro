@@ -1,7 +1,31 @@
 ---
+import { Image } from 'astro:assets';
+import baldwin from '@/assets/marcas/baldwin-filters.png';
+import cummins from '@/assets/marcas/cummins.svg';
+import donaldson from '@/assets/marcas/donaldson.png';
+import fgWilson from '@/assets/marcas/fg-wilson.png';
+import fleetguard from '@/assets/marcas/fleetguard.png';
+import komatsu from '@/assets/marcas/komatsu.svg';
+import mannFilter from '@/assets/marcas/mann-filter.png';
+import mobil from '@/assets/marcas/mobil.svg';
+import perkins from '@/assets/marcas/perkins.svg';
+import valvoline from '@/assets/marcas/valvoline.svg';
 import { getSite } from '@/lib/site';
 
 const { marcas } = await getSite();
+const logos: Record<string, ImageMetadata> = {
+  Donaldson: donaldson,
+  Baldwin: baldwin,
+  Perkins: perkins,
+  Cummins: cummins,
+  'FG Wilson': fgWilson,
+  Fleetguard: fleetguard,
+  Mobil: mobil,
+  'Mann Filter': mannFilter,
+  Valvoline: valvoline,
+  Komatsu: komatsu,
+};
+const items = marcas.items.map((nombre) => ({ nombre, logo: logos[nombre] }));
 ---
 
 <section aria-labelledby="marcas-titulo" class="border-t border-border py-14 md:py-16">
@@ -10,18 +34,21 @@ const { marcas } = await getSite();
   </h2>
   <!-- Lista accesible -->
   <ul class="sr-only">
-    {marcas.items.map((m) => <li>{m}</li>)}
+    {items.map((m) => <li>{m.nombre}</li>)}
   </ul>
   <!-- Cinta visual -->
   <div class="marquee overflow-hidden" aria-hidden="true">
     <div class="marquee-track flex w-max">
       {
         [0, 1].map(() => (
-          <ul class="flex shrink-0 items-center">
-            {marcas.items.map((m) => (
-              <li class="flex items-center px-8 text-3xl font-semibold tracking-tight whitespace-nowrap text-steel md:text-4xl">
-                {m}
-                <span class="ml-16 inline-block size-2 rounded-full bg-brand" />
+          <ul class="flex shrink-0 items-center gap-5 pr-5">
+            {items.map((m) => (
+              <li class="flex h-20 w-44 items-center justify-center rounded-xl bg-white ring-1 ring-border">
+                {m.logo ? (
+                  <Image src={m.logo} alt="" class="max-h-10 max-w-32 w-auto object-contain" />
+                ) : (
+                  <span class="text-2xl font-semibold tracking-tight text-steel">{m.nombre}</span>
+                )}
               </li>
             ))}
           </ul>
