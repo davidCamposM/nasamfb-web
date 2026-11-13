@@ -1,13 +1,74 @@
 ---
-import { getSite } from '@/lib/site';
+import { ArrowUp } from 'lucide-react';
+import IconWhatsApp from '@/components/IconWhatsApp.astro';
+import Logo from '@/components/Logo.astro';
+import { getSite, whatsapp } from '@/lib/site';
 
 const site = await getSite();
+const { footer, contacto, navegacion } = site;
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-ink text-sm text-[#a9b8c5]">
-  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-white/10 px-5 py-8 md:px-10">
-    <p>© {year} {site.nombre}</p>
-    <p>{site.nosotros.presencia.map((p) => p.ciudad).join(' y ')}, Chile</p>
+<footer class="bg-ink text-[#a9b8c5]">
+  <div class="mx-auto max-w-7xl px-5 md:px-10">
+    <div class="grid gap-12 py-14 md:grid-cols-[1.4fr_0.8fr_1.2fr] md:gap-10 md:py-16">
+      <div>
+        <a href="/" class="inline-block" aria-label={`${site.nombre}, ir al inicio`}>
+          <Logo alt="" loading="lazy" class="brightness-0 invert" />
+        </a>
+        <p class="mt-6 max-w-[38ch] leading-relaxed">{footer.descripcion}</p>
+      </div>
+
+      <nav aria-labelledby="footer-secciones">
+        <h2 id="footer-secciones" class="text-sm font-semibold tracking-wide text-white">{footer.navegacionTitulo}</h2>
+        <ul class="mt-4 flex flex-col gap-2.5">
+          {
+            navegacion.map((link) => (
+              <li>
+                <a href={link.href} class="link-line pb-0.5 hover:text-white">
+                  {link.etiqueta}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="text-sm font-semibold tracking-wide text-white">{footer.contactoTitulo}</h2>
+        <ul class="mt-4 flex flex-col gap-4">
+          {
+            contacto.personas.map((persona) => (
+              <li>
+                <p class="text-white">
+                  {persona.nombre} <span class="text-[#a9b8c5]">· {persona.ciudad}</span>
+                </p>
+                <a
+                  href={whatsapp(persona.telefono, contacto.mensajeWhatsapp)}
+                  target="_blank"
+                  rel="noopener"
+                  class="link-line mt-1 inline-flex items-center gap-2 pb-0.5 tabular-nums hover:text-white"
+                  aria-label={`${contacto.whatsapp} a ${persona.nombre}, ${persona.telefono}`}
+                >
+                  <IconWhatsApp size={15} class="text-[#25d366]" />
+                  {persona.telefono}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-7 text-sm">
+      <p>
+        © {year} {site.nombre}. {footer.derechos}
+      </p>
+      <p>{site.nosotros.presencia.map((lugar) => lugar.ciudad).join(' · ')}, Chile</p>
+      <a href="#" class="inline-flex items-center gap-2 hover:text-white">
+        {footer.volverArriba}
+        <ArrowUp size={16} strokeWidth={1.7} aria-hidden="true" />
+      </a>
+    </div>
   </div>
 </footer>

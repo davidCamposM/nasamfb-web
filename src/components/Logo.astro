@@ -6,9 +6,10 @@ import { cn } from '@/lib/utils';
 interface Props {
   class?: string;
   alt?: string;
+  loading?: 'eager' | 'lazy';
 }
 
-const { class: className, alt = 'NASAMFB Servicios Logísticos' } = Astro.props;
+const { class: className, alt = 'NASAMFB Servicios Logísticos', loading = 'eager' } = Astro.props;
 ---
 
 <Image
@@ -16,6 +17,6 @@ const { class: className, alt = 'NASAMFB Servicios Logísticos' } = Astro.props;
   alt={alt}
   height={56}
   densities={[1, 2]}
-  loading="eager"
+  loading={loading}
   class={cn('h-11 w-auto md:h-14 dark:brightness-0 dark:invert', className)}
 />

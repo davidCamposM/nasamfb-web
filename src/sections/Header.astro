@@ -1,12 +1,9 @@
 ---
 import Logo from '@/components/Logo.astro';
 import ThemeToggle from '@/components/ThemeToggle.astro';
+import { getSite } from '@/lib/site';
 
-const links = [
-  { href: '#nosotros', label: 'Nosotros' },
-  { href: '#servicios', label: 'Servicios' },
-  { href: '#contacto', label: 'Contacto' },
-];
+const { navegacion: links } = await getSite();
 ---
 
 <header class="site-header sticky top-0 z-40 border-b border-transparent">
@@ -20,7 +17,7 @@ const links = [
           links.map((l, i) => (
             <li class="intro" style={`--i: ${i + 1}`}>
               <a href={l.href} class="link-line pb-0.5">
-                {l.label}
+                {l.etiqueta}
               </a>
             </li>
           ))
