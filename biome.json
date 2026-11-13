@@ -5,7 +5,16 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!dist", "!.astro", "!node_modules", "!test-results", "!playwright-report", "!**/*.md"]
+    "includes": [
+      "**",
+      "!dist",
+      "!.astro",
+      "!node_modules",
+      "!test-results",
+      "!playwright-report",
+      "!**/*.md",
+      "!src/assets/**/*.svg"
+    ]
   },
   "formatter": {
     "enabled": true,

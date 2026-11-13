@@ -28,5 +28,9 @@ tmp/
 *.md
 docs/
 
+# Contexto de herramientas de IA
+.claude/
+.mcp.json
+
 # Archivo fuente conservado localmente; la web usa la versión optimizada
 src/assets/products/tecnico-repuestos-industriales.avif
