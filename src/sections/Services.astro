@@ -1,7 +1,16 @@
 ---
+import { Image } from 'astro:assets';
+import accesorios from '@/assets/products/accesorios-hidraulicos.jpg';
+import filtroAcero from '@/assets/products/filtro-acero-perforado.jpg';
+import filtroMalla from '@/assets/products/filtro-malla-metalica.jpg';
+import conicos from '@/assets/products/filtros-conicos.jpg';
+import flexibles from '@/assets/products/flexibles-hidraulicos.jpg';
+import separadores from '@/assets/products/separadores-aire-aceite.jpg';
 import { getSite } from '@/lib/site';
 
 const { servicios } = await getSite();
+const fotos = [filtroAcero, filtroMalla, conicos, separadores, flexibles, accesorios];
+const productos = servicios.galeria.items.map((item, i) => ({ ...item, foto: fotos[i] }));
 ---
 
 <section id="servicios" class="mx-auto max-w-7xl scroll-mt-20 px-5 py-20 md:px-10 md:py-28">
@@ -44,4 +53,29 @@ const { servicios } = await getSite();
       </tbody>
     </table>
   </div>
+
+  <div class="reveal mt-16 flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2 md:mt-20">
+    <h3 class="display text-2xl font-semibold tracking-tight md:text-3xl">{servicios.galeria.titulo}</h3>
+    <p class="text-sm text-muted">{servicios.galeria.nota}</p>
+  </div>
+  <ul class="mt-8 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-3">
+    {
+      productos.map((producto) => (
+        <li class="reveal">
+          <figure class="group m-0">
+            <div class="overflow-clip rounded-lg border border-border bg-surface">
+              <Image
+                src={producto.foto}
+                alt={producto.alt}
+                width={720}
+                class="aspect-[4/5] w-full object-cover transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+            </div>
+            <figcaption class="mt-3 text-sm font-medium text-muted">{producto.titulo}</figcaption>
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
 </section>
