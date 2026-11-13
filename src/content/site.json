@@ -258,8 +258,20 @@
         "Komatsu"
       ]
     },
+    "navegacion": [
+      { "href": "#nosotros", "etiqueta": "Nosotros" },
+      { "href": "#servicios", "etiqueta": "Servicios" },
+      { "href": "#contacto", "etiqueta": "Contacto" }
+    ],
     "contacto": {
       "titulo": "Cuéntenos qué equipo necesita filtrar.",
+      "bajada": "Escríbanos por WhatsApp o llámenos directamente. Atendemos desde Concepción y, a través de nuestro distribuidor logístico, desde Iquique.",
+      "prepararTitulo": "Para cotizar, tenga a mano",
+      "mensajeWhatsapp": "Hola, quisiera cotizar una solución de filtración para mi equipo.",
+      "whatsapp": "Escribir por WhatsApp",
+      "whatsappBoton": "WhatsApp",
+      "llamar": "Llamar",
+      "correo": "Correo",
       "personas": [
         {
           "nombre": "Samuel Cifuentes Gajardo",
@@ -272,6 +284,13 @@
           "telefono": "+56 9 9675 1193"
         }
       ]
+    },
+    "footer": {
+      "descripcion": "Filtración e hidráulica industrial a medida. Fabricación de filtros, flexibles y accesorios hidráulicos.",
+      "navegacionTitulo": "Secciones",
+      "contactoTitulo": "Contacto",
+      "derechos": "Todos los derechos reservados.",
+      "volverArriba": "Volver arriba"
     }
   }
 }
