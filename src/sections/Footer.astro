@@ -1,5 +1,5 @@
 ---
-import { ArrowUp } from 'lucide-react';
+import { Icon } from 'astro-icon/components';
 import IconWhatsApp from '@/components/IconWhatsApp.astro';
 import Logo from '@/components/Logo.astro';
 import { getSite, whatsapp } from '@/lib/site';
@@ -67,7 +67,7 @@ const year = new Date().getFullYear();
       <p>{site.nosotros.presencia.map((lugar) => lugar.ciudad).join(' · ')}, Chile</p>
       <a href="#" class="inline-flex items-center gap-2 hover:text-white">
         {footer.volverArriba}
-        <ArrowUp size={16} strokeWidth={1.7} aria-hidden="true" />
+        <Icon name="ph:arrow-up" size={16} aria-hidden="true" />
       </a>
     </div>
   </div>

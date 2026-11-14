@@ -1,9 +1,9 @@
 ---
 import { Picture } from 'astro:assets';
-import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
+import { Icon } from 'astro-icon/components';
 import fotoCiudad from '@/assets/hero/ciudad-cordillera-noche.jpg';
 import IconWhatsApp from '@/components/IconWhatsApp.astro';
-import { getSite, telefonoHref, whatsapp } from '@/lib/site';
+import { getSite, whatsapp } from '@/lib/site';
 
 const { contacto, nosotros } = await getSite();
 const roles = new Map(nosotros.presencia.map((lugar) => [lugar.ciudad, lugar.detalle]));
@@ -28,17 +28,6 @@ const roles = new Map(nosotros.presencia.map((lugar) => [lugar.ciudad, lugar.det
       <h2 id="contacto-titulo" class="display max-w-[14ch] text-h1">{contacto.titulo}</h2>
       <p class="mt-7 max-w-[44ch] text-lead leading-relaxed text-white/80">{contacto.bajada}</p>
 
-      <div class="mt-10 border-t border-white/15 pt-7">
-        <p class="text-sm font-medium text-white/75">{contacto.prepararTitulo}</p>
-        <ul class="mt-4 flex flex-wrap gap-2" aria-label={contacto.prepararTitulo}>
-          {
-            nosotros.consultas.insumos.map((insumo) => (
-              <li class="rounded-full border border-white/25 px-4 py-2 text-sm font-medium">{insumo}</li>
-            ))
-          }
-        </ul>
-      </div>
-
       {
         contacto.email && (
           <a
@@ -46,49 +35,37 @@ const roles = new Map(nosotros.presencia.map((lugar) => [lugar.ciudad, lugar.det
             class="link-line mt-8 inline-flex items-center gap-2.5 text-lg text-[#7fd3ee]"
             aria-label={`${contacto.correo}: ${contacto.email}`}
           >
-            <Mail size={19} strokeWidth={1.6} aria-hidden="true" />
+            <Icon name="correo" size={20} aria-hidden="true" class="icon-duo icon-duo--claro" />
             {contacto.email}
           </a>
         )
       }
     </div>
 
-    <ul class="grid gap-5 sm:grid-cols-2 lg:gap-6">
+    <ul class="grid content-start gap-4 sm:grid-cols-2 lg:gap-5">
       {
         contacto.personas.map((persona) => (
           <li class="reveal">
-            <article class="contact-card flex h-full flex-col rounded-2xl p-7 md:p-8">
-              <p class="flex items-center gap-2 text-sm font-semibold tracking-wide text-[#7fd3ee]">
-                <MapPin size={16} strokeWidth={1.8} aria-hidden="true" />
+            <article class="contact-card flex h-full flex-col rounded-2xl p-6">
+              <p class="flex items-center gap-1.5 text-sm font-semibold text-[#7fd3ee]">
+                <Icon name="ubicacion" size={16} aria-hidden="true" class="icon-duo icon-duo--claro" />
                 {persona.ciudad}
               </p>
-              {roles.get(persona.ciudad) && <p class="mt-1 text-sm text-white/70">{roles.get(persona.ciudad)}</p>}
-              <h3 class="mt-7 text-2xl font-semibold leading-tight tracking-tight">{persona.nombre}</h3>
-              <p class="mt-2 text-lg tabular-nums text-white/85">{persona.telefono}</p>
+              {roles.get(persona.ciudad) && <p class="mt-0.5 text-sm text-white/60">{roles.get(persona.ciudad)}</p>}
+              <h3 class="mt-4 text-xl font-semibold leading-snug tracking-tight">{persona.nombre}</h3>
+              <p class="mt-1 tabular-nums text-white/75">{persona.telefono}</p>
 
-              <div class="mt-auto flex flex-col gap-3 pt-9">
+              <div class="mt-auto pt-6">
                 <a
                   href={whatsapp(persona.telefono, contacto.mensajeWhatsapp)}
                   target="_blank"
                   rel="noopener"
-                  class="contact-card__whatsapp btn w-full justify-between bg-[#25d366] text-ink hover:bg-white"
+                  class="contact-wa"
                   aria-label={`${contacto.whatsapp} a ${persona.nombre}, ${persona.ciudad}`}
                 >
-                  <span class="inline-flex items-center gap-2.5">
-                    <IconWhatsApp size={20} />
-                    {contacto.whatsappBoton}
-                  </span>
-                  <ArrowUpRight size={18} strokeWidth={1.8} aria-hidden="true" />
-                </a>
-                <a
-                  href={telefonoHref(persona.telefono)}
-                  class="btn w-full justify-between border-[1.5px] border-white/40 text-white hover:border-white hover:bg-white hover:text-ink"
-                  aria-label={`${contacto.llamar} a ${persona.nombre}, ${persona.telefono}`}
-                >
-                  <span class="inline-flex items-center gap-2.5">
-                    <Phone size={18} strokeWidth={1.7} aria-hidden="true" />
-                    {contacto.llamar}
-                  </span>
+                  <span class="contact-wa__chip" aria-hidden="true"><IconWhatsApp size={19} /></span>
+                  <span class="contact-wa__label">{contacto.whatsappBoton}</span>
+                  <span class="contact-wa__arrow" aria-hidden="true"><Icon name="ph:arrow-up-right" size={15} /></span>
                 </a>
               </div>
             </article>
