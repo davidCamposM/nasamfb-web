@@ -27,19 +27,6 @@ const roles = new Map(nosotros.presencia.map((lugar) => [lugar.ciudad, lugar.det
     <div class="reveal lg:pt-2">
       <h2 id="contacto-titulo" class="display max-w-[14ch] text-h1">{contacto.titulo}</h2>
       <p class="mt-7 max-w-[44ch] text-lead leading-relaxed text-white/80">{contacto.bajada}</p>
-
-      {
-        contacto.email && (
-          <a
-            href={`mailto:${contacto.email}`}
-            class="link-line mt-8 inline-flex items-center gap-2.5 text-lg text-[#7fd3ee]"
-            aria-label={`${contacto.correo}: ${contacto.email}`}
-          >
-            <Icon name="correo" size={20} aria-hidden="true" class="icon-duo icon-duo--claro" />
-            {contacto.email}
-          </a>
-        )
-      }
     </div>
 
     <ul class="grid content-start gap-4 sm:grid-cols-2 lg:gap-5">
@@ -54,6 +41,16 @@ const roles = new Map(nosotros.presencia.map((lugar) => [lugar.ciudad, lugar.det
               {roles.get(persona.ciudad) && <p class="mt-0.5 text-sm text-white/60">{roles.get(persona.ciudad)}</p>}
               <h3 class="mt-4 text-xl font-semibold leading-snug tracking-tight">{persona.nombre}</h3>
               <p class="mt-1 tabular-nums text-white/75">{persona.telefono}</p>
+              {contacto.email && (
+                <a
+                  href={`mailto:${contacto.email}`}
+                  class="link-line mt-1.5 inline-flex w-fit items-center gap-2 pb-0.5 text-sm text-[#7fd3ee] hover:text-white"
+                  aria-label={`${contacto.correo}: ${contacto.email}`}
+                >
+                  <Icon name="gmail" size={15} aria-hidden="true" />
+                  {contacto.email}
+                </a>
+              )}
 
               <div class="mt-auto pt-6">
                 <a

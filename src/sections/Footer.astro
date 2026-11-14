@@ -53,6 +53,16 @@ const year = new Date().getFullYear();
                   <IconWhatsApp size={15} class="text-[#25d366]" />
                   {persona.telefono}
                 </a>
+                {contacto.email && (
+                  <a
+                    href={`mailto:${contacto.email}`}
+                    class="link-line mt-1 flex w-fit items-center gap-2 pb-0.5 hover:text-white"
+                    aria-label={`${contacto.correo}: ${contacto.email}`}
+                  >
+                    <Icon name="gmail" size={14} aria-hidden="true" />
+                    {contacto.email}
+                  </a>
+                )}
               </li>
             ))
           }
