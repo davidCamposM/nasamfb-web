@@ -1,56 +1,80 @@
 ---
 import { Image, Picture } from 'astro:assets';
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  BadgeCheck,
-  ClipboardList,
-  DraftingCompass,
-  Factory,
-  Gauge,
-  Layers,
-  MapPin,
-  Ruler,
-  ScanSearch,
-  SlidersHorizontal,
-  Truck,
-  Wrench,
-} from 'lucide-react';
+import { Icon } from 'astro-icon/components';
+import cartuchosLiquidos from '@/assets/products/cartuchos-liquidos.jpg';
 import cartuchos from '@/assets/products/cartuchos-plisados.jpg';
 import elementos from '@/assets/products/elementos-filtrantes.jpg';
 import filtroSaturado from '@/assets/products/filtro-saturado-vs-nuevo.jpg';
 import aceite from '@/assets/products/filtros-aceite.jpg';
 import aire from '@/assets/products/filtros-aire.jpg';
-import fotoMantencion from '@/assets/products/mantencion-filtro-industrial-mejorada.png';
+import recambios from '@/assets/products/filtros-combustible-aceite-cabina.jpg';
+import plisadosCirculares from '@/assets/products/filtros-plisados-circulares.jpg';
+import fotoProceso from '@/assets/products/mano-filtro-combustible.jpg';
 import membranas from '@/assets/products/membranas-filtrantes.jpg';
 import fotoReunion from '@/assets/products/reunion-sala-oficina.jpg';
 import surtido from '@/assets/products/surtido-filtros.jpg';
-import fotoProceso from '@/assets/products/tecnico-filtro-industrial.jpg';
-import tecnico from '@/assets/products/tecnico-repuestos-industriales-mejorado.png';
+import tecnico from '@/assets/products/tecnico-filtro-aceite.jpg';
 import IconWhatsApp from '@/components/IconWhatsApp.astro';
+import SectionTitle from '@/components/SectionTitle.astro';
+import { partes } from '@/lib/destacar';
 import { getSite, whatsapp } from '@/lib/site';
 
 const { nosotros, contacto } = await getSite();
-// El manifiesto se compone por frases: cada una ocupa su propio bloque con líneas equilibradas.
+// El manifiesto se compone por frases (cada una en su bloque) y palabras (cada una se ilumina al scroll).
+// Una palabra puede mezclar partes destacadas y no destacadas: "**detiene**," → "detiene" + ",".
+interface Palabra {
+  piezas: ReturnType<typeof partes>;
+  i: number;
+}
 let indicePalabra = 0;
-const frases = (nosotros.manifiesto.match(/[^.!?]+[.!?]+/g) ?? [nosotros.manifiesto]).map((frase) =>
-  frase
-    .trim()
-    .split(' ')
-    .map((texto) => ({ texto, i: indicePalabra++ })),
-);
-const iconos = { compas: DraftingCompass, llave: Wrench, camion: Truck };
-const iconosProceso = [ScanSearch, SlidersHorizontal, Factory, Gauge];
+const frases = (nosotros.manifiesto.match(/[^.!?]+[.!?]+/g) ?? [nosotros.manifiesto]).map((frase) => {
+  const palabras: Palabra[] = [];
+  let nueva = true;
+  for (const parte of partes(frase.trim())) {
+    parte.texto.split(' ').forEach((trozo, k) => {
+      if (k > 0) nueva = true;
+      if (trozo === '') return;
+      if (nueva) {
+        palabras.push({ piezas: [], i: indicePalabra++ });
+        nueva = false;
+      }
+      palabras[palabras.length - 1].piezas.push({ texto: trozo, destacado: parte.destacado });
+    });
+  }
+  return palabras;
+});
+// Íconos de contenido en duotono desde src/icons/; flechas e interfaz en Phosphor regular.
+const iconos = { compas: 'diseno-medida', llave: 'mantencion', camion: 'logistica' };
+const iconosProceso = ['inspeccion', 'ajuste', 'fabrica', 'rendimiento'];
+// "Para comenzar, puede compartir": un plano, una muestra, las medidas (mismo orden que nosotros.consultas.insumos).
+const iconosInsumo = ['plano', 'muestra', 'medidas'];
 const iconosPregunta = {
-  regla: Ruler,
-  sello: BadgeCheck,
-  lista: ClipboardList,
-  capas: Layers,
-  llave: Wrench,
-  mapa: MapPin,
+  regla: 'medidas',
+  sello: 'calidad',
+  lista: 'cotizar',
+  capas: 'capas',
+  llave: 'mantencion',
+  mapa: 'ubicacion',
 };
-const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite, surtido];
+const productos = [
+  cartuchos,
+  elementos,
+  aire,
+  filtroSaturado,
+  membranas,
+  aceite,
+  surtido,
+  cartuchosLiquidos,
+  plisadosCirculares,
+  recambios,
+];
+// Proporción del marco: 3:2. Las fotos más anchas o más altas se centran y funden sus bordes con el relleno.
+const formato = (foto: ImageMetadata) => {
+  const proporcion = foto.width / foto.height;
+  if (proporcion > 1.65) return 'is-ancha';
+  if (proporcion < 1.35) return 'is-alta';
+  return '';
+};
 ---
 
 <section id="nosotros" class="scroll-mt-20 border-y border-border bg-surface">
@@ -64,7 +88,9 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
             <span class="manifesto__frase">
               {frase.map((palabra) => (
                 <span class="word" style={`--i: ${palabra.i}`}>
-                  {palabra.texto}{' '}
+                  {palabra.piezas.map((pieza) =>
+                    pieza.destacado ? <em class="manifesto__enfasis">{pieza.texto}</em> : pieza.texto,
+                  )}{' '}
                 </span>
               ))}
             </span>
@@ -72,9 +98,43 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
         }
       </h2>
 
-      <div class="mx-auto mt-10 flex max-w-[56ch] flex-col gap-5 lg:mx-0">
-        {nosotros.parrafos.map((p) => <p class="reveal text-lead leading-relaxed text-muted">{p}</p>)}
-      </div>
+      <p class="reveal mx-auto mt-8 max-w-[40ch] text-lead leading-relaxed text-fg lg:mx-0">
+        {partes(nosotros.intro).map((parte) => (parte.destacado ? <mark class="hl">{parte.texto}</mark> : parte.texto))}
+      </p>
+
+      <dl class="about-facts reveal mx-auto mt-10 max-w-[34rem] text-left lg:mx-0">
+        <div class="about-facts__row">
+          <dt>{nosotros.ficha.como.etiqueta}</dt>
+          <dd>
+            {partes(nosotros.ficha.como.valor).map((parte) =>
+              parte.destacado ? <mark class="hl">{parte.texto}</mark> : parte.texto,
+            )}
+          </dd>
+        </div>
+        <div class="about-facts__row">
+          <dt>{nosotros.ficha.donde}</dt>
+          <dd>
+            <ul class="flex flex-col gap-1">
+              {nosotros.presencia.map((lugar) => (
+                <li>
+                  <span class="font-semibold">{lugar.ciudad}</span>
+                  <span class="text-muted"> · {lugar.detalle}</span>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+        <div class="about-facts__row">
+          <dt>{nosotros.ficha.respaldo}</dt>
+          <dd>
+            <ul class="flex flex-col gap-0.5">
+              {nosotros.clientes.map((nombre) => (
+                <li class="font-serif text-[1.4rem] italic leading-snug">{nombre}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      </dl>
     </div>
 
     <figure class="filter-story m-0 w-full justify-self-center lg:col-span-6 xl:col-span-7">
@@ -83,7 +143,7 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
         alt={nosotros.foto.alt}
         formats={['avif', 'webp']}
         fallbackFormat="jpg"
-        widths={[480, 720, 960, 1440]}
+        widths={[480, 720, 960, 1539]}
         sizes="(min-width: 1280px) 44rem, (min-width: 1024px) 48vw, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 2.5rem)"
         class="filter-story__image"
       />
@@ -101,7 +161,7 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
               aria-hidden="true"
               class="mb-5 flex size-14 items-center justify-center rounded-2xl bg-brand/10 text-accent ring-1 ring-brand/20 transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-1 group-hover:bg-accent group-hover:text-on-accent group-hover:ring-accent"
             >
-              <Icono size={26} strokeWidth={1.6} className="transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6" />
+              <Icon name={Icono} size={28} aria-hidden="true" class="icon-duo transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6" />
             </span>
             <h3 class="text-xl font-semibold tracking-tight">{pilar.titulo}</h3>
             <p class="mx-auto mt-2 max-w-[30ch] leading-relaxed text-muted">{pilar.texto}</p>
@@ -111,20 +171,20 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
     }
   </ul>
 
-  <section class="about-process mx-auto mt-24 grid max-w-6xl gap-10 px-5 md:mt-32 md:px-10 lg:grid-cols-2 lg:gap-16 xl:grid-cols-[1.5fr_1fr] xl:gap-12" aria-labelledby="proceso-titulo">
+  <section class="about-process mx-auto mt-24 grid max-w-6xl gap-10 px-5 md:mt-32 md:px-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14 xl:grid-cols-[2fr_1fr] xl:gap-14" aria-labelledby="proceso-titulo">
     <div class="about-process__intro lg:sticky lg:top-28 lg:self-start">
-      <h2 id="proceso-titulo" class="display text-h2">{nosotros.proceso.titulo}</h2>
+      <SectionTitle antetitulo={nosotros.proceso.antetitulo} titulo={nosotros.proceso.titulo} id="proceso-titulo" />
       <p class="mt-6 max-w-[45ch] text-lg leading-relaxed text-muted">{nosotros.proceso.descripcion}</p>
-      <figure class="process-visual mt-10 overflow-hidden rounded-2xl bg-bg">
+      <figure class="process-visual mt-10">
         <Picture
           src={fotoProceso}
           alt={nosotros.proceso.fotoAlt}
           formats={['avif', 'webp']}
-          widths={[360, 640, 880]}
-          sizes="(min-width: 1280px) 39rem, (min-width: 1152px) 32rem, (min-width: 1024px) 45vw, calc(100vw - 2.5rem)"
+          widths={[480, 800, 1100, 1400]}
+          sizes="(min-width: 1280px) 46rem, (min-width: 1024px) 56vw, calc(100vw - 2.5rem)"
           loading="lazy"
           decoding="async"
-          class="block aspect-[3/2] w-full object-cover"
+          class="process-visual__img"
         />
       </figure>
     </div>
@@ -134,7 +194,7 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
         return (
           <li class="process-step">
             <span class="process-step__marker" aria-hidden="true">
-              <Icono size={25} strokeWidth={1.7} className="process-step__icon" />
+              <Icon name={Icono} size={26} aria-hidden="true" class="icon-duo process-step__icon" />
               <span class="process-step__number">{String(i + 1).padStart(2, '0')}</span>
             </span>
             <div>
@@ -147,87 +207,38 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
     </ol>
   </section>
 
-  <section class="about-support mt-24 bg-ink text-white md:mt-32" aria-labelledby="apoyo-titulo">
-    <div class="about-support__backdrop" aria-hidden="true">
-      <Picture
-        src={fotoMantencion}
-        alt=""
-        formats={['avif', 'webp']}
-        fallbackFormat="jpg"
-        widths={[720, 1280, 1920]}
-        sizes="100vw"
-        loading="lazy"
-        decoding="async"
-        class="about-support__backdrop-image"
-      />
-    </div>
-    <div class="about-support__inner mx-auto grid max-w-6xl gap-12 px-5 py-20 md:px-10 md:py-28 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
-      <div class="about-support__intro">
-        <h2 id="apoyo-titulo" class="about-support__title">
-          {nosotros.acompanamiento.titulo}<br /><span>{nosotros.acompanamiento.enfasis}</span>
-        </h2>
-        <p class="mt-7 max-w-[43ch] text-lg leading-relaxed text-white/80">{nosotros.acompanamiento.texto}</p>
-        <a href="#contacto" class="about-support__link mt-9 inline-flex items-center gap-3 font-semibold">
-          {nosotros.acompanamiento.cta}
-          <ArrowRight size={19} strokeWidth={1.7} aria-hidden="true" />
-        </a>
-      </div>
-      <div class="about-support__sheet">
-        <dl>
-          {nosotros.acompanamiento.areas.map((area) => (
-            <div class="about-support__area">
-              <dt>{area.titulo}</dt>
-              <dd>{area.texto}</dd>
-            </div>
-          ))}
-        </dl>
-        <p class="about-support__invitation">{nosotros.acompanamiento.invitacion}</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="about-proof mx-auto mt-20 grid max-w-6xl gap-12 px-5 md:mt-24 md:px-10 lg:grid-cols-[0.8fr_1.4fr] lg:gap-16">
-    <div class="about-proof__trust">
-      <p class="text-xl leading-relaxed text-fg">{nosotros.respaldo}</p>
-      <ul class="mt-8">
-        {nosotros.clientes.map((nombre) => (
-          <li class="group flex items-center gap-4 border-t border-border py-5 first:border-t-0 first:pt-1">
-            <span
-              aria-hidden="true"
-              class="h-px w-7 shrink-0 bg-brand transition-[width] duration-500 ease-[var(--ease-out-expo)] group-hover:w-11"
-            ></span>
-            <span class="font-serif text-[1.65rem] italic leading-tight md:text-3xl">{nombre}</span>
-          </li>
-        ))}
-      </ul>
-      <dl class="mt-8 border-t border-border pt-6">
-        {nosotros.presencia.map((lugar) => (
-          <div class="mb-4 last:mb-0">
-            <dt class="font-semibold">{lugar.ciudad}</dt>
-            <dd class="mt-1 text-sm text-muted">{lugar.detalle}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-
+  <div class="about-proof mx-auto mt-20 max-w-4xl px-5 md:mt-24 md:px-10">
     <section class="product-gallery" data-product-gallery data-gallery-loading={nosotros.galeria.cargando} data-gallery-error={nosotros.galeria.error} aria-labelledby="galeria-titulo">
-      <h2 id="galeria-titulo" class="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">{nosotros.galeria.titulo}</h2>
+      <div class="mb-8 md:mb-10">
+        <SectionTitle antetitulo={nosotros.galeria.antetitulo} titulo={nosotros.galeria.titulo} id="galeria-titulo" />
+        <p class="mt-3 max-w-[52ch] text-lg leading-relaxed text-muted">{nosotros.galeria.bajada}</p>
+      </div>
       <div class="product-gallery__panels">
         {productos.map((producto, i) => (
           <figure class="product-gallery__panel" id={`producto-${i}`} data-gallery-panel>
-            <div class="product-gallery__frame">
-              <Picture src={producto} alt={nosotros.galeria.items[i].alt} formats={['avif', 'webp']} widths={[400, 640, 960]} sizes="(min-width: 1152px) 38rem, (min-width: 1024px) 52vw, 90vw" class="product-gallery__image" />
+            <div class:list={['product-gallery__frame', formato(producto)]}>
+              <Image src={producto} alt="" width={160} height={104} fit="cover" aria-hidden="true" class="product-gallery__fill" />
+              <Picture src={producto} alt={nosotros.galeria.items[i].alt} formats={['avif', 'webp']} widths={[400, 640, 960]} sizes="(min-width: 1024px) 52rem, calc(100vw - 2.5rem)" class="product-gallery__image" />
             </div>
-            <figcaption class="mt-3 text-sm text-muted">{nosotros.galeria.items[i].titulo}</figcaption>
+            <figcaption class="gallery-caption">
+              <span class="gallery-caption__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+                <span>/ {String(productos.length).padStart(2, '0')}</span>
+              </span>
+              <span class="gallery-caption__texto">
+                <span class="gallery-caption__titulo">{nosotros.galeria.items[i].titulo}</span>
+                <span class="gallery-caption__detalle">{nosotros.galeria.items[i].detalle}</span>
+              </span>
+            </figcaption>
           </figure>
         ))}
       </div>
       <div class="product-gallery__controls" data-gallery-controls hidden>
         <div class="mt-5 flex items-center justify-between gap-3">
-          <p class="text-sm text-muted" data-gallery-status aria-live="polite" aria-atomic="true"></p>
+          <p class="sr-only" data-gallery-status aria-live="polite" aria-atomic="true"></p>
           <div class="flex gap-2">
-            <button type="button" data-gallery-prev class="gallery-arrow" aria-label={nosotros.galeria.anterior}><ArrowLeft size={20} strokeWidth={1.6} aria-hidden="true" /></button>
-            <button type="button" data-gallery-next class="gallery-arrow" aria-label={nosotros.galeria.siguiente}><ArrowRight size={20} strokeWidth={1.6} aria-hidden="true" /></button>
+            <button type="button" data-gallery-prev class="gallery-arrow" aria-label={nosotros.galeria.anterior}><Icon name="ph:arrow-left" size={20} aria-hidden="true" /></button>
+            <button type="button" data-gallery-next class="gallery-arrow" aria-label={nosotros.galeria.siguiente}><Icon name="ph:arrow-right" size={20} aria-hidden="true" /></button>
           </div>
         </div>
         <div class="product-gallery__thumbs" role="group" aria-label={nosotros.galeria.etiqueta}>
@@ -262,13 +273,16 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
           <h2 id="consultas-titulo" class="display max-w-[12ch] text-h2">{nosotros.consultas.titulo}</h2>
           <p class="mt-7 max-w-[39ch] text-lg leading-relaxed text-white/80">{nosotros.consultas.cierre}</p>
           <a href="#contacto" class="btn mt-9 w-fit bg-[#7fd3ee] text-ink hover:bg-white">
-            {nosotros.consultas.cta}<ArrowRight size={18} strokeWidth={1.7} aria-hidden="true" />
+            {nosotros.consultas.cta}<Icon name="ph:arrow-right" size={18} aria-hidden="true" />
           </a>
           <div class="mt-auto pt-12">
             <p class="border-t border-white/20 pt-6 text-sm font-medium text-white/75">{nosotros.consultas.inicio}</p>
             <ul class="mt-5 flex flex-wrap gap-2" aria-label={nosotros.consultas.inicio}>
-              {nosotros.consultas.insumos.map((insumo) => (
-                <li class="rounded-full border border-white/25 px-4 py-2 text-sm font-medium text-white">{insumo}</li>
+              {nosotros.consultas.insumos.map((insumo, i) => (
+                <li class="insumo-chip">
+                  <Icon name={iconosInsumo[i] ?? 'medidas'} size={18} aria-hidden="true" class="icon-duo icon-duo--claro" />
+                  {insumo}
+                </li>
               ))}
             </ul>
           </div>
@@ -287,7 +301,7 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
                         aria-hidden="true"
                         class="about-question__icon flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-accent ring-1 ring-brand/20"
                       >
-                        <Icono size={19} strokeWidth={1.6} />
+                        <Icon name={Icono} size={21} aria-hidden="true" class="icon-duo" />
                       </span>
                       <span class="text-lg font-semibold">{item.pregunta}</span>
                     </span>
@@ -314,11 +328,11 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
           <div class="border-t border-border pt-5 md:border-t-0 md:border-l md:py-1 md:pl-7">
             <p class="text-sm font-medium text-accent">{persona.ciudad}</p>
             <p class="mt-2 font-semibold">{persona.nombre}</p>
-            <a href={whatsapp(persona.telefono)} target="_blank" rel="noopener" class="about-consultas__whatsapp mt-3 inline-flex min-h-11 items-center gap-2.5 font-semibold text-fg" aria-label={`Escribir por WhatsApp a ${persona.nombre}, ${persona.telefono}`}>
-              <span class="flex size-9 items-center justify-center rounded-full bg-[#25d366] text-white transition-transform duration-300 ease-[var(--ease-out-expo)]" aria-hidden="true">
+            <a href={whatsapp(persona.telefono, contacto.mensajeWhatsapp)} target="_blank" rel="noopener" class="about-consultas__whatsapp mt-3 inline-flex min-h-11 items-center gap-2.5 font-semibold text-fg" aria-label={`Escribir por WhatsApp a ${persona.nombre}, ${persona.telefono}`}>
+              <span class="wa-chip flex size-9 items-center justify-center rounded-full bg-[#25d366] text-white" aria-hidden="true">
                 <IconWhatsApp size={19} />
               </span>
-              WhatsApp <ArrowUpRight size={17} strokeWidth={1.7} aria-hidden="true" />
+              WhatsApp <Icon name="ph:arrow-up-right" size={17} aria-hidden="true" />
             </a>
           </div>
         ))}
@@ -340,25 +354,47 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
       let current = 0;
       let requested = 0;
       let requestVersion = 0;
+      // Fotos descargadas y decodificadas: se muestran sin espera. Las demás se precargan en segundo plano.
+      // La foto principal, no la miniatura difuminada de relleno (.product-gallery__fill), que va primero.
+      const images = panels.map((panel) => panel.querySelector<HTMLImageElement>('img.product-gallery__image'));
+      const ready = new WeakSet<HTMLImageElement>();
+      const pending = new WeakMap<HTMLImageElement, Promise<void>>();
+      const preload = (image: HTMLImageElement | null): Promise<void> => {
+        if (!image || ready.has(image)) return Promise.resolve();
+        const existing = pending.get(image);
+        if (existing) return existing;
+        image.loading = 'eager';
+        const promise = image.decode().then(
+          () => {
+            ready.add(image);
+          },
+          (error: unknown) => {
+            pending.delete(image);
+            throw error;
+          },
+        );
+        pending.set(image, promise);
+        return promise;
+      };
+      const preloadAll = async () => {
+        for (const image of images) await preload(image).catch(() => undefined);
+      };
       const show = async (index: number, animate = true) => {
         const next = (index + panels.length) % panels.length;
         requested = next;
         const version = ++requestVersion;
-        if (animate) {
+        const image = images[next];
+        if (animate && image && !ready.has(image)) {
           gallery.setAttribute('aria-busy', 'true');
           status.textContent = `${gallery.dataset.galleryLoading} · ${thumbs[next].getAttribute('aria-label')}`;
-          const image = panels[next].querySelector('img');
-          if (image) {
-            image.loading = 'eager';
-            try {
-              await image.decode();
-            } catch {
-              if (version !== requestVersion) return;
-              gallery.setAttribute('aria-busy', 'false');
-              status.textContent = gallery.dataset.galleryError ?? '';
-              requested = current;
-              return;
-            }
+          try {
+            await preload(image);
+          } catch {
+            if (version !== requestVersion) return;
+            gallery.setAttribute('aria-busy', 'false');
+            status.textContent = gallery.dataset.galleryError ?? '';
+            requested = current;
+            return;
           }
           if (version !== requestVersion) return;
         }
@@ -371,18 +407,47 @@ const productos = [cartuchos, elementos, aire, filtroSaturado, membranas, aceite
         current = next;
         status.textContent = `${next + 1} / ${panels.length} · ${thumbs[next].getAttribute('aria-label')}`;
         if (animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          panels[next].animate(
-            [{ opacity: 0.45, transform: 'scale(1.015)', filter: 'blur(2px)' }, { opacity: 1, transform: 'none', filter: 'none' }],
-            { duration: 420, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' },
-          );
+          panels[next].animate([{ opacity: 0.4, transform: 'scale(1.012)' }, { opacity: 1, transform: 'none' }], {
+            duration: 320,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          });
         }
       };
       gallery.dataset.enhanced = 'true';
       controls.hidden = false;
       void show(0, false);
-      thumbs.forEach((thumb, i) => { thumb.onclick = () => { if (i !== requested) void show(i); }; });
-      gallery.querySelector<HTMLButtonElement>('[data-gallery-prev]')!.onclick = () => { void show(requested - 1); };
-      gallery.querySelector<HTMLButtonElement>('[data-gallery-next]')!.onclick = () => { void show(requested + 1); };
+      if (images[0]?.complete) ready.add(images[0]);
+      // Precarga al acercarse la galería a la pantalla, para que cambiar de foto sea inmediato.
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+          void preloadAll();
+        },
+        { rootMargin: '800px 0px' },
+      );
+      observer.observe(gallery);
+      const prev = gallery.querySelector<HTMLButtonElement>('[data-gallery-prev]')!;
+      const next = gallery.querySelector<HTMLButtonElement>('[data-gallery-next]')!;
+      const warm = (offset: number) => () => {
+        void preload(images[(requested + offset + images.length) % images.length]).catch(() => undefined);
+      };
+      thumbs.forEach((thumb, i) => {
+        thumb.onclick = () => {
+          if (i !== requested) void show(i);
+        };
+        thumb.onpointerenter = thumb.onfocus = () => {
+          void preload(images[i]).catch(() => undefined);
+        };
+      });
+      prev.onclick = () => {
+        void show(requested - 1);
+      };
+      next.onclick = () => {
+        void show(requested + 1);
+      };
+      prev.onpointerenter = prev.onfocus = warm(-1);
+      next.onpointerenter = next.onfocus = warm(1);
       controls.addEventListener('keydown', (event) => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
         event.preventDefault();

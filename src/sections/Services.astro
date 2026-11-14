@@ -1,28 +1,27 @@
 ---
-import { Image } from 'astro:assets';
-import { Cable, Droplets, Factory, PencilRuler, Unplug, Wind } from 'lucide-react';
-import accesorios from '@/assets/products/accesorios-hidraulicos.jpg';
+import { Image, Picture } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
 import filtroAcero from '@/assets/products/filtro-acero-perforado.jpg';
 import filtroMalla from '@/assets/products/filtro-malla-metalica.jpg';
-import conicos from '@/assets/products/filtros-conicos.jpg';
-import flexibles from '@/assets/products/flexibles-hidraulicos.jpg';
-import separadores from '@/assets/products/separadores-aire-aceite.jpg';
 import fondoAccesorios from '@/assets/servicios/accesorios-hidraulicos.jpg';
 import fondoFlexibles from '@/assets/servicios/flexibles-hidraulicos.jpg';
+import fotoInvitacion from '@/assets/servicios/operario-control-planta.jpg';
 import fondoProcesos from '@/assets/servicios/procesos-industriales.jpg';
 import fondoProyectos from '@/assets/servicios/proyectos-especiales.jpg';
 import fondoHidraulico from '@/assets/servicios/sistema-hidraulico.jpg';
 import fondoNeumatico from '@/assets/servicios/sistema-neumatico.jpg';
+import SectionTitle from '@/components/SectionTitle.astro';
 import { getSite } from '@/lib/site';
 
 const { servicios } = await getSite();
 const iconosServicio = {
-  gota: Droplets,
-  viento: Wind,
-  fabrica: Factory,
-  regla: PencilRuler,
-  flexible: Cable,
-  conexion: Unplug,
+  gota: 'hidraulico',
+  viento: 'neumatico',
+  fabrica: 'fabrica',
+  regla: 'medidas',
+  // Sin equivalente en el set: manguera y fitting siguen en Phosphor duotono.
+  flexible: 'ph:pipe-duotone',
+  conexion: 'ph:pipe-wrench-duotone',
 };
 const fondosServicio = {
   gota: fondoHidraulico,
@@ -32,19 +31,20 @@ const fondosServicio = {
   flexible: fondoFlexibles,
   conexion: fondoAccesorios,
 };
-const fotos = [filtroAcero, filtroMalla, conicos, separadores, flexibles, accesorios];
+// Solo fotos reales de piezas fabricadas por el cliente (las de stock no se presentan como trabajo propio).
+const fotos = [filtroAcero, filtroMalla];
 const productos = servicios.galeria.items.map((item, i) => ({ ...item, foto: fotos[i] }));
 ---
 
 <section id="servicios" class="mx-auto max-w-7xl scroll-mt-20 px-5 py-20 md:px-10 md:py-28">
   <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-x-12 gap-y-4">
-    <h2 class="display text-h2">{servicios.titulo}</h2>
+    <SectionTitle antetitulo={servicios.antetitulo} titulo={servicios.titulo} />
     <p class="max-w-[46ch] text-lg leading-relaxed text-muted">{servicios.bajada}</p>
   </div>
 
   <ul class="grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
     {
-      servicios.items.map((item, i) => {
+      servicios.items.map((item) => {
         const Icono = iconosServicio[item.icono];
         const propia = item.como === 'Fabricación propia';
         return (
@@ -62,15 +62,9 @@ const productos = servicios.galeria.items.map((item, i) => ({ ...item, foto: fot
               <span aria-hidden="true" class="service-card__shade absolute inset-0 -z-10" />
               <span
                 aria-hidden="true"
-                class="absolute right-6 top-5 font-serif text-5xl italic leading-none text-white/45 transition-colors duration-500 group-hover:text-[#7fd3ee]"
-              >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span
-                aria-hidden="true"
                 class="flex size-14 items-center justify-center rounded-2xl bg-white/12 text-white ring-1 ring-white/30 backdrop-blur-md transition-all duration-500 ease-[var(--ease-out-expo)] group-hover:bg-[#7fd3ee] group-hover:text-ink group-hover:ring-[#7fd3ee]"
               >
-                <Icono size={26} strokeWidth={1.6} className="transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6" />
+                <Icon name={Icono} size={28} aria-hidden="true" class="icon-duo icon-duo--claro transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6" />
               </span>
               <div class="mt-auto pt-16">
                 <h3 class="max-w-[16ch] text-xl font-semibold leading-snug tracking-tight md:text-[1.35rem]">
@@ -96,25 +90,56 @@ const productos = servicios.galeria.items.map((item, i) => ({ ...item, foto: fot
     }
   </ul>
 
-  <div class="reveal mt-16 flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2 md:mt-20">
-    <h3 class="display text-2xl font-semibold tracking-tight md:text-3xl">{servicios.galeria.titulo}</h3>
-    <p class="text-sm text-muted">{servicios.galeria.nota}</p>
+  <div class="reveal mt-20 md:mt-28">
+    <SectionTitle antetitulo={servicios.galeria.antetitulo} titulo={servicios.galeria.titulo} nivel="h3" class="text-[clamp(1.75rem,2vw+1rem,2.5rem)] leading-tight" />
+    <p class="mt-3 max-w-[52ch] text-lg leading-relaxed text-muted">{servicios.galeria.bajada}</p>
   </div>
-  <ul class="mt-8 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-3">
+
+  <div class="reveal mt-10">
+    <div class="work-invite">
+      <!-- Foto de ambientación (stock): decorativa, sin texto alternativo. -->
+      <div class="work-invite__media" aria-hidden="true">
+        <Picture
+          src={fotoInvitacion}
+          alt=""
+          formats={['avif', 'webp']}
+          widths={[480, 720, 1000, 1224]}
+          sizes="(min-width: 1280px) 42rem, (min-width: 768px) 55vw, calc(100vw - 2.5rem)"
+          loading="lazy"
+          decoding="async"
+          class="work-invite__img"
+        />
+      </div>
+      <div class="work-invite__body">
+        <p class="work-invite__title">{servicios.galeria.invitacion.titulo}</p>
+        <p class="mt-4 leading-relaxed text-white/80">{servicios.galeria.invitacion.texto}</p>
+        <a href="#contacto" class="work-invite__link mt-auto inline-flex items-center gap-2.5 pt-8 font-semibold">
+          {servicios.galeria.invitacion.cta}
+          <Icon name="ph:arrow-right" size={18} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <ul class="work-grid mt-4 md:mt-6">
     {
       productos.map((producto) => (
         <li class="reveal">
-          <figure class="group m-0">
-            <div class="overflow-clip rounded-lg border border-border bg-surface">
-              <Image
-                src={producto.foto}
-                alt={producto.alt}
-                width={720}
-                class="aspect-[4/5] w-full object-cover transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
-                loading="lazy"
-              />
-            </div>
-            <figcaption class="mt-3 text-sm font-medium text-muted">{producto.titulo}</figcaption>
+          <figure class="work-card group m-0">
+            <Image src={producto.foto} alt="" width={64} aria-hidden="true" loading="lazy" decoding="async" class="work-card__fill" />
+            <Image
+              src={producto.foto}
+              alt={producto.alt}
+              widths={[320, producto.foto.width]}
+              sizes="(min-width: 1280px) 37rem, 50vw"
+              loading="lazy"
+              decoding="async"
+              class="work-card__image"
+            />
+            <figcaption class="work-card__caption">
+              <span class="work-card__title">{producto.titulo}</span>
+              <span class="work-card__detail">{producto.detalle}</span>
+            </figcaption>
           </figure>
         </li>
       ))

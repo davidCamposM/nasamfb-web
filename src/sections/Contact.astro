@@ -1,30 +1,77 @@
 ---
+import { Picture } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import fotoCiudad from '@/assets/hero/ciudad-cordillera-noche.jpg';
+import IconWhatsApp from '@/components/IconWhatsApp.astro';
 import { getSite, whatsapp } from '@/lib/site';
 
-const { contacto } = await getSite();
+const { contacto, nosotros } = await getSite();
+const roles = new Map(nosotros.presencia.map((lugar) => [lugar.ciudad, lugar.detalle]));
 ---
 
-<section id="contacto" class="scroll-mt-20 bg-ink text-white">
-  <div>
-    <div class="mx-auto flex max-w-7xl flex-wrap items-end gap-x-16 gap-y-12 px-5 py-20 md:px-10 md:py-28">
-      <h2 class="display reveal min-w-0 flex-[999_1_26rem] text-h1">{contacto.titulo}</h2>
+<section id="contacto" class="contact-scene scroll-mt-20 bg-ink text-white" aria-labelledby="contacto-titulo">
+  <div class="contact-scene__backdrop" aria-hidden="true">
+    <Picture
+      src={fotoCiudad}
+      alt=""
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      widths={[960, 1440, 2000]}
+      sizes="100vw"
+      loading="lazy"
+      decoding="async"
+      class="contact-scene__image"
+    />
+  </div>
+  <div class="relative mx-auto grid max-w-7xl gap-14 px-5 py-20 md:px-10 md:py-28 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+    <div class="reveal lg:pt-2">
+      <h2 id="contacto-titulo" class="display max-w-[14ch] text-h1">{contacto.titulo}</h2>
+      <p class="mt-7 max-w-[44ch] text-lead leading-relaxed text-white/80">{contacto.bajada}</p>
+
       {
-        contacto.personas.map((p) => (
-          <div class="reveal flex flex-[1_1_15rem] flex-col gap-1.5">
-            <p class="text-[15px] text-[#c9d1d7]">{p.ciudad}</p>
-            <p class="text-xl font-semibold">{p.nombre}</p>
-            <a
-              href={whatsapp(p.telefono)}
-              target="_blank"
-              rel="noopener"
-              class="link-line w-fit text-lg text-[#7fd3ee]"
-              aria-label={`Escribir por WhatsApp a ${p.nombre}, ${p.telefono}`}
-            >
-              {p.telefono}
-            </a>
-          </div>
-        ))
+        contacto.email && (
+          <a
+            href={`mailto:${contacto.email}`}
+            class="link-line mt-8 inline-flex items-center gap-2.5 text-lg text-[#7fd3ee]"
+            aria-label={`${contacto.correo}: ${contacto.email}`}
+          >
+            <Icon name="correo" size={20} aria-hidden="true" class="icon-duo icon-duo--claro" />
+            {contacto.email}
+          </a>
+        )
       }
     </div>
+
+    <ul class="grid content-start gap-4 sm:grid-cols-2 lg:gap-5">
+      {
+        contacto.personas.map((persona) => (
+          <li class="reveal">
+            <article class="contact-card flex h-full flex-col rounded-2xl p-6">
+              <p class="flex items-center gap-1.5 text-sm font-semibold text-[#7fd3ee]">
+                <Icon name="ubicacion" size={16} aria-hidden="true" class="icon-duo icon-duo--claro" />
+                {persona.ciudad}
+              </p>
+              {roles.get(persona.ciudad) && <p class="mt-0.5 text-sm text-white/60">{roles.get(persona.ciudad)}</p>}
+              <h3 class="mt-4 text-xl font-semibold leading-snug tracking-tight">{persona.nombre}</h3>
+              <p class="mt-1 tabular-nums text-white/75">{persona.telefono}</p>
+
+              <div class="mt-auto pt-6">
+                <a
+                  href={whatsapp(persona.telefono, contacto.mensajeWhatsapp)}
+                  target="_blank"
+                  rel="noopener"
+                  class="contact-wa"
+                  aria-label={`${contacto.whatsapp} a ${persona.nombre}, ${persona.ciudad}`}
+                >
+                  <span class="contact-wa__chip" aria-hidden="true"><IconWhatsApp size={19} /></span>
+                  <span class="contact-wa__label">{contacto.whatsappBoton}</span>
+                  <span class="contact-wa__arrow" aria-hidden="true"><Icon name="ph:arrow-up-right" size={15} /></span>
+                </a>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>

@@ -5,37 +5,48 @@ test('Nosotros permite explorar productos con botones y teclado', async ({ page 
   const gallery = page.locator('[data-product-gallery]');
   await expect(gallery).toHaveAttribute('data-enhanced', 'true');
   await expect(gallery.locator('[data-gallery-panel]:visible')).toHaveCount(1);
-  await expect(gallery.locator('[data-gallery-status]')).toContainText('1 / 3');
+  const total = await gallery.locator('[data-gallery-panel]').count();
+  await expect(gallery.locator('[data-gallery-status]')).toContainText(`1 / ${total}`);
 
   const selected = gallery.getByRole('button', { name: 'Elementos filtrantes', exact: true });
   await selected.click();
   await expect(selected).toHaveAttribute('aria-pressed', 'true');
-  await expect(gallery.locator('[data-gallery-status]')).toContainText('2 / 3');
+  await expect(gallery.locator('[data-gallery-status]')).toContainText(`2 / ${total}`);
   await expect(gallery.locator('#producto-1')).toBeVisible();
   await expect
-    .poll(() => gallery.locator('#producto-1 img').evaluate((img) => (img as HTMLImageElement).naturalWidth))
+    .poll(() =>
+      gallery
+        .locator('#producto-1 img.product-gallery__image')
+        .evaluate((img) => (img as HTMLImageElement).naturalWidth),
+    )
     .toBeGreaterThan(0);
 
   await selected.press('ArrowRight');
   await expect(gallery.locator('#producto-2')).toBeVisible();
   await expect(selected).toBeFocused();
   await gallery.getByRole('button', { name: 'Ver imagen siguiente' }).click();
-  await expect(gallery.locator('#producto-0')).toBeVisible();
+  await expect(gallery.locator('#producto-3')).toBeVisible();
   await gallery.getByRole('button', { name: 'Ver imagen anterior' }).click();
   await expect(gallery.locator('#producto-2')).toBeVisible();
   await expect(gallery.locator('[aria-pressed="true"]')).toHaveCount(1);
+
+  // Desde la primera foto, "anterior" da la vuelta hasta la última.
+  await gallery.getByRole('button', { name: 'Cartuchos plisados', exact: true }).click();
+  await expect(gallery.locator('#producto-0')).toBeVisible();
+  await gallery.getByRole('button', { name: 'Ver imagen anterior' }).click();
+  await expect(gallery.locator(`#producto-${total - 1}`)).toBeVisible();
 });
 
-test('Nosotros respeta movimiento reducido y conserva los logos', async ({ page }) => {
+test('Nosotros respeta movimiento reducido y muestra el respaldo', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   const gallery = page.locator('[data-product-gallery]');
   await gallery.getByRole('button', { name: 'Elementos filtrantes', exact: true }).click();
   await expect(gallery.locator('#producto-1')).toBeVisible();
   expect(await gallery.locator('#producto-1').evaluate((panel) => panel.getAnimations().length)).toBe(0);
-  await expect(page.locator('.client-mark img')).toHaveCount(2);
-  await expect(page.locator('.about-proof__trust')).toContainText('Armada de Chile');
-  await expect(page.locator('.about-proof__trust')).toContainText('Asmar Talcahuano');
+  // Clientes de referencia solo como texto (sin logos, decisión del cliente).
+  await expect(page.locator('.about-facts')).toContainText('Armada de Chile');
+  await expect(page.locator('.about-facts')).toContainText('Asmar Talcahuano');
 });
 
 test.describe('Nosotros sin JavaScript', () => {
@@ -43,7 +54,9 @@ test.describe('Nosotros sin JavaScript', () => {
   test('todas las imágenes permanecen disponibles', async ({ page }) => {
     await page.goto('/');
     const gallery = page.locator('[data-product-gallery]');
-    await expect(gallery.locator('[data-gallery-panel]:visible')).toHaveCount(3);
+    const total = await gallery.locator('[data-gallery-panel]').count();
+    expect(total).toBeGreaterThan(1);
+    await expect(gallery.locator('[data-gallery-panel]:visible')).toHaveCount(total);
     await expect(gallery.locator('[data-gallery-controls]')).toBeHidden();
   });
 });

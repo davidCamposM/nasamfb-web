@@ -13,7 +13,8 @@
       "!test-results",
       "!playwright-report",
       "!**/*.md",
-      "!src/assets/**/*.svg"
+      "!src/assets/**/*.svg",
+      "!src/icons/**/*.svg"
     ]
   },
   "formatter": {

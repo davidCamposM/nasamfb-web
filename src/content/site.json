@@ -4,18 +4,23 @@
     "titulo": "NASAMFB: filtros industriales a medida",
     "descripcion": "Diseñamos y fabricamos filtros a medida para sistemas hidráulicos, neumáticos y procesos industriales. Concepción e Iquique, Chile.",
     "hero": {
-      "titulo": "Usted nos da las medidas. Nosotros fabricamos el filtro.",
-      "bajada": "Buscamos, diseñamos y fabricamos soluciones de filtración e hidráulica industrial a la medida de su equipo. Y lo acompañamos en la mantención para que rinda más y se detenga menos.",
+      "antetitulo": "Filtración e hidráulica industrial · Concepción",
+      "titulo": "Fabricamos **filtros industriales** a la medida de su equipo.",
+      "bajada": "También flexibles y accesorios hidráulicos. Nos basta un plano, una muestra o las medidas, y lo acompañamos en la mantención para que su equipo se detenga menos.",
       "ctaPrincipal": "Enviar medidas para cotizar",
-      "ctaSecundario": "Ver qué fabricamos",
-      "respaldo": "Apoyo constante a"
+      "ctaSecundario": "Ver qué fabricamos"
     },
     "nosotros": {
-      "manifiesto": "Cuando un equipo se detiene, cada hora cuenta. Por eso fabricamos el filtro exacto que su operación necesita.",
-      "parrafos": [
-        "En NASAMFB buscamos, diseñamos y fabricamos soluciones de filtración e hidráulica industrial a la medida de cada cliente. No le pedimos que adapte su equipo a un catálogo: partimos de su necesidad y entregamos un producto de calidad, hecho para su máquina.",
-        "Y no nos vamos después de la entrega. Lo acompañamos en la mantención y optimización de sus equipos, para que rindan más y se detengan menos."
-      ],
+      "manifiesto": "Cuando un equipo **se detiene**, **cada hora cuenta**.",
+      "intro": "Fabricamos **filtros industriales, flexibles y accesorios hidráulicos** a la medida de su equipo.",
+      "ficha": {
+        "como": {
+          "etiqueta": "Cómo",
+          "valor": "**A medida** o como **equivalente de marca**, a partir de un plano, una muestra o las medidas."
+        },
+        "donde": "Dónde",
+        "respaldo": "Respaldo"
+      },
       "pilares": [
         {
           "titulo": "Hecho a su medida",
@@ -33,9 +38,10 @@
           "icono": "camion"
         }
       ],
-      "respaldo": "Clientes tan exigentes como la Armada de Chile y Asmar Talcahuano cuentan con nuestro apoyo constante en la fabricación de filtros y en hidráulica.",
       "galeria": {
-        "titulo": "Filtración para distintas necesidades",
+        "antetitulo": "Tipos de filtración",
+        "titulo": "Filtración para **distintas necesidades**",
+        "bajada": "Imágenes de referencia de los tipos de filtración que abordamos.",
         "etiqueta": "Explorar imágenes de filtros",
         "anterior": "Ver imagen anterior",
         "siguiente": "Ver imagen siguiente",
@@ -44,31 +50,53 @@
         "items": [
           {
             "titulo": "Cartuchos plisados",
-            "alt": "Conjunto de cartuchos filtrantes amarillos con extremos metálicos"
+            "alt": "Conjunto de cartuchos filtrantes amarillos con extremos metálicos",
+            "detalle": "Papel plisado que retiene partículas finas en poco espacio."
           },
           {
             "titulo": "Elementos filtrantes",
-            "alt": "Elementos filtrantes cilíndricos de varios diámetros y alturas"
+            "alt": "Elementos filtrantes cilíndricos de varios diámetros y alturas",
+            "detalle": "Distintos diámetros y alturas, según el equipo."
           },
           {
             "titulo": "Filtros de aire",
-            "alt": "Dos filtros de aire con malla metálica y juntas naranjas"
+            "alt": "Dos filtros de aire con malla metálica y juntas naranjas",
+            "detalle": "Malla metálica y juntas para la admisión de aire."
           },
           {
             "titulo": "Filtro saturado frente a uno nuevo",
-            "alt": "Comparación entre un filtro saturado por el uso y un filtro nuevo"
+            "alt": "Comparación entre un filtro saturado por el uso y un filtro nuevo",
+            "detalle": "La diferencia que marca un recambio a tiempo."
           },
           {
             "titulo": "Membranas filtrantes",
-            "alt": "Vista frontal de membranas filtrantes cilíndricas apiladas"
+            "alt": "Vista frontal de membranas filtrantes cilíndricas apiladas",
+            "detalle": "Separación fina para procesos con líquidos."
           },
           {
             "titulo": "Filtros de aceite",
-            "alt": "Elemento filtrante de aceite junto a un filtro de aceite roscado"
+            "alt": "Elemento filtrante de aceite junto a un filtro de aceite roscado",
+            "detalle": "Elemento filtrante y filtro roscado para la lubricación."
           },
           {
             "titulo": "Filtros para cada sistema",
-            "alt": "Surtido de filtros de aire, aceite y combustible de distintos formatos"
+            "alt": "Surtido de filtros de aire, aceite y combustible de distintos formatos",
+            "detalle": "Aire, aceite y combustible en distintos formatos."
+          },
+          {
+            "titulo": "Cartuchos para líquidos",
+            "alt": "Tres cartuchos filtrantes cilíndricos: uno negro, uno blanco y uno con malla",
+            "detalle": "Distintos medios filtrantes para retener sedimentos e impurezas."
+          },
+          {
+            "titulo": "Filtros plisados circulares",
+            "alt": "Filtros circulares de papel plisado blanco con bordes negros, apilados",
+            "detalle": "Gran superficie filtrante en un formato compacto."
+          },
+          {
+            "titulo": "Filtros de combustible y de cabina",
+            "alt": "Filtros de combustible y aceite junto a filtros de aire de cabina con carbón",
+            "detalle": "Recambios para motores y equipos móviles."
           }
         ]
       },
@@ -84,45 +112,29 @@
         }
       ],
       "foto": {
-        "alt": "Técnico revisando una pieza entre estanterías de filtros y repuestos industriales"
+        "alt": "Técnico con guantes sosteniendo un elemento filtrante de aceite"
       },
       "proceso": {
-        "titulo": "De su necesidad a una solución a medida.",
-        "descripcion": "Cada equipo plantea un desafío distinto. Nuestro trabajo parte por entenderlo y continúa con el diseño, la fabricación y el apoyo a su operación.",
-        "fotoAlt": "Persona con guantes revisando un cartucho filtrante industrial",
+        "antetitulo": "Cómo trabajamos",
+        "titulo": "De su necesidad a una **solución a medida**.",
+        "descripcion": "Cuatro etapas, desde su requerimiento hasta el apoyo en la operación.",
+        "fotoAlt": "Mano sosteniendo un elemento filtrante de papel plisado con tapa oscura",
         "pasos": [
           {
             "titulo": "Entender el equipo",
-            "texto": "El punto de partida es la necesidad que desea resolver. Un plano, una muestra o las medidas nos ayudan a entender qué pieza requiere y en qué equipo se utilizará."
+            "texto": "Un plano, una muestra o las medidas bastan para empezar."
           },
           {
             "titulo": "Definir la solución",
-            "texto": "Buscamos y diseñamos una respuesta de filtración o hidráulica que se ajuste a su requerimiento. La solución debe partir de su máquina y de la función que necesita cumplir."
+            "texto": "Diseñamos el filtro o la pieza hidráulica según su máquina y su función."
           },
           {
             "titulo": "Fabricar a medida",
-            "texto": "Fabricamos filtros según la necesidad acordada y abordamos alternativas equivalentes cuando corresponde. El requerimiento de su equipo guía la solución, en lugar de limitarla a un catálogo."
+            "texto": "Pieza nueva o equivalente de marca, según lo que su equipo requiera."
           },
           {
             "titulo": "Acompañar la operación",
-            "texto": "Nuestro apoyo continúa en la mantención y optimización de sus equipos. La relación no termina con la entrega: seguimos disponibles para abordar sus necesidades de filtración e hidráulica."
-          }
-        ]
-      },
-      "acompanamiento": {
-        "titulo": "La entrega es",
-        "enfasis": "solo el comienzo.",
-        "texto": "Un filtro es parte de un sistema. Por eso, junto con la fabricación, acompañamos la mantención y optimización del equipo en el que trabaja.",
-        "invitacion": "¿Qué necesita resolver en su equipo?",
-        "cta": "Conversemos sobre su equipo",
-        "areas": [
-          {
-            "titulo": "Apoyo en mantención",
-            "texto": "Acompañamos las necesidades de filtración e hidráulica que surgen durante el uso y la mantención de sus equipos."
-          },
-          {
-            "titulo": "Optimización de equipos",
-            "texto": "Abordamos junto a usted los requerimientos de su operación para buscar soluciones que se ajusten a su equipo y a su forma de trabajar."
+            "texto": "Seguimos disponibles para la mantención y optimización de sus equipos."
           }
         ]
       },
@@ -172,7 +184,8 @@
       }
     },
     "servicios": {
-      "titulo": "Qué fabricamos",
+      "antetitulo": "Servicios",
+      "titulo": "Qué **fabricamos**",
       "bajada": "Filtros industriales para cada sistema, junto con flexibles y accesorios hidráulicos para su operación.",
       "items": [
         {
@@ -213,38 +226,31 @@
         }
       ],
       "galeria": {
-        "titulo": "Una muestra de nuestro trabajo",
-        "nota": "Imágenes de referencia de los tipos de solución que abordamos.",
+        "antetitulo": "Hecho en Concepción",
+        "titulo": "Fabricación **propia**",
+        "bajada": "Piezas fabricadas por NASAMFB a la medida de cada equipo.",
         "items": [
           {
             "titulo": "Filtro de acero perforado",
-            "alt": "Filtro cilíndrico de acero perforado sobre una mesa de trabajo"
+            "alt": "Filtro cilíndrico de acero perforado sobre una mesa de trabajo",
+            "detalle": "Cuerpo de acero perforado con tapa y refuerzos a medida."
           },
           {
             "titulo": "Filtro de malla metálica",
-            "alt": "Filtro cilíndrico de malla metálica con terminaciones de acero"
-          },
-          {
-            "titulo": "Filtros cónicos",
-            "alt": "Filtros cónicos de acero inoxidable con bridas"
-          },
-          {
-            "titulo": "Separadores y cartuchos",
-            "alt": "Conjunto de separadores y cartuchos filtrantes de distintos tamaños"
-          },
-          {
-            "titulo": "Flexibles hidráulicos",
-            "alt": "Dos flexibles trenzados de acero con terminales roscados"
-          },
-          {
-            "titulo": "Accesorios hidráulicos",
-            "alt": "Acoples rápidos hidráulicos montados en un equipo"
+            "alt": "Filtro cilíndrico de malla metálica con terminaciones de acero",
+            "detalle": "Malla metálica perforada con terminaciones de acero."
           }
-        ]
+        ],
+        "invitacion": {
+          "titulo": "Fabricamos en Concepción, a la medida de su equipo.",
+          "texto": "Partimos de un plano, una muestra o las medidas de la pieza que necesita.",
+          "cta": "Cotizar una pieza"
+        }
       }
     },
     "marcas": {
-      "titulo": "También comercializamos filtros, lubricantes y repuestos de",
+      "antetitulo": "Marcas",
+      "titulo": "También comercializamos **filtros, lubricantes y repuestos** de estas marcas",
       "items": [
         "Donaldson",
         "Baldwin",
@@ -258,8 +264,28 @@
         "Komatsu"
       ]
     },
+    "navegacion": [
+      {
+        "href": "#nosotros",
+        "etiqueta": "Nosotros"
+      },
+      {
+        "href": "#servicios",
+        "etiqueta": "Servicios"
+      },
+      {
+        "href": "#contacto",
+        "etiqueta": "Contacto"
+      }
+    ],
     "contacto": {
       "titulo": "Cuéntenos qué equipo necesita filtrar.",
+      "bajada": "Escríbanos por WhatsApp o llámenos directamente. Atendemos desde Concepción y, a través de nuestro distribuidor logístico, desde Iquique.",
+      "prepararTitulo": "Para cotizar, tenga a mano",
+      "mensajeWhatsapp": "Hola, quisiera cotizar una solución de filtración para mi equipo.",
+      "whatsapp": "Escribir por WhatsApp",
+      "whatsappBoton": "WhatsApp",
+      "correo": "Correo",
       "personas": [
         {
           "nombre": "Samuel Cifuentes Gajardo",
@@ -272,6 +298,13 @@
           "telefono": "+56 9 9675 1193"
         }
       ]
+    },
+    "footer": {
+      "descripcion": "Filtración e hidráulica industrial a medida. Fabricación de filtros, flexibles y accesorios hidráulicos.",
+      "navegacionTitulo": "Secciones",
+      "contactoTitulo": "Contacto",
+      "derechos": "Todos los derechos reservados.",
+      "volverArriba": "Volver arriba"
     }
   }
 }

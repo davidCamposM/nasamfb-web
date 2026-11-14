@@ -10,5 +10,9 @@ export async function getSite() {
 /** "+56 9 8718 5572" → "56987185572" */
 export const soloDigitos = (telefono: string): string => telefono.replace(/\D/g, '');
 
-/** Enlace de WhatsApp para un teléfono chileno con prefijo +56 */
-export const whatsapp = (telefono: string): string => `https://wa.me/${soloDigitos(telefono)}`;
+/** Enlace de WhatsApp para un teléfono chileno con prefijo +56, con mensaje inicial opcional */
+export const whatsapp = (telefono: string, mensaje?: string): string =>
+  `https://wa.me/${soloDigitos(telefono)}${mensaje ? `?text=${encodeURIComponent(mensaje)}` : ''}`;
+
+/** Enlace para llamar: "+56 9 8718 5572" → "tel:+56987185572" */
+export const telefonoHref = (telefono: string): string => `tel:+${soloDigitos(telefono)}`;

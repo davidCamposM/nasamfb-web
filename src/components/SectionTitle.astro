@@ -1,0 +1,26 @@
+---
+// Título de sección estándar: antetítulo corto (categoría) + titular con la idea clave destacada.
+// La idea clave se marca en site.json con **…** y se pinta en degradado cian (.section-title__accent).
+import { partes } from '@/lib/destacar';
+import { cn } from '@/lib/utils';
+
+interface Props {
+  antetitulo: string;
+  titulo: string;
+  nivel?: 'h2' | 'h3';
+  id?: string;
+  centrado?: boolean;
+  /** Clases del titular (tamaño, ancho máximo). Por defecto, la escala h2. */
+  class?: string;
+}
+
+const { antetitulo, titulo, nivel = 'h2', id, centrado = false, class: clase } = Astro.props;
+const Nivel = nivel;
+---
+
+<div class:list={['section-title', centrado && 'section-title--centrado']}>
+  <p class="section-title__kicker">{antetitulo}</p>
+  <Nivel id={id} class={cn('display section-title__heading', clase ?? 'text-h2')}>
+    {partes(titulo).map((parte) => (parte.destacado ? <span class="section-title__accent">{parte.texto}</span> : parte.texto))}
+  </Nivel>
+</div>
