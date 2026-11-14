@@ -334,6 +334,12 @@ const formato = (foto: ImageMetadata) => {
               </span>
               WhatsApp <Icon name="ph:arrow-up-right" size={17} aria-hidden="true" />
             </a>
+            {contacto.email && (
+              <a href={`mailto:${contacto.email}`} class="link-line mt-2 flex w-fit items-center gap-2 pb-0.5 text-sm text-muted hover:text-accent" aria-label={`${contacto.correo}: ${contacto.email}`}>
+                <Icon name="gmail" size={15} aria-hidden="true" />
+                {contacto.email}
+              </a>
+            )}
           </div>
         ))}
       </div>
