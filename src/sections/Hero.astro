@@ -1,9 +1,11 @@
 ---
 import { Picture } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
 import planta from '@/assets/hero/planta-industrial.jpg';
+import { partes } from '@/lib/destacar';
 import { getSite } from '@/lib/site';
 
-const { hero, nosotros } = await getSite();
+const { hero } = await getSite();
 ---
 
 <section class="hero relative isolate overflow-clip bg-ink text-white">
@@ -30,28 +32,23 @@ const { hero, nosotros } = await getSite();
   <div
     class="mx-auto flex min-h-[calc(100dvh-5rem)] max-w-5xl flex-col items-center justify-center px-5 py-16 text-center md:px-10 md:py-20"
   >
-    <h1 class="display intro mx-auto max-w-[15ch] text-display text-balance" style="--i: 1">{hero.titulo}</h1>
+    <p class="hero__kicker intro" style="--i: 0">{hero.antetitulo}</p>
+    <h1 class="display intro mx-auto max-w-[16ch] text-display text-balance" style="--i: 1">
+      {partes(hero.titulo).map((parte) => (parte.destacado ? <span class="hero__accent">{parte.texto}</span> : parte.texto))}
+    </h1>
     <p class="intro mx-auto mt-7 max-w-[58ch] text-lead leading-relaxed text-white/85" style="--i: 2">
       {hero.bajada}
     </p>
     <div class="intro mt-9 flex flex-wrap justify-center gap-3" style="--i: 3">
-      <a href="#contacto" class="btn bg-[#5cc8ea] text-ink hover:bg-white">{hero.ctaPrincipal}</a>
-      <a href="#servicios" class="btn border-[1.5px] border-white/80 text-white hover:bg-white hover:text-ink">
+      <a href="#contacto" class="hero__cta btn bg-[#5cc8ea] text-ink hover:bg-white">
+        <Icon name="medidas" size={20} aria-hidden="true" />
+        {hero.ctaPrincipal}
+      </a>
+      <a href="#servicios" class="hero__cta hero__cta--bajar btn border-[1.5px] border-white/80 text-white hover:bg-white hover:text-ink">
         {hero.ctaSecundario}
+        <Icon name="ph:arrow-down" size={18} aria-hidden="true" />
       </a>
     </div>
 
-    <div class="intro mt-12 flex flex-col items-center gap-4 md:mt-14" style="--i: 5">
-      <span aria-hidden="true" class="h-8 w-px bg-white/40"></span>
-      <p class="text-sm tracking-wide text-white/75">{hero.respaldo}</p>
-      <ul class="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
-        {nosotros.clientes.map((nombre, i) => (
-          <>
-            {i > 0 && <li aria-hidden="true" class="hidden size-1.5 rounded-full bg-[#5cc8ea]/80 sm:block" />}
-            <li class="font-serif text-[1.6rem] italic leading-tight text-white sm:text-3xl">{nombre}</li>
-          </>
-        ))}
-      </ul>
-    </div>
   </div>
 </section>
