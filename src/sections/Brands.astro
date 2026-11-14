@@ -10,6 +10,7 @@ import mannFilter from '@/assets/marcas/mann-filter.png';
 import mobil from '@/assets/marcas/mobil.svg';
 import perkins from '@/assets/marcas/perkins.svg';
 import valvoline from '@/assets/marcas/valvoline.svg';
+import SectionTitle from '@/components/SectionTitle.astro';
 import { getSite } from '@/lib/site';
 
 const { marcas } = await getSite();
@@ -29,21 +30,29 @@ const items = marcas.items.map((nombre) => ({ nombre, logo: logos[nombre] }));
 ---
 
 <section aria-labelledby="marcas-titulo" class="border-t border-border py-14 md:py-16">
-  <h2 id="marcas-titulo" class="mx-auto mb-8 max-w-7xl px-5 text-base font-medium text-muted md:px-10">
-    {marcas.titulo}
-  </h2>
+  <div class="mx-auto mb-10 max-w-7xl px-5 md:mb-12 md:px-10">
+    <div class="reveal">
+      <SectionTitle
+        antetitulo={marcas.antetitulo}
+        titulo={marcas.titulo}
+        id="marcas-titulo"
+        centrado
+        class="mx-auto max-w-[32ch] text-[clamp(1.75rem,1.8vw+1.1rem,2.75rem)] leading-[1.05]"
+      />
+    </div>
+  </div>
   <!-- Lista accesible -->
   <ul class="sr-only">
     {items.map((m) => <li>{m.nombre}</li>)}
   </ul>
   <!-- Cinta visual -->
   <div class="marquee overflow-hidden" aria-hidden="true">
-    <div class="marquee-track flex w-max">
+    <div class="marquee-track flex w-max py-4">
       {
         [0, 1].map(() => (
           <ul class="flex shrink-0 items-center gap-5 pr-5">
             {items.map((m) => (
-              <li class="flex h-20 w-44 items-center justify-center rounded-xl bg-white ring-1 ring-border">
+              <li class="brand-card flex h-20 w-44 items-center justify-center rounded-xl bg-white ring-1 ring-border">
                 {m.logo ? (
                   <Image src={m.logo} alt="" class="max-h-10 max-w-32 w-auto object-contain" />
                 ) : (
