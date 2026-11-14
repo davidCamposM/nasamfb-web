@@ -27,6 +27,22 @@ tmp/
 # Notas y documentación de trabajo locales
 *.md
 docs/
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+*.zip
+*.rar
+*.7z
+*.psd
+*.ai
+*.fig
+
+# Plataforma de despliegue (Vercel CLI)
+.vercel/
 
 # Contexto de herramientas de IA
 .claude/
