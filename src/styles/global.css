@@ -353,6 +353,30 @@
     position: static;
   }
 }
+/* Proceso: foto de producto sobre fondo blanco, completa y grande, en un marco blanco limpio. */
+.process-visual {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 30px 60px -32px rgb(30 42 58 / 35%);
+}
+.process-visual__img {
+  display: block;
+  padding: clamp(10px, 1.6vw, 22px);
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+  transition: scale 900ms var(--ease-out-expo);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .process-visual:hover .process-visual__img {
+    scale: 1.03;
+  }
+}
 .process-steps {
   position: relative;
   margin: 0;
@@ -388,9 +412,29 @@
   border-radius: 16px;
   background: color-mix(in srgb, var(--accent) 8%, var(--surface));
   color: var(--accent);
+  transition:
+    translate 500ms var(--ease-out-expo),
+    background-color 500ms var(--ease-out-expo),
+    border-color 500ms var(--ease-out-expo),
+    color 500ms var(--ease-out-expo);
 }
 .process-step__icon {
   flex: none;
+  transition: rotate 500ms var(--ease-out-expo);
+}
+/* Mismo gesto que los pilares: el chip se eleva y se rellena con el acento, el ícono gira. */
+.process-step:hover .process-step__marker {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .process-step:hover .process-step__marker {
+    translate: 0 -4px;
+  }
+  .process-step:hover .process-step__icon {
+    rotate: -6deg;
+  }
 }
 .process-step__number {
   font-size: 11px;
@@ -398,127 +442,252 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
 }
-.about-support {
-  position: relative;
-  isolation: isolate;
+/* Íconos duotono (Streamline en src/icons/ y Phosphor): el trazo usa el color del texto y la capa de relleno (path con opacity)
+   se tiñe con el cian de marca. En fondos oscuros, cian claro. Con el chip relleno en hover, usa
+   el mismo color del ícono para no perder contraste. */
+.icon-duo [opacity] {
+  fill: var(--brand);
+  opacity: 0.32;
+  transition:
+    fill 300ms var(--ease-out-expo),
+    opacity 300ms var(--ease-out-expo);
 }
-.about-support__backdrop {
-  position: absolute;
-  inset: 0;
-  overflow: clip;
-  pointer-events: none;
+.icon-duo--claro [opacity] {
+  fill: #7fd3ee;
+  opacity: 0.4;
 }
-.about-support__backdrop-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+.group:hover .icon-duo [opacity] {
+  fill: currentColor;
+  opacity: 0.28;
 }
-.about-support__backdrop::after {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgb(9 22 34 / 80%), rgb(9 22 34 / 62%) 48%, rgb(9 22 34 / 38%));
-  content: "";
+.process-step:hover .icon-duo [opacity] {
+  fill: currentColor;
+  opacity: 0.28;
 }
-@media (min-width: 1024px) {
-  .about-support__backdrop-image {
-    transform: scale(1.18);
-    transform-origin: right center;
-  }
-}
-.about-support__inner {
-  position: relative;
-  min-height: 680px;
-  align-items: center;
-}
-@media (max-width: 1023px) {
-  .about-support__backdrop::after {
-    background: rgb(9 22 34 / 78%);
-  }
-}
-.about-support__title {
-  max-width: 14ch;
-  font-size: clamp(3rem, 4.7vw, 4.75rem);
-  font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-}
-.about-support__title span {
-  color: color-mix(in srgb, var(--brand) 45%, white);
-  font-family: var(--font-serif);
-  font-weight: 400;
+
+/* Palabras clave: énfasis en cursiva cian dentro del manifiesto en serif. */
+.manifesto__enfasis {
+  color: var(--accent);
   font-style: italic;
-  letter-spacing: -0.015em;
 }
-.about-support__link {
-  color: color-mix(in srgb, var(--brand) 45%, white);
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--brand) 45%, transparent);
-  text-underline-offset: 6px;
-}
-.about-support__link:hover {
-  color: white;
-}
-.about-support__sheet {
-  padding: clamp(28px, 4vw, 52px);
-  border-radius: 16px;
-  background: #eef1f3;
-  color: #1e2a3a;
-}
-.about-support__area {
-  padding-bottom: 28px;
-}
-.about-support__area + .about-support__area {
-  padding-top: 28px;
-  border-top: 1px solid #c9d1d7;
-}
-.about-support__area dt {
-  font-family: var(--font-serif);
-  font-size: clamp(1.875rem, 2.5vw, 2.375rem);
-  line-height: 1.1;
-}
-.about-support__area dd {
-  max-width: 55ch;
-  margin-top: 12px;
-  font-size: 1.0625rem;
-  line-height: 1.65;
-}
-.about-support__invitation {
-  margin: 0;
-  padding-top: 24px;
-  border-top: 1px solid #c9d1d7;
-  color: #00729a;
-  font-size: 1.0625rem;
+
+/* Palabras clave en texto corrido: trazo de resaltador que se dibuja al entrar en pantalla.
+   Propiedades de animación separadas (el atajo `animation:` rompe animation-timeline al minificar). */
+.hl {
+  padding-inline: 0.12em;
+  margin-inline: -0.12em;
+  background-color: transparent;
+  background-image: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--brand) 26%, transparent),
+    color-mix(in srgb, var(--brand) 18%, transparent)
+  );
+  background-position: 0 88%;
+  background-repeat: no-repeat;
+  background-size: 100% 0.42em;
+  border-radius: 0.2em;
+  color: inherit;
   font-weight: 600;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .about-support__link svg {
-    transition: transform 220ms var(--ease-out-expo);
-  }
-  .about-support__link:hover svg {
-    transform: translateX(4px);
-  }
   @supports (animation-timeline: view()) {
-    .about-support__sheet {
-      animation-name: about-support-in;
+    .hl {
+      animation-name: hl-draw;
       animation-timing-function: var(--ease-out-expo);
       animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: entry 0% cover 25%;
+      animation-range: entry 60% cover 45%;
     }
   }
 }
-@keyframes about-support-in {
+/* Títulos de sección (SectionTitle.astro): antetítulo en cian con línea que se dibuja,
+   e idea clave del titular en degradado cian con un brillo que la recorre una vez al entrar. */
+.section-title__kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+  color: var(--accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.section-title__kicker::before {
+  width: 2.25rem;
+  height: 2px;
+  flex: none;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--brand));
+  content: "";
+  transform-origin: left center;
+}
+.section-title--centrado {
+  text-align: center;
+}
+.section-title--centrado .section-title__kicker {
+  justify-content: center;
+}
+.section-title--centrado .section-title__kicker::after {
+  width: 2.25rem;
+  height: 2px;
+  flex: none;
+  border-radius: 2px;
+  background: linear-gradient(270deg, var(--accent), var(--brand));
+  content: "";
+  transform-origin: right center;
+}
+.section-title__accent {
+  background-image: linear-gradient(
+    100deg,
+    var(--accent) 0%,
+    var(--brand) 40%,
+    #7fd3ee 50%,
+    var(--brand) 60%,
+    var(--accent) 100%
+  );
+  background-position: 0% 50%;
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: var(--accent);
+  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+@supports not (background-clip: text) {
+  .section-title__accent {
+    -webkit-text-fill-color: currentColor;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .section-title__kicker::before,
+    .section-title__kicker::after {
+      animation-name: kicker-draw;
+      animation-timing-function: var(--ease-out-expo);
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 30%;
+    }
+    .section-title__accent {
+      animation-name: accent-shine;
+      animation-timing-function: var(--ease-out-expo);
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 50% cover 45%;
+    }
+  }
+}
+/* Hero: el mismo estándar sobre la foto oscura, con cian claro para mantener el contraste. */
+.hero__kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: #7fd3ee;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+.hero__kicker::before,
+.hero__kicker::after {
+  width: 2.25rem;
+  height: 2px;
+  flex: none;
+  border-radius: 2px;
+  background: #7fd3ee;
+  content: "";
+}
+@media (max-width: 639px) {
+  .hero__kicker {
+    max-width: 30ch;
+    margin-inline: auto;
+    text-wrap: balance;
+  }
+  .hero__kicker::before,
+  .hero__kicker::after {
+    display: none;
+  }
+}
+.hero__accent {
+  background-image: linear-gradient(100deg, #7fd3ee 0%, #5cc8ea 55%, #a8e6f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: #7fd3ee;
+  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.hero__cta svg {
+  flex: none;
+  transition: translate 300ms var(--ease-out-expo);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero__cta--bajar:hover svg {
+    translate: 0 3px;
+  }
+}
+
+@keyframes kicker-draw {
   from {
-    opacity: 0.72;
-    transform: translateY(20px);
+    transform: scaleX(0);
   }
   to {
-    opacity: 1;
-    transform: none;
+    transform: scaleX(1);
+  }
+}
+@keyframes accent-shine {
+  from {
+    background-position: 100% 50%;
+  }
+  to {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes hl-draw {
+  from {
+    background-size: 0% 0.42em;
+  }
+  to {
+    background-size: 100% 0.42em;
+  }
+}
+
+/* Nosotros: ficha de datos clave bajo el manifiesto (lectura rápida, sin párrafos). */
+.about-facts__row {
+  display: grid;
+  gap: 4px;
+  padding-block: 14px;
+  border-top: 1px solid var(--border);
+}
+.about-facts__row:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.about-facts__row dt {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.about-facts__row dd {
+  color: var(--fg);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+@media (min-width: 640px) {
+  .about-facts__row {
+    grid-template-columns: 8.5rem 1fr;
+    gap: 20px;
+    align-items: baseline;
   }
 }
 /* Servicios: tarjetas con fotografía de fondo; el degradado garantiza el contraste del texto inferior. */
@@ -537,6 +706,246 @@
 }
 .service-card:hover .service-card__image {
   scale: 1.06;
+}
+
+/* Servicios · Fabricación propia: panel principal de invitación arriba y, debajo, las fotos reales
+   del cliente en dos columnas iguales. */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .work-grid {
+    gap: 24px;
+  }
+}
+.work-card {
+  position: relative;
+  isolation: isolate;
+  height: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: clip;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--border);
+  transition:
+    translate 500ms var(--ease-out-expo),
+    box-shadow 500ms var(--ease-out-expo);
+}
+@media (min-width: 1024px) {
+  .work-card {
+    aspect-ratio: 5 / 4;
+  }
+}
+.work-card__image {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  /* La pieza completa, sin recortes: las fotos son verticales y la tarjeta no siempre lo es. */
+  object-fit: contain;
+  transition:
+    scale 900ms var(--ease-out-expo),
+    filter 600ms var(--ease-out-expo);
+}
+/* Relleno de los costados: la misma foto en miniatura, ampliada y difuminada. */
+.work-card__fill {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(28px) saturate(0.7) brightness(1.05);
+  scale: 1.25;
+}
+.work-card__caption {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 64px clamp(16px, 2vw, 24px) clamp(16px, 2vw, 22px);
+  background: linear-gradient(to top, rgb(9 22 34 / 90%) 0%, rgb(9 22 34 / 60%) 50%, transparent 100%);
+  color: #ffffff;
+  transition:
+    opacity 400ms var(--ease-out-expo),
+    translate 400ms var(--ease-out-expo);
+}
+.work-card__title {
+  font-size: clamp(1.0625rem, 1vw + 0.8rem, 1.375rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.work-card__detail {
+  color: rgb(255 255 255 / 82%);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+/* Con cursor: tono acero en reposo; color, zoom, elevación y leyenda al pasar el cursor. */
+@media (hover: hover) {
+  .work-card__image {
+    filter: saturate(0.5) contrast(1.03);
+  }
+  .work-card__caption {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  .work-card:hover {
+    translate: 0 -6px;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--brand) 45%, transparent),
+      0 24px 44px -20px rgb(30 42 58 / 45%);
+  }
+  .work-card:hover .work-card__image {
+    filter: none;
+    scale: 1.04;
+  }
+  .work-card:hover .work-card__caption {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+/* Consultas: "Para comenzar, puede compartir" con ícono duotono en cada etiqueta. */
+.insumo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 8px 12px;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 4%);
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition:
+    border-color 300ms var(--ease-out-expo),
+    background-color 300ms var(--ease-out-expo),
+    translate 300ms var(--ease-out-expo);
+}
+.insumo-chip svg {
+  flex: none;
+  color: #7fd3ee;
+}
+.insumo-chip:hover {
+  border-color: rgb(127 211 238 / 55%);
+  background: rgb(127 211 238 / 8%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .insumo-chip:hover {
+    translate: 0 -2px;
+  }
+}
+
+.work-invite {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: clip;
+  border-radius: 16px;
+  background: var(--color-ink);
+  color: #ffffff;
+}
+/* Foto de cabecera que se funde con el fondo ink; el texto va debajo, siempre sobre ink sólido. */
+.work-invite__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  flex: none;
+  overflow: clip;
+}
+.work-invite__media::after {
+  position: absolute;
+  inset: 0 0 -1px;
+  background: linear-gradient(
+    to top,
+    var(--color-ink) 0%,
+    var(--color-ink) 8%,
+    color-mix(in srgb, var(--color-ink) 55%, transparent) 34%,
+    transparent 64%
+  );
+  content: "";
+}
+.work-invite__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 55% 30%;
+  transition: scale 700ms var(--ease-out-expo);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .work-invite:hover .work-invite__img {
+    scale: 1.04;
+  }
+}
+.work-invite__body {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: -1.5rem;
+  padding: 0 clamp(28px, 3vw, 40px) clamp(28px, 3vw, 40px);
+}
+/* Desde tablet, panel horizontal: foto a la izquierda que se funde hacia el texto a la derecha. */
+@media (min-width: 768px) {
+  .work-invite {
+    min-height: 24rem;
+    flex-direction: row;
+  }
+  .work-invite__media {
+    width: 56%;
+    aspect-ratio: auto;
+  }
+  .work-invite__media::after {
+    inset: 0 -1px 0 0;
+    background: linear-gradient(
+      to left,
+      var(--color-ink) 0%,
+      var(--color-ink) 4%,
+      color-mix(in srgb, var(--color-ink) 55%, transparent) 26%,
+      transparent 55%
+    );
+  }
+  .work-invite__img {
+    position: absolute;
+    inset: 0;
+    object-position: 50% 28%;
+  }
+  .work-invite__body {
+    justify-content: center;
+    margin-top: 0;
+    margin-left: -2rem;
+    padding: clamp(32px, 4vw, 56px) clamp(32px, 4vw, 56px) clamp(32px, 4vw, 56px) 0;
+  }
+  .work-invite__body .work-invite__link {
+    margin-top: 0;
+  }
+  .work-invite__title {
+    max-width: 18ch;
+    font-size: clamp(1.75rem, 1.6vw + 1rem, 2.5rem);
+  }
+}
+.work-invite__title {
+  font-size: clamp(1.5rem, 1.2vw + 1rem, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.work-invite__link {
+  width: fit-content;
+  color: #7fd3ee;
+}
+.work-invite__link:hover {
+  color: #ffffff;
+}
+.work-invite__link svg {
+  transition: translate 300ms var(--ease-out-expo);
+}
+.work-invite__link:hover svg {
+  translate: 4px 0;
 }
 
 /* Consultas: fotografía de fondo a todo el ancho detrás de las dos tarjetas. */
@@ -641,13 +1050,68 @@
 .about-question[open] summary {
   color: var(--accent);
 }
-.about-consultas__whatsapp svg:last-child,
-.contact-card__whatsapp svg:last-child {
+/* Solo la flecha (hijo directo) se desplaza; el glifo de WhatsApp queda centrado en su círculo. */
+.about-consultas__whatsapp > svg:last-child {
   transition: transform 220ms var(--ease-out-expo);
 }
-.about-consultas__whatsapp:hover svg:last-child,
-.contact-card__whatsapp:hover svg:last-child {
+.about-consultas__whatsapp:hover > svg:last-child {
   transform: translate(3px, -3px);
+}
+
+/* Contacto: botón compacto de WhatsApp por persona. Píldora verde oficial con texto ink (el blanco no
+   da contraste), glifo en un círculo blanco y flecha simple que se desplaza al pasar el cursor. */
+.contact-wa {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 16px 5px 5px;
+  border-radius: 999px;
+  background: #25d366;
+  color: var(--color-ink);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  box-shadow: 0 8px 20px -12px rgb(37 211 102 / 75%);
+  transition:
+    translate 300ms var(--ease-out-expo),
+    box-shadow 300ms var(--ease-out-expo),
+    background-color 300ms var(--ease-out-expo);
+}
+.contact-wa__chip {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #1faa52;
+}
+.contact-wa__arrow {
+  display: inline-flex;
+  transition: translate 300ms var(--ease-out-expo);
+}
+.contact-wa:hover {
+  background: #2fe073;
+  box-shadow: 0 12px 24px -12px rgb(37 211 102 / 90%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .contact-wa:hover {
+    translate: 0 -2px;
+  }
+  .contact-wa:hover .contact-wa__arrow {
+    translate: 2px -2px;
+  }
+}
+.wa-chip {
+  transition:
+    translate 300ms var(--ease-out-expo),
+    box-shadow 300ms var(--ease-out-expo);
+}
+.about-consultas__whatsapp:hover .wa-chip,
+.about-consultas__whatsapp:focus-visible .wa-chip {
+  translate: 0 -3px;
+  box-shadow: 0 8px 18px -6px rgb(37 211 102 / 55%);
 }
 .about-question__indicator {
   position: relative;
@@ -706,7 +1170,7 @@
   }
 }
 
-/* Respaldo y exploración de producto: marco estable, selección manual. */
+/* Exploración de producto: marco estable, selección manual. */
 .about-proof {
   view-timeline-name: --about-proof;
   align-items: start;
@@ -719,6 +1183,7 @@
   gap: 24px;
 }
 .product-gallery__panel {
+  position: relative;
   min-width: 0;
   margin: 0;
 }
@@ -727,28 +1192,141 @@
   display: none;
 }
 .product-gallery__frame {
+  position: relative;
+  isolation: isolate;
   aspect-ratio: 3 / 2;
   overflow: clip;
   border-radius: 16px;
   background: var(--bg);
 }
+/* Relleno: la misma miniatura (ya descargada) ampliada y difuminada ocupa el espacio que deja la foto
+   cuando su proporción no es 3:2; así no quedan franjas grises. */
+.product-gallery__fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(22px) saturate(1.15) brightness(0.92);
+  scale: 1.25;
+}
 .product-gallery__image {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-.product-gallery[data-enhanced] .product-gallery__panel figcaption {
+/* Leyenda sobre la foto: número, título y detalle; el degradado asegura el contraste del texto blanco. */
+.gallery-caption {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(14px, 2.4vw, 24px);
+  padding: clamp(48px, 9vw, 88px) clamp(18px, 3.2vw, 32px) clamp(16px, 2.8vw, 28px);
+  border-radius: 0 0 16px 16px;
+  background: linear-gradient(to top, rgb(9 22 34 / 88%) 0%, rgb(9 22 34 / 62%) 45%, transparent 100%);
+  color: #ffffff;
+  pointer-events: none;
+}
+.gallery-caption__num {
+  flex-shrink: 0;
+  color: #7fd3ee;
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+  line-height: 0.9;
+}
+.gallery-caption__num span {
+  margin-left: 2px;
+  color: rgb(255 255 255 / 55%);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.gallery-caption__texto {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+.gallery-caption__titulo {
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.gallery-caption__detalle {
+  color: rgb(255 255 255 / 82%);
+  font-size: clamp(0.875rem, 1.4vw, 1rem);
+  line-height: 1.45;
+}
+@media (max-width: 639px) {
+  .gallery-caption {
+    position: static;
+    align-items: center;
+    padding: 14px 2px 0;
+    border-radius: 0;
+    background: none;
+    color: var(--fg);
+  }
+  .gallery-caption__num {
+    color: var(--accent);
+  }
+  .gallery-caption__num span {
+    color: var(--muted);
+  }
+  .gallery-caption__detalle {
+    color: var(--muted);
+  }
+}
+.product-gallery[aria-busy="true"] .product-gallery__panel:not([hidden]) .product-gallery__frame {
+  opacity: 0.85;
+  transition: opacity 200ms ease;
+}
+/* Fotos anchas (de estudio, fondo blanco): fondo claro liso en vez del relleno difuminado. */
+.product-gallery__frame.is-ancha {
+  background: #f5f6f7;
+}
+.is-ancha .product-gallery__fill {
   display: none;
+}
+.is-ancha .product-gallery__image {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: auto;
+  translate: 0 -50%;
+  mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent);
+}
+.is-alta .product-gallery__image {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: auto;
+  max-width: none;
+  translate: -50% 0;
+  mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
 }
 .product-gallery__thumbs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  /* 10 fotos: dos filas de 5. */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
   margin-top: 16px;
 }
+@media (min-width: 640px) {
+  .product-gallery__thumbs {
+    gap: 10px;
+  }
+}
 .gallery-thumb {
-  min-height: 56px;
+  min-height: 44px;
   aspect-ratio: 3 / 2;
   overflow: clip;
   padding: 3px;
@@ -795,7 +1373,6 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
-    .about-proof__trust,
     .product-gallery {
       animation-name: proof-in;
       animation-timing-function: var(--ease-out-expo);
@@ -825,6 +1402,16 @@
 }
 .marquee:hover .marquee-track {
   animation-play-state: paused;
+}
+/* Tarjeta de marca: se eleva suavemente al pasar el cursor (la cinta ya está pausada en ese momento). */
+.brand-card {
+  transition:
+    translate 400ms var(--ease-out-expo),
+    box-shadow 400ms var(--ease-out-expo);
+}
+.brand-card:hover {
+  translate: 0 -5px;
+  box-shadow: 0 14px 28px -14px rgb(30 42 58 / 35%);
 }
 @keyframes marquee {
   to {
